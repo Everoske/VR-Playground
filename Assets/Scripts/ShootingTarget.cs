@@ -11,15 +11,18 @@ public class ShootingTarget : MonoBehaviour
     [SerializeField]
     private int points = 25;
 
-    [SerializeField]
-    private float speed = 1f;
-
     private MeshRenderer meshRenderer;
     private bool isTargetActive = true;
 
+    public int Points
+    {
+        get => points;
+        set => points = value;
+    }
+
     private void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
 
     public void HitTarget()
@@ -28,5 +31,7 @@ public class ShootingTarget : MonoBehaviour
 
         meshRenderer.material = inactiveMaterial;
         isTargetActive = false;
+
+        transform.rotation = Quaternion.Euler(-90.0f, 0.0f, 0.0f);
     }
 }

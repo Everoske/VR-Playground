@@ -29,13 +29,12 @@ public class Gun : MonoBehaviour
             PlayImpactSparks(hit.point, hit.collider.transform.rotation);
 
             if (hit.collider.tag != "Target") return;
-
-            ShootingTarget hitTarget;
-
-            if (hit.collider.TryGetComponent<ShootingTarget>(out hitTarget))
+            try
             {
+                ShootingTarget hitTarget = hit.collider.GetComponentInParent<ShootingTarget>();
                 hitTarget.HitTarget();
             }
+            catch (System.Exception) { }
         }
     }
 
