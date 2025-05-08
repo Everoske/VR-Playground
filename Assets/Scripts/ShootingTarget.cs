@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ShootingTarget : MonoBehaviour
 {
@@ -13,6 +14,21 @@ public class ShootingTarget : MonoBehaviour
 
     private MeshRenderer meshRenderer;
     private bool isTargetActive = true;
+
+    private TargetType targetType;
+    private ITargetHitNotify targetHitNotify;
+
+    public TargetType TargetType
+    {
+        get => targetType;
+        set => targetType = value;
+    }
+
+    public ITargetHitNotify TargetHitNotify
+    {
+        get => targetHitNotify;
+        set => targetHitNotify = value;
+    }
 
     public int Points
     {
@@ -29,6 +45,7 @@ public class ShootingTarget : MonoBehaviour
     {
         if (!isTargetActive) return;
 
+        targetHitNotify.OnTargetHit(points, targetType);
         meshRenderer.material = inactiveMaterial;
         isTargetActive = false;
 

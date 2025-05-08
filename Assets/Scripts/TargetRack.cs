@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class TargetRack : MonoBehaviour
+public class TargetRack : MonoBehaviour, ITargetHitNotify
 {
 
     [SerializeField]
@@ -18,63 +19,93 @@ public class TargetRack : MonoBehaviour
 
     private List<ShootingTarget> shootingTargets = new List<ShootingTarget>();
 
-    private float roundMultiplier;
+    private int roundMultiplier;
     private float distanceBetweenTargets;
     private float speed;
-    private int loopCount;
+    private int totalLoops;
 
     private float trackLength;
     private int currentLoop;
+    private int leadIndex;
     private bool canMove = false;
+    private float totalTrackLength;
+    private int totalNormal;
+    private int normalHit;
 
     private Vector3 currentStartPoint;
     private Vector3 currentEndPoint;
     private Vector3 currentDirection;
 
+    public UnityAction<int> onTargetHit;
+    public UnityAction onRoundComplete;
+
     private void Start()
     {
         trackLength = Vector3.Distance(startPoint.position, endPoint.position);
-        TargetType[] targets = { TargetType.Normal, TargetType.Avoid, TargetType.Normal, TargetType.Normal, TargetType.Avoid };
-        InitiateRound(targets, 2.5f, 1.0f, 1);
     }
 
     private void Update()
     {
-        if (canMove && currentLoop < loopCount)
+        if (canMove && currentLoop <= totalLoops)
         {
             MoveTargets();
+        }
+
+        if (normalHit >= totalNormal)
+        {
+            currentLoop = totalLoops;
         }
     }
 
     public void InitiateRound(TargetType[] targets, float distanceBetweenTargets,
-        float speed, int loopCount, float roundMultiplier = 1.0f)
+        float speed, int loopCount, int roundMultiplier = 1)
     {
         this.roundMultiplier = roundMultiplier;
         this.distanceBetweenTargets = distanceBetweenTargets;
         this.speed = speed;
-        this.loopCount = loopCount;
+        this.totalLoops = loopCount;
 
         currentLoop = 0;
-
+        
         CreateTargets(targets);
+        SetTotalTrackLength();
         currentStartPoint = startPoint.position;
         currentEndPoint = endPoint.position;
         currentDirection = direction;
         canMove = true;
+        leadIndex = 0;
     }
 
-    private bool LastTargetReachedEndPoint()
+    public void InitiateRound(RoundData round)
+    {
+        InitiateRound(
+            round.targets,
+            round.distanceBetweenTargets,
+            round.speed,
+            round.loopCount,
+            round.roundMultiplier
+            );
+    }
+
+    public bool RoundFinished()
+    {
+        return shootingTargets.Count == 0;
+    }
+
+    private bool LeadTargetReachedEndpoint()
     {
         if (shootingTargets.Count <= 0) return false;
-        ShootingTarget lastTarget = shootingTargets[shootingTargets.Count - 1];
-        if (lastTarget == null) return false;
+        ShootingTarget leadTarget = shootingTargets[leadIndex];
+        if (leadTarget == null) return false;
 
-        return Vector3.Distance(lastTarget.transform.position, currentStartPoint) >= trackLength;
+        return Vector3.Distance(leadTarget.transform.position, currentStartPoint) >= totalTrackLength;
     }
 
     private void CreateTargets(TargetType[] targets)
     {
-        shootingTargets.Clear();
+        shootingTargets = new List<ShootingTarget>();
+        totalNormal = 0;
+        normalHit = 0;
 
         for (int i = 0; i < targets.Length; i++)
         {
@@ -91,10 +122,16 @@ public class TargetRack : MonoBehaviour
         {
             case TargetType.Normal:
                 target = Instantiate(targetPrefab, spawnPoint, startPoint.rotation, transform);
+                target.Points *= roundMultiplier;
+                target.TargetHitNotify = this;
+                target.TargetType = type;
+                totalNormal++;
                 shootingTargets.Add(target);
                 break;
             case TargetType.Avoid:
                 target = Instantiate(avoidTargetPrefab, spawnPoint, startPoint.rotation, transform);
+                target.TargetHitNotify = this;
+                target.TargetType = type;
                 shootingTargets.Add(target);
                 break;
             default:
@@ -102,21 +139,62 @@ public class TargetRack : MonoBehaviour
         }
     }
 
+    private void SetTotalTrackLength()
+    {
+        Vector3 lastSpawn = startPoint.position -
+            direction * (distanceBetweenTargets * (shootingTargets.Count - 1));
+        float spawnOffset = Vector3.Distance(startPoint.position, lastSpawn);
+        totalTrackLength = trackLength + spawnOffset;
+        Debug.Log($"Spawn Offset: {spawnOffset}");
+        Debug.Log($"Track Length: {trackLength}");
+        Debug.Log($"Total Track Length: {totalTrackLength}");
+    }
+
     private void MoveTargets()
     {
-        // Turn Around and Increment Loop Count
-        if (LastTargetReachedEndPoint())
+        if (LeadTargetReachedEndpoint())
         {
             currentLoop++;
             currentDirection *= -1;
             Vector3 temp = currentEndPoint;
             currentEndPoint = currentStartPoint;
             currentStartPoint = temp;
+            leadIndex = leadIndex > 0 ? 0 : shootingTargets.Count - 1;
+
+            if (currentLoop >= totalLoops)
+            {
+                DestroyTargets();
+                return;
+            }
         }
 
         for (int i = 0; i < shootingTargets.Count; i++)
         {
             shootingTargets[i].transform.Translate(currentDirection * speed * Time.deltaTime);
         }
+    }
+
+    private void DestroyTargets()
+    {
+        canMove = false;
+
+        for (int i = 0; i < shootingTargets.Count; i++)
+        {
+            Destroy(shootingTargets[i].gameObject, 2.0f);
+        }
+
+        shootingTargets.Clear();
+        onRoundComplete?.Invoke();
+    }
+
+    public void OnTargetHit(int points, TargetType type)
+    {
+        // Increase normal count
+        if (type == TargetType.Normal)
+        {
+            normalHit++;
+        }
+
+        onTargetHit?.Invoke(points);
     }
 }
