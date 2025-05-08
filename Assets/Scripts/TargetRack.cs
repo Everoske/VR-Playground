@@ -122,7 +122,6 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         {
             case TargetType.Normal:
                 target = Instantiate(targetPrefab, spawnPoint, startPoint.rotation, transform);
-                target.Points *= roundMultiplier;
                 target.TargetHitNotify = this;
                 target.TargetType = type;
                 totalNormal++;
@@ -145,9 +144,6 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
             direction * (distanceBetweenTargets * (shootingTargets.Count - 1));
         float spawnOffset = Vector3.Distance(startPoint.position, lastSpawn);
         totalTrackLength = trackLength + spawnOffset;
-        Debug.Log($"Spawn Offset: {spawnOffset}");
-        Debug.Log($"Track Length: {trackLength}");
-        Debug.Log($"Total Track Length: {totalTrackLength}");
     }
 
     private void MoveTargets()
@@ -193,6 +189,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         if (type == TargetType.Normal)
         {
             normalHit++;
+            points = points * roundMultiplier;
         }
 
         onTargetHit?.Invoke(points);

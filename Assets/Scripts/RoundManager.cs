@@ -10,6 +10,9 @@ public class RoundManager : MonoBehaviour
     [SerializeField]
     private List<RoundData> rounds;
 
+    [SerializeField]
+    private ScoreTracker scoreTracker;
+
     private int numberOfRounds;
     private int stride;
 
@@ -24,6 +27,9 @@ public class RoundManager : MonoBehaviour
             numberOfRounds = rounds.Count / stride;
             Debug.Log(numberOfRounds);
         }
+
+        scoreTracker.CalculateHighestScore(rounds);
+
         StartCoroutine(DebugStartRounds());
     }
 
@@ -73,11 +79,12 @@ public class RoundManager : MonoBehaviour
         currentRound = 0;
         racksCompletedThisRound = 0;
         Debug.Log("Game Ended");
+        Debug.Log($"Final Score: {scoreTracker.CurrentScore}");
     }
 
     private void AddToScore(int value)
     {
-        
+        scoreTracker.CurrentScore = scoreTracker.CurrentScore + value;
     }
 
     private void RackRoundCompleted()
