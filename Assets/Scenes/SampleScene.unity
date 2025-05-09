@@ -1842,6 +1842,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1487884704}
     m_Modifications:
+    - target: {fileID: 4688960943274401193, guid: 224a39ca01757c74096c59d9e7190dc6, type: 3}
+      propertyPath: decoyPrefab
+      value: 
+      objectReference: {fileID: 5124307972626709947, guid: d438e0959e8c8f44185a470002e3c592, type: 3}
     - target: {fileID: 7602589886929153321, guid: 224a39ca01757c74096c59d9e7190dc6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3085,6 +3089,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1487884704}
     m_Modifications:
+    - target: {fileID: 4688960943274401193, guid: 224a39ca01757c74096c59d9e7190dc6, type: 3}
+      propertyPath: decoyPrefab
+      value: 
+      objectReference: {fileID: 5124307972626709947, guid: d438e0959e8c8f44185a470002e3c592, type: 3}
     - target: {fileID: 7602589886929153321, guid: 224a39ca01757c74096c59d9e7190dc6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7294,7 +7302,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6766d3eb214751e42b226633736337ba, type: 2}
   scoreTracker: {fileID: 1487884706}
   roundUI: {fileID: 1773244346}
-  timeBetweenRounds: 10
+  timeBetweenRounds: 5
 --- !u!114 &1487884706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8040,6 +8048,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1487884704}
     m_Modifications:
+    - target: {fileID: 4688960943274401193, guid: 224a39ca01757c74096c59d9e7190dc6, type: 3}
+      propertyPath: decoyPrefab
+      value: 
+      objectReference: {fileID: 5124307972626709947, guid: d438e0959e8c8f44185a470002e3c592, type: 3}
     - target: {fileID: 7602589886929153321, guid: 224a39ca01757c74096c59d9e7190dc6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -51,4 +51,13 @@ public class ShootingTarget : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(-90.0f, 0.0f, 0.0f);
     }
+
+    public void ResetTarget()
+    {
+        if (isTargetActive) return;
+
+        isTargetActive = true;
+        meshRenderer.material = activeMaterial;
+        transform.rotation = Quaternion.identity;
+    }
 }

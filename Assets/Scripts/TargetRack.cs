@@ -8,7 +8,17 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
     [SerializeField]
     private ShootingTarget targetPrefab;
     [SerializeField]
-    private ShootingTarget avoidTargetPrefab;
+    private ShootingTarget decoyPrefab;
+
+    [Tooltip("Initial Number of Targets to Initiate for Object Pool")]
+    [SerializeField]
+    private int initialTargetPool = 10;
+    [Tooltip("Initial Number of Decoys to Initiate for Object Pool")]
+    [SerializeField]
+    private int initialDecoyPool = 10;
+
+    [SerializeField]
+    private Transform targetParent;
 
     [SerializeField]
     private Transform startPoint;
@@ -29,8 +39,12 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
     private int leadIndex;
     private bool canMove = false;
     private float totalTrackLength;
-    private int totalNormal;
-    private int normalHit;
+    private int totalTargetsThisRound;
+    private int totalDecoysThisRound;
+    private int targetHits;
+
+    private ShootingTarget[] targetPool;
+    private ShootingTarget[] decoyPool;
 
     private Vector3 currentStartPoint;
     private Vector3 currentEndPoint;
@@ -42,6 +56,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
     private void Start()
     {
         trackLength = Vector3.Distance(startPoint.position, endPoint.position);
+        CreatePools();
     }
 
     private void Update()
@@ -51,7 +66,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
             MoveTargets();
         }
 
-        if (normalHit >= totalNormal)
+        if (targetHits >= totalTargetsThisRound)
         {
             currentLoop = totalLoops;
         }
@@ -66,7 +81,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         this.totalLoops = loopCount;
 
         currentLoop = 0;
-        
+
         CreateTargets(targets);
         SetTotalTrackLength();
         currentStartPoint = startPoint.position;
@@ -101,41 +116,116 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         return Vector3.Distance(leadTarget.transform.position, currentStartPoint) >= totalTrackLength;
     }
 
+    private void CreatePools()
+    {
+        if (targetParent == null)
+        {
+            targetParent = transform;
+        }
+        CreatePool(out targetPool, initialTargetPool, TargetType.Normal);
+        CreatePool(out decoyPool, initialDecoyPool, TargetType.Decoy);
+    }
+
+    private void CreatePool(out ShootingTarget[] pool, int poolSize, TargetType type)
+    {
+        pool = new ShootingTarget[poolSize];
+
+        for (int i = 0; i < poolSize; i++)
+        {
+            pool[i] = Instantiate(
+                type == TargetType.Normal ? targetPrefab : decoyPrefab,
+                new Vector3(0.0f, -1000.0f, 0.0f),
+                startPoint.rotation, targetParent
+                );
+            pool[i].TargetHitNotify = this;
+            pool[i].TargetType = type;
+            pool[i].gameObject.SetActive(false);
+        }
+    }
+
+    private void ExpandPool(ref ShootingTarget[] pool, TargetType type)
+    {
+        ShootingTarget[] temp = new ShootingTarget[pool.Length + initialDecoyPool];
+
+        for (int i = 0; i < pool.Length; i++)
+        {
+            temp[i] = pool[i];
+            pool[i] = null;
+        }
+
+        for (int i = pool.Length - 1; i < temp.Length; i++)
+        {
+            temp[i] = Instantiate(
+                type == TargetType.Normal ? targetPrefab : decoyPrefab,
+                new Vector3(0.0f, -1000.0f, 0.0f),
+                startPoint.rotation, targetParent
+                );
+            temp[i].TargetHitNotify = this;
+            temp[i].TargetType = type;
+            temp[i].gameObject.SetActive(false);
+        }
+
+        pool = new ShootingTarget[pool.Length + initialDecoyPool];
+
+        for (int i = 0; i < pool.Length; i++)
+        {
+            pool[i] = temp[i];
+            temp[i] = null;
+        }
+    }
+
     private void CreateTargets(TargetType[] targets)
     {
-        shootingTargets = new List<ShootingTarget>();
-        totalNormal = 0;
-        normalHit = 0;
+        totalTargetsThisRound = 0;
+        totalDecoysThisRound = 0;
+        targetHits = 0;
 
         for (int i = 0; i < targets.Length; i++)
         {
             Vector3 spawnPoint = startPoint.position - direction * (i * distanceBetweenTargets);
-            CreateTarget(targets[i], spawnPoint);
+            AssignTarget(targets[i], spawnPoint);
         }
-    }    
+    }
 
-    private void CreateTarget(TargetType type, Vector3 spawnPoint)
+    private void AssignTarget(TargetType type, Vector3 spawnPoint)
     {
-        ShootingTarget target;
-
-        switch(type)
+        switch (type)
         {
             case TargetType.Normal:
-                target = Instantiate(targetPrefab, spawnPoint, startPoint.rotation, transform);
-                target.TargetHitNotify = this;
-                target.TargetType = type;
-                totalNormal++;
-                shootingTargets.Add(target);
+                AllocateTarget(spawnPoint);
                 break;
-            case TargetType.Avoid:
-                target = Instantiate(avoidTargetPrefab, spawnPoint, startPoint.rotation, transform);
-                target.TargetHitNotify = this;
-                target.TargetType = type;
-                shootingTargets.Add(target);
-                break;
-            default:
+            case TargetType.Decoy:
+                AllocateDecoy(spawnPoint);
                 break;
         }
+    }
+
+    private void AllocateTarget(Vector3 spawnPoint)
+    {
+        totalTargetsThisRound++;
+
+        if (totalTargetsThisRound > targetPool.Length)
+        {
+            ExpandPool(ref targetPool, TargetType.Normal);
+        }
+
+        shootingTargets.Add(targetPool[totalTargetsThisRound - 1]);
+        targetPool[totalTargetsThisRound - 1].transform.position = spawnPoint;
+        targetPool[totalTargetsThisRound - 1].gameObject.SetActive(true);
+    }
+
+    private void AllocateDecoy(Vector3 spawnPoint)
+    {
+        totalDecoysThisRound++;
+
+        if (totalDecoysThisRound > decoyPool.Length)
+        {
+            ExpandPool(ref decoyPool, TargetType.Decoy);
+        }
+
+        shootingTargets.Add(decoyPool[totalDecoysThisRound - 1]);
+        decoyPool[totalDecoysThisRound - 1].transform.position = spawnPoint;
+        decoyPool[totalDecoysThisRound - 1].gameObject.SetActive(true);
     }
 
     private void SetTotalTrackLength()
@@ -159,7 +249,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
 
             if (currentLoop >= totalLoops)
             {
-                DestroyTargets();
+                RemoveTargets();
                 return;
             }
         }
@@ -170,13 +260,15 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         }
     }
 
-    private void DestroyTargets()
+    private void RemoveTargets()
     {
         canMove = false;
 
-        for (int i = 0; i < shootingTargets.Count; i++)
+        foreach (ShootingTarget target in shootingTargets)
         {
-            Destroy(shootingTargets[i].gameObject, 2.0f);
+            target.ResetTarget();
+            target.gameObject.SetActive(false);
+            target.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
         }
 
         shootingTargets.Clear();
@@ -188,7 +280,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         // Increase normal count
         if (type == TargetType.Normal)
         {
-            normalHit++;
+            targetHits++;
             points = points * roundMultiplier;
         }
 

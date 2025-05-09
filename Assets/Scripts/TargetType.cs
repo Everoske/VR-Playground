@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 public enum TargetType
 {
     Normal,
-    Avoid
+    Decoy
 }
