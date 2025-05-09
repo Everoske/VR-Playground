@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ScoreTracker : MonoBehaviour
@@ -14,7 +15,7 @@ public class ScoreTracker : MonoBehaviour
             currentScore = Mathf.Max(value, 0);
         }
     }
-
+    
     public void CalculateHighestScore(List<RoundData> rounds)
     {
         foreach (RoundData round in rounds)
@@ -27,8 +28,6 @@ public class ScoreTracker : MonoBehaviour
                 }
             }
         }
-
-        Debug.Log(highestPossibleScore);
     }
 
     public void ResetScore()

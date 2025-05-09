@@ -13,11 +13,19 @@ public class RoundManager : MonoBehaviour
     [SerializeField]
     private ScoreTracker scoreTracker;
 
+    [SerializeField]
+    private RoundUI roundUI;
+
+    [SerializeField]
+    private float timeBetweenRounds = 5.0f;
+
     private int numberOfRounds;
     private int stride;
 
     private int currentRound = 0;
     private int racksCompletedThisRound = 0;
+    private float roundTimer = 0.0f;
+    private bool timerActive = false;
 
     private void Start()
     {
@@ -43,6 +51,11 @@ public class RoundManager : MonoBehaviour
         DeregisterTargetRacks();    
     }
 
+    private void Update()
+    {
+        ProcessTimer();
+    }
+
     private IEnumerator DebugStartRounds()
     {
         yield return new WaitForSeconds(5.0f);
@@ -59,6 +72,7 @@ public class RoundManager : MonoBehaviour
     private void StartCurrentRound()
     {
         racksCompletedThisRound = 0;
+        roundUI.SetCurrentRoundText(currentRound);
 
         for (int i = 0; i < targetRacks.Count; i++)
         {
@@ -69,22 +83,50 @@ public class RoundManager : MonoBehaviour
             }
             else
             {
-                Debug.Log($"Invalid Round Index: {roundIndex}");
+                EndGame();
             }
         }
+    }
+
+    private void StartRoundTimer()
+    {
+        roundTimer = timeBetweenRounds;
+        timerActive = true;
+        roundUI.ActivateTimerUI();
+    }
+
+    private void ProcessTimer()
+    {
+        if (!timerActive) return;
+
+        roundTimer -= Time.deltaTime;
+
+        if (roundTimer <= 0.0f)
+        {
+            roundUI.SetTimerText(0, 0);
+            timerActive = false;
+            roundUI.DeactivateTimerUI();
+            StartCurrentRound();
+        }
+        else
+        {
+            int minutes = (int)roundTimer / 60;
+            int seconds = (int)roundTimer % 60;
+            roundUI.SetTimerText(minutes, seconds);
+        }
+
     }
 
     private void EndGame()
     {
         currentRound = 0;
         racksCompletedThisRound = 0;
-        Debug.Log("Game Ended");
-        Debug.Log($"Final Score: {scoreTracker.CurrentScore}");
     }
 
     private void AddToScore(int value)
     {
         scoreTracker.CurrentScore = scoreTracker.CurrentScore + value;
+        roundUI.SetScoreText(scoreTracker.CurrentScore);
     }
 
     private void RackRoundCompleted()
@@ -101,7 +143,7 @@ public class RoundManager : MonoBehaviour
             }
             else
             {
-                StartCurrentRound();
+                StartRoundTimer();
             }  
         }
     }
