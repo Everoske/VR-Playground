@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Gun : MonoBehaviour
+public class Pistol : MonoBehaviour
 {
     [SerializeField]
     private Transform shootingOrigin;
@@ -10,17 +10,40 @@ public class Gun : MonoBehaviour
     private float randomPitchMin = 0.5f;
 
     [SerializeField]
+    private int maxAmmo = 12;
+
+    [SerializeField]
     private ParticleSystem impactSparks;
 
     private AudioSource audioSource;
+
+    private int currentAmmo;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void Shoot()
+    private void Start()
     {
+        currentAmmo = maxAmmo;
+    }
+
+    public void PullTrigger()
+    {
+        if (currentAmmo > 0)
+        {
+            Shoot();
+        }
+        else
+        {
+            // Play empty sound
+        }
+    }
+
+    private void Shoot()
+    {
+        currentAmmo--;
         PlayShootingSound();
         RaycastHit hit;
 
@@ -35,6 +58,11 @@ public class Gun : MonoBehaviour
                 hitTarget.HitTarget();
             }
             catch (System.Exception) { }
+        }
+
+        if (currentAmmo == 0)
+        {
+            // Show empty mag state
         }
     }
 

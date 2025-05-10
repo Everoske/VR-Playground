@@ -12030,8 +12030,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4510101178863498404}
-        m_TargetAssemblyTypeName: Gun, Assembly-CSharp
-        m_MethodName: Shoot
+        m_TargetAssemblyTypeName: Pistol, Assembly-CSharp
+        m_MethodName: PullTrigger
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12159,6 +12159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingOrigin: {fileID: 1884438821}
   randomPitchMin: 0.5
+  maxAmmo: 12
   impactSparks: {fileID: 7182656665442025028, guid: 6f6a10c7f268cfa4694f251945481620, type: 3}
 --- !u!82 &4510101178863498405
 AudioSource:
