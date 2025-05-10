@@ -15,12 +15,14 @@ public class Pistol : MonoBehaviour
     [SerializeField]
     private ParticleSystem impactSparks;
 
+    private Animator animator;
     private AudioSource audioSource;
-
+    private bool animationPlaying = false;
     private int currentAmmo;
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -31,9 +33,12 @@ public class Pistol : MonoBehaviour
 
     public void PullTrigger()
     {
+        if (animationPlaying) return;
+
         if (currentAmmo > 0)
         {
-            Shoot();
+            animationPlaying = true;
+            animator.SetTrigger("Shoot");
         }
         else
         {
@@ -41,7 +46,7 @@ public class Pistol : MonoBehaviour
         }
     }
 
-    private void Shoot()
+    public void Shoot()
     {
         currentAmmo--;
         PlayShootingSound();
@@ -59,11 +64,6 @@ public class Pistol : MonoBehaviour
             }
             catch (System.Exception) { }
         }
-
-        if (currentAmmo == 0)
-        {
-            // Show empty mag state
-        }
     }
 
     private void PlayShootingSound()
@@ -79,5 +79,14 @@ public class Pistol : MonoBehaviour
     private void PlayImpactSparks(Vector3 impactPoint, Quaternion impactRotation)
     {
         ParticleSystem sparks = Instantiate(impactSparks, impactPoint, impactRotation);
+    }
+
+    public void SetPistolAnimationEnd()
+    {
+        animationPlaying = false;
+        if (currentAmmo == 0)
+        {
+            animator.SetTrigger("Empty");
+        }
     }
 }
