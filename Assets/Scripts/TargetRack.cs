@@ -102,7 +102,12 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
             );
     }
 
-    public bool RoundFinished()
+    public void TerminateRound()
+    {
+        currentLoop = totalLoops;
+    }
+
+    public bool IsTargetRackFree()
     {
         return shootingTargets.Count == 0;
     }

@@ -33,12 +33,9 @@ public class RoundManager : MonoBehaviour
         if (stride > 0)
         {
             numberOfRounds = rounds.Count / stride;
-            Debug.Log(numberOfRounds);
         }
 
         scoreTracker.CalculateHighestScore(rounds);
-
-        StartCoroutine(DebugStartRounds());
     }
 
     private void OnEnable()
@@ -56,16 +53,24 @@ public class RoundManager : MonoBehaviour
         ProcessTimer();
     }
 
-    private IEnumerator DebugStartRounds()
+    public void StartGame()
     {
-        yield return new WaitForSeconds(5.0f);
+        if (IsGameActive() || !TargetRacksFree()) return;
         StartRounds();
     }
+
+    public void StopGame()
+    {
+        EndGame();
+    }
+
 
     private void StartRounds()
     {
         if (numberOfRounds <= 0) return;
         currentRound = 1;
+        scoreTracker.CurrentScore = 0;
+        roundUI.SetScoreText(scoreTracker.CurrentScore);
         StartCurrentRound();
     }
 
@@ -121,16 +126,26 @@ public class RoundManager : MonoBehaviour
     {
         currentRound = 0;
         racksCompletedThisRound = 0;
+        roundTimer = 0.0f;
+        timerActive = false;
+        roundUI.DeactivateTimerUI();
+
+        foreach (TargetRack targetRack in targetRacks)
+        {
+            targetRack.TerminateRound();
+        }
     }
 
     private void AddToScore(int value)
     {
+        if (!IsGameActive()) return;
         scoreTracker.CurrentScore = scoreTracker.CurrentScore + value;
         roundUI.SetScoreText(scoreTracker.CurrentScore);
     }
 
     private void RackRoundCompleted()
     {
+        if (!IsGameActive()) return;
         if (currentRound > numberOfRounds) return;
 
         racksCompletedThisRound++;
@@ -146,6 +161,22 @@ public class RoundManager : MonoBehaviour
                 StartRoundTimer();
             }  
         }
+    }
+
+    private bool TargetRacksFree()
+    {
+        foreach (TargetRack targetRack in targetRacks)
+        {
+            // Target racks with targets still visible to player
+            if (!targetRack.IsTargetRackFree()) return false;
+        }
+
+        return true;
+    }
+
+    private bool IsGameActive()
+    {
+        return currentRound > 0;
     }
 
     private void RegisterTargetRacks()
