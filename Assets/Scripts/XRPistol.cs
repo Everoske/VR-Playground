@@ -15,8 +15,6 @@ public class XRPistol : XRGrabInteractable
     private Transform shootingOrigin;
     [SerializeField]
     private Transform ejectOrigin;
-    [SerializeField]
-    private GameObject casingPrefab;
 
     [SerializeField]
     [Range(0f, 3f)]
@@ -137,6 +135,12 @@ public class XRPistol : XRGrabInteractable
         {
             slider.LockSlideForAnimation();
         }
+    }
+
+    protected override void OnActivated(ActivateEventArgs args)
+    {
+        base.OnActivated(args);
+        PullTrigger();
     }
 
     public void PullTrigger()
