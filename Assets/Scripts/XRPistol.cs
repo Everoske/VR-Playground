@@ -209,7 +209,7 @@ public class XRPistol : XRGrabInteractable
 
     private void DeterminePistolState()
     {
-        if (currentAmmo == 0)
+        if (currentAmmo == 0 && !magWell.HasLoadedMagazine())
         {
             slider.SetEmptyState(true);
             animator.SetBool("ShotReady", false);

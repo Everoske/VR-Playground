@@ -84,4 +84,9 @@ public class XRMagazine : XRGrabInteractable
         throwOnDetach = true;
         rbComponent.isKinematic = false;
     }
+
+    public bool IsKinematic()
+    {
+        return rbComponent.isKinematic;
+    }
 }

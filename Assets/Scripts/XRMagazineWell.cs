@@ -51,16 +51,16 @@ public class XRMagazineWell : MonoBehaviour
 
     private void AttachMagazine()
     {
-        isMagazineAttached = activeMagazine.transform.parent == attachPoint;
+        isMagazineAttached = activeMagazine.transform.parent == attachPoint && activeMagazine.IsKinematic();
         if (isMagazineAttached)
         {
             animator.SetBool("HasMag", true);
             return;
         }
+        activeMagazine.LockInteraction();
         activeMagazine.transform.parent = attachPoint;
         activeMagazine.transform.localPosition = Vector3.zero;
         activeMagazine.transform.localRotation = Quaternion.identity;
-        activeMagazine.LockInteraction();
     }
 
     // Call after release magazine animation completes
