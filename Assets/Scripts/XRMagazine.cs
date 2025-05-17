@@ -89,4 +89,9 @@ public class XRMagazine : XRGrabInteractable
     {
         return rbComponent.isKinematic;
     }
+
+    public bool IsEmpty()
+    {
+        return currentAmmo == 0;
+    }
 }

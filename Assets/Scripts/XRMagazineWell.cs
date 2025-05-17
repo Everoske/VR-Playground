@@ -103,4 +103,10 @@ public class XRMagazineWell : MonoBehaviour
         if (activeMagazine == null) return;
         activeMagazine.CurrentAmmo = amount;
     }
+
+    public void ConsumeRound()
+    {
+        if (activeMagazine == null || activeMagazine.IsEmpty()) return;
+        activeMagazine.CurrentAmmo = activeMagazine.CurrentAmmo - 1;
+    }
 }

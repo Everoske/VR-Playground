@@ -55,7 +55,7 @@ public class XRPistol : XRGrabInteractable
     private Animator animator;
     private AudioSource audioSource;
     private bool animationPlaying = false;
-    private int currentAmmo;
+    private bool roundInChamber = false;
 
     protected override void Awake()
     {
@@ -147,11 +147,11 @@ public class XRPistol : XRGrabInteractable
     {
         if (animationPlaying) return;
 
-        if (currentAmmo > 0 && slider.SliderIsIdle())
+        if (roundInChamber && slider.SliderIsIdle())
         {
             animationPlaying = true;
             slider.LockSlideForAnimation();
-            animator.SetTrigger(currentAmmo == 1 ? "ShootLast" : "Shoot");
+            animator.SetTrigger(!magWell.HasLoadedMagazine() ? "ShootLast" : "Shoot");
         }
         else
         {
@@ -162,8 +162,8 @@ public class XRPistol : XRGrabInteractable
     // TODO: Add haptic feedback on shoot
     public void ShootPistol()
     {
-        currentAmmo--;
-        magWell.SetAmmoInMag(currentAmmo);
+        magWell.ConsumeRound();
+        roundInChamber = magWell.HasLoadedMagazine();
         PlayAudioClip(shootClip);
         // PlaySmokeEffect();
         RaycastHit hit;
@@ -171,6 +171,7 @@ public class XRPistol : XRGrabInteractable
         if (Physics.Raycast(shootingOrigin.position, shootingOrigin.forward, out hit))
         {
             PlayImpactSparks(hit.point, hit.collider.transform.rotation);
+            DetermineTargetHit(hit.collider.gameObject);
         }
     }
 
@@ -204,12 +205,31 @@ public class XRPistol : XRGrabInteractable
     public void SetPistolAnimationEnd()
     {
         animationPlaying = false;
+        slider.UnlockSlide();
         DeterminePistolState();
     }
 
+    // TODO: FIX BUG WITH LEAVING ONE ROUND IN CHAMBER, DROPPING MAG, RELOADING WITH FULL MAG,
+    // SHOOTING ROUND, AND GETTING COMPLETELY LOCKED FROM FIRING
+    // Possible Reason:
+    // - Magazine is set to current ammo regardless if it is new or not
+    // - If a full magazine is inserted and a pistol has a round in the chamber
+    //   the full magazine gets set to 0 ammo when pistol fired
+    // Topping Off:
+    // - Leaving a mag in the chamber is called topping off
+    // - The round is fired and the pistol automatically loads the next one
+    // Solution:
+    // - Remove updating ammo in magazine from Shoot()
+    // - Replace current ammo with boolean roundInChamber
+    // - When checking if you can shoot, check roundInChamber
+    // - On shoot, check if magazine has ammo:
+    //   - Yes: roundInChamber = true, consume 1 round from magazine
+    //   - No: Then gun is in empty state
+    // - On snap forward, if no round in chamber, add round in chamber and consume 1 round from magazine
+
     private void DeterminePistolState()
     {
-        if (currentAmmo == 0 && !magWell.HasLoadedMagazine())
+        if (!roundInChamber && !magWell.HasLoadedMagazine())
         {
             slider.SetEmptyState(true);
             animator.SetBool("ShotReady", false);
@@ -223,10 +243,6 @@ public class XRPistol : XRGrabInteractable
 
     private void OnReleaseMagazinePressed(InputAction.CallbackContext ctx)
     {
-        // Leave one round in chamber if loaded
-        int tempAmmo = currentAmmo;
-        currentAmmo = currentAmmo > 1 ? 1 : 0;
-        magWell.SetAmmoInMag(tempAmmo - currentAmmo);
         magWell.ReleaseMagazine();
     }
 
@@ -234,9 +250,10 @@ public class XRPistol : XRGrabInteractable
     {
         PlayAudioClip(pulledBackClip);
         // TODO: Eject round when in chamber
-        if (currentAmmo > 0)
+
+        if (roundInChamber)
         {
-            currentAmmo--;
+            roundInChamber = false;
             EjectCasing();
             DeterminePistolState();
         }
@@ -246,10 +263,22 @@ public class XRPistol : XRGrabInteractable
     {
         PlayAudioClip(snappedForwardClip);
 
-        if (currentAmmo == 0 && magWell.HasLoadedMagazine())
+        if (!roundInChamber && magWell.HasLoadedMagazine())
         {
-            currentAmmo = magWell.GetAmmoInMag();
+            magWell.ConsumeRound();
+            roundInChamber = true;
             animator.SetBool("ShotReady", true);
         }
+    }
+
+    private void DetermineTargetHit(GameObject hitObject)
+    {
+        if (hitObject.tag != "Target") return;
+        try
+        {
+            ShootingTarget hitTarget = hitObject.GetComponentInParent<ShootingTarget>();
+            hitTarget.HitTarget();
+        }
+        catch (System.Exception) { }
     }
 }
