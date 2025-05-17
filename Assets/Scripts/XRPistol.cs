@@ -209,23 +209,6 @@ public class XRPistol : XRGrabInteractable
         DeterminePistolState();
     }
 
-    // TODO: FIX BUG WITH LEAVING ONE ROUND IN CHAMBER, DROPPING MAG, RELOADING WITH FULL MAG,
-    // SHOOTING ROUND, AND GETTING COMPLETELY LOCKED FROM FIRING
-    // Possible Reason:
-    // - Magazine is set to current ammo regardless if it is new or not
-    // - If a full magazine is inserted and a pistol has a round in the chamber
-    //   the full magazine gets set to 0 ammo when pistol fired
-    // Topping Off:
-    // - Leaving a mag in the chamber is called topping off
-    // - The round is fired and the pistol automatically loads the next one
-    // Solution:
-    // - Remove updating ammo in magazine from Shoot()
-    // - Replace current ammo with boolean roundInChamber
-    // - When checking if you can shoot, check roundInChamber
-    // - On shoot, check if magazine has ammo:
-    //   - Yes: roundInChamber = true, consume 1 round from magazine
-    //   - No: Then gun is in empty state
-    // - On snap forward, if no round in chamber, add round in chamber and consume 1 round from magazine
 
     private void DeterminePistolState()
     {
