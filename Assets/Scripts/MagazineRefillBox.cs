@@ -131,5 +131,15 @@ public class MagazineRefillBox : MonoBehaviour
             !magazinePool[index].IsUsed();
     }
 
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent<XRMagazine>(out XRMagazine magazine))
+        {
+            magazine.gameObject.SetActive(false);
+            magazine.SetAmmoToMax();
+            magazine.transform.position = spawnPoint.position;
+            magazine.transform.rotation = spawnPoint.rotation;
+            magazine.gameObject.SetActive(true);
+        }
+    }
 }
