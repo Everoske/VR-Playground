@@ -108,6 +108,11 @@ public class XRMagazine : XRGrabInteractable
         currentAmmo = (int) maxAmmoCount;
     }
 
+    public bool HasMaxAmmo()
+    {
+        return currentAmmo >= maxAmmoCount;
+    }
+
     public bool IsUsed()
     {
         return IsHeld() || transform.parent != originalParent;

@@ -2090,6 +2090,7 @@ GameObject:
   m_Component:
   - component: {fileID: 288386242}
   - component: {fileID: 288386241}
+  - component: {fileID: 288386243}
   m_Layer: 0
   m_Name: MagazineRefillBox
   m_TagString: Untagged
@@ -2112,7 +2113,6 @@ MonoBehaviour:
   spawnPoint: {fileID: 1512348694}
   magazineParent: {fileID: 426823789}
   maxMagazines: 10
-  spawnTime: 5
   magazinePrefab: {fileID: 7549886874552350375, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
 --- !u!4 &288386242
 Transform:
@@ -2136,6 +2136,27 @@ Transform:
   - {fileID: 426823789}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &288386243
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288386240}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.2, y: 0.1, z: 0.3}
+  m_Center: {x: 0, y: 0.05, z: 0}
 --- !u!1 &288725701
 GameObject:
   m_ObjectHideFlags: 0
@@ -12805,68 +12826,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2110499205}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &17467502900533541
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 497062539622657207, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.108
-      objectReference: {fileID: 0}
-    - target: {fileID: 497062539622657207, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.01124
-      objectReference: {fileID: 0}
-    - target: {fileID: 497062539622657207, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 3.206916
-      objectReference: {fileID: 0}
-    - target: {fileID: 497062539622657207, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 497062539622657207, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 497062539622657207, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 497062539622657207, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 497062539622657207, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 497062539622657207, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 497062539622657207, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3733135988124252459, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
-      propertyPath: m_Name
-      value: XR_Magazine
-      objectReference: {fileID: 0}
-    - target: {fileID: 7549886874552350375, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
-      propertyPath: m_InteractionManager
-      value: 
-      objectReference: {fileID: 1217245188}
-    m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 3220058268813294085, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d1350b17de2833a41aac3c0b130f5ed1, type: 3}
 --- !u!4 &276706431740761454
 Transform:
   m_ObjectHideFlags: 0
@@ -13480,6 +13439,5 @@ SceneRoots:
   - {fileID: 455677231}
   - {fileID: 1183970038}
   - {fileID: 696707186668260206}
-  - {fileID: 17467502900533541}
   - {fileID: 288386242}
   - {fileID: 476239545}
