@@ -14,6 +14,7 @@ public class XRMagazine : XRGrabInteractable
     private InteractionLayerMask defaultInteractionLayers;
     private Rigidbody rbComponent;
     private int currentAmmo;
+    private Transform originalParent = null;
 
     public int CurrentAmmo
     {
@@ -34,6 +35,7 @@ public class XRMagazine : XRGrabInteractable
     {
         defaultInteractionLayers = interactionLayers;
         CurrentAmmo = startingAmmo;
+        originalParent = transform.parent;
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -93,5 +95,20 @@ public class XRMagazine : XRGrabInteractable
     public bool IsEmpty()
     {
         return currentAmmo == 0;
+    }
+
+    public void ResetParent()
+    {
+        transform.parent = originalParent;
+    }
+
+    public void SetAmmoToMax()
+    {
+        currentAmmo = (int) maxAmmoCount;
+    }
+
+    public bool IsUsed()
+    {
+        return currentInteractor != null || transform.parent != originalParent;
     }
 }

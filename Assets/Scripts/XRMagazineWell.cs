@@ -66,7 +66,7 @@ public class XRMagazineWell : MonoBehaviour
     // Call after release magazine animation completes
     public void MagazineReleased()
     {
-        activeMagazine.transform.parent = null;
+        activeMagazine.ResetParent();
         activeMagazine.UnlockInteraction();
         activeMagazine = null;
         isMagazineAttached = false;
