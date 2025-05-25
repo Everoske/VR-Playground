@@ -73,7 +73,7 @@ public class XRMagazineWell : MonoBehaviour
         onMagazineReleased?.Invoke();
     }
 
-    // Call after insert magazine animation completess
+    // Call after insert magazine animation completes
     public void MagazineInsert()
     {
         onMagazineInsert?.Invoke();

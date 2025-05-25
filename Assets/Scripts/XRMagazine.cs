@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using System.Collections;
 
 public class XRMagazine : XRGrabInteractable
 {
@@ -109,6 +110,6 @@ public class XRMagazine : XRGrabInteractable
 
     public bool IsUsed()
     {
-        return currentInteractor != null || transform.parent != originalParent;
+        return IsHeld() || transform.parent != originalParent;
     }
 }

@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-// 'Spawn' loaded magazines periodically, track spawned magazines,
-// 'despawn' unloaded magazines
+// CHANGES TO IMPLEMENT:
+// - Utilize Magazine Pool
+// - On Start
+//   - Spawn all magazines on a timer
+// - Have a Space for Player to Recycle Magazines
+//   - When Magazine enters recycle space, spawn a new full magazine
+// - Coroutine only needed for initial magazines
 public class MagazineRefillBox : MonoBehaviour
 {
     [SerializeField]
@@ -24,85 +29,50 @@ public class MagazineRefillBox : MonoBehaviour
     private XRMagazine magazinePrefab;
 
     private XRMagazine[] magazinePool;
-    private Stack<int> emptyMagIndices;
 
     private int spawnedMagazines = 0;
-    private bool canAllocate = false;
-    private bool shouldSpawnInitial = true;
+    private bool canAllocate = true;
+    private bool initialSpawned = false;
 
     private void Start()
     {
         InitiateMagazinePool();
-        emptyMagIndices = new Stack<int>();
     }
 
     private void Update()
     {
-        if (shouldSpawnInitial)
-        {
-            StartCoroutine(SpawnInitial());
-        }
-
         if (canAllocate)
         {
             StartCoroutine(AllocateMagazines());
         }
     }
 
-    private IEnumerator SpawnInitial()
-    {
-        yield return new WaitForSeconds(0.1f);
-        SpawnSingleInactive();
-
-        if (spawnedMagazines <= 10)
-        {
-            canAllocate = true;
-            shouldSpawnInitial = false;
-        }
-    }
-
     private IEnumerator AllocateMagazines()
     {
         canAllocate = false;
-        yield return new WaitForSeconds(spawnTime);
+        float waitTime = !initialSpawned ? 0.1f : spawnTime;
+        yield return new WaitForSeconds(waitTime);
 
         DespawnSingleEmpty();
         SpawnSingleInactive();
         canAllocate = true;
+
+        if (!initialSpawned && spawnedMagazines >= maxMagazines)
+        {
+            initialSpawned = false;
+        }
     }
 
     private void DespawnSingleEmpty()
     {
         if (spawnedMagazines <= 0) return;
 
-        DespawnNextEmpty();
-
         for (int i = 0; i < magazinePool.Length; i++)
         {
-            if (IsEmptyAndUnused(i) && !emptyMagIndices.Contains(i))
+            if (IsEmptyUnusedAndActive(i))
             {
-                emptyMagIndices.Push(i);
-            }
-        }
-    }
-
-    private void DespawnNextEmpty()
-    {
-        if (emptyMagIndices.Count == 0) return;
-
-        int magToDespawn = emptyMagIndices.Pop();
-        bool despawnSuccess = false;
-
-        while (!despawnSuccess && emptyMagIndices.Count > 0)
-        {
-            if (!magazinePool[magToDespawn].IsUsed())
-            {
-                DespawnMagazine(magToDespawn);
-                despawnSuccess = true;
-            }
-            else
-            {
-                magToDespawn = emptyMagIndices.Pop();
+                DespawnMagazine(i);
+                break;
             }
         }
     }
@@ -153,10 +123,13 @@ public class MagazineRefillBox : MonoBehaviour
         spawnedMagazines--;
     }
 
-    private bool IsEmptyAndUnused(int index)
+    private bool IsEmptyUnusedAndActive(int index)
     {
         return magazinePool[index] != null &&
+            magazinePool[index].gameObject.activeInHierarchy &&
             magazinePool[index].CurrentAmmo <= 0 &&
             !magazinePool[index].IsUsed();
     }
+
+
 }
