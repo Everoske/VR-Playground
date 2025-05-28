@@ -5,7 +5,7 @@ using UnityEngine;
 public class RoundManager : MonoBehaviour
 {
     [SerializeField]
-    private List<TargetRack> targetRacks;
+    private List<TargetSet> targetRacks;
 
     [SerializeField]
     private List<RoundData> rounds;
@@ -84,7 +84,7 @@ public class RoundManager : MonoBehaviour
             int roundIndex = i + (currentRound - 1) * stride;
             if (roundIndex < rounds.Count)
             {
-                targetRacks[i].InitiateRound(rounds[roundIndex]);
+                //targetRacks[i].InitiateRound(rounds[roundIndex]);
             }
             else
             {
@@ -130,7 +130,7 @@ public class RoundManager : MonoBehaviour
         timerActive = false;
         roundUI.DeactivateTimerUI();
 
-        foreach (TargetRack targetRack in targetRacks)
+        foreach (TargetSet targetRack in targetRacks)
         {
             targetRack.TerminateRound();
         }
@@ -165,7 +165,7 @@ public class RoundManager : MonoBehaviour
 
     private bool TargetRacksFree()
     {
-        foreach (TargetRack targetRack in targetRacks)
+        foreach (TargetSet targetRack in targetRacks)
         {
             // Target racks with targets still visible to player
             if (!targetRack.IsTargetRackFree()) return false;
@@ -181,19 +181,19 @@ public class RoundManager : MonoBehaviour
 
     private void RegisterTargetRacks()
     {
-        foreach (TargetRack targetRack in targetRacks)
+        foreach (TargetSet targetRack in targetRacks)
         {
-            targetRack.onTargetHit += AddToScore;
-            targetRack.onRoundComplete += RackRoundCompleted;
+            //targetRack.onTargetHit += AddToScore;
+            //targetRack.onRoundComplete += RackRoundCompleted;
         }
     }
 
     private void DeregisterTargetRacks()
     {
-        foreach (TargetRack targetRack in targetRacks)
+        foreach (TargetSet targetRack in targetRacks)
         {
-            targetRack.onTargetHit -= AddToScore;
-            targetRack.onRoundComplete -= RackRoundCompleted;
+            //targetRack.onTargetHit -= AddToScore;
+            //targetRack.onRoundComplete -= RackRoundCompleted;
         }
     }
 }

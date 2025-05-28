@@ -5,7 +5,7 @@ using UnityEngine;
 // Targets stay centered until condition met
 // Move targets outside view
 // Despawn targets
-public class StationaryRack : TargetRack
+public class StationarySet : TargetSet
 {
     
 }
