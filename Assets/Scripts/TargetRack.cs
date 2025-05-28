@@ -21,46 +21,49 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
     private Transform targetParent;
 
     [SerializeField]
-    private Transform startPoint;
+    private Transform startPoint; // Under question
     [SerializeField]
-    private Transform endPoint;
+    private Transform endPoint; // Under question
     [SerializeField]
-    private Vector3 direction = Vector3.right;
+    private Vector3 direction = Vector3.right; // Move to Moving Rack
 
+    // Protected?
     private List<ShootingTarget> shootingTargets = new List<ShootingTarget>();
 
     private int roundMultiplier;
-    private float distanceBetweenTargets;
-    private float speed;
-    private int totalLoops;
+    private float distanceBetweenTargets; // Under question
+    private float speed; // Move to Moving Rack
+    private int totalLoops; // Move to Moving Rack
 
-    private float trackLength;
-    private int currentLoop;
-    private int leadIndex;
-    private bool canMove = false;
-    private float totalTrackLength;
-    private int totalTargetsThisRound;
-    private int totalDecoysThisRound;
-    private int targetHits;
+    private float trackLength; // Move to Moving Rack
+    private int currentLoop; // Move to Moving Rack
+    private int leadIndex; // Under Question
+    private bool canMove = false; // Move to Moving Rack
+    private float totalTrackLength; // Move to Moving Rack
+    private int totalTargetsThisRound; // Protected?
+    private int totalDecoysThisRound; // Protected?
+    private int targetHits; // Protected?
 
-    private ShootingTarget[] targetPool;
-    private ShootingTarget[] decoyPool;
+    private ShootingTarget[] targetPool; // Protected?
+    private ShootingTarget[] decoyPool; // Protected?
 
-    private Vector3 currentStartPoint;
-    private Vector3 currentEndPoint;
-    private Vector3 currentDirection;
+    private Vector3 currentStartPoint; // Move to Moving Rack
+    private Vector3 currentEndPoint; // Move to Moving Rack
+    private Vector3 currentDirection; // Move to Moving Rack
 
-    public UnityAction<int> onTargetHit;
-    public UnityAction onRoundComplete;
+    public UnityAction<int> onTargetHit; 
+    public UnityAction onRoundComplete; // Needs examination
 
     private void Start()
     {
-        trackLength = Vector3.Distance(startPoint.position, endPoint.position);
+        trackLength = Vector3.Distance(startPoint.position, endPoint.position); // Move to Moving Rack
         CreatePools();
     }
 
     private void Update()
     {
+
+        // Moving Rack Logic - start
         if (canMove && currentLoop <= totalLoops)
         {
             MoveTargets();
@@ -70,8 +73,10 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         {
             currentLoop = totalLoops;
         }
+        // Moving Rack Logic - end
     }
 
+    // Make virtual and rename?
     public void InitiateRound(TargetType[] targets, float distanceBetweenTargets,
         float speed, int loopCount, int roundMultiplier = 1)
     {
@@ -91,6 +96,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         leadIndex = 0;
     }
 
+    // This is specific to Moving Rack
     public void InitiateRound(RoundData round)
     {
         InitiateRound(
@@ -102,16 +108,19 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
             );
     }
 
+    // Logic specific to Moving Rack, make protected?
     public void TerminateRound()
     {
         currentLoop = totalLoops;
     }
 
+    // Can Keep
     public bool IsTargetRackFree()
     {
         return shootingTargets.Count == 0;
     }
 
+    // Specific to Moving Rack
     private bool LeadTargetReachedEndpoint()
     {
         if (shootingTargets.Count <= 0) return false;
@@ -121,6 +130,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         return Vector3.Distance(leadTarget.transform.position, currentStartPoint) >= totalTrackLength;
     }
 
+    // Can Keep
     private void CreatePools()
     {
         if (targetParent == null)
@@ -131,6 +141,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         CreatePool(out decoyPool, initialDecoyPool, TargetType.Decoy);
     }
 
+    // Can Keep
     private void CreatePool(out ShootingTarget[] pool, int poolSize, TargetType type)
     {
         pool = new ShootingTarget[poolSize];
@@ -148,6 +159,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         }
     }
 
+    // Can Keep
     private void ExpandPool(ref ShootingTarget[] pool, TargetType type)
     {
         ShootingTarget[] temp = new ShootingTarget[pool.Length + initialDecoyPool];
@@ -179,6 +191,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         }
     }
 
+    // Can Keep
     private void CreateTargets(TargetType[] targets)
     {
         totalTargetsThisRound = 0;
@@ -192,6 +205,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         }
     }
 
+    // Can Keep
     private void AssignTarget(TargetType type, Vector3 spawnPoint)
     {
         switch (type)
@@ -205,6 +219,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         }
     }
 
+    // Can Keep
     private void AllocateTarget(Vector3 spawnPoint)
     {
         totalTargetsThisRound++;
@@ -219,6 +234,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         targetPool[totalTargetsThisRound - 1].gameObject.SetActive(true);
     }
 
+    // Can Keep
     private void AllocateDecoy(Vector3 spawnPoint)
     {
         totalDecoysThisRound++;
@@ -233,6 +249,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         decoyPool[totalDecoysThisRound - 1].gameObject.SetActive(true);
     }
 
+    // Specific to Moving Rack
     private void SetTotalTrackLength()
     {
         Vector3 lastSpawn = startPoint.position -
@@ -240,6 +257,8 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         float spawnOffset = Vector3.Distance(startPoint.position, lastSpawn);
         totalTrackLength = trackLength + spawnOffset;
     }
+
+    // Move to Moving Rack
 
     private void MoveTargets()
     {
@@ -265,6 +284,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         }
     }
 
+    // Can Keep But Rename to DespawnTargets
     private void RemoveTargets()
     {
         canMove = false;
@@ -280,6 +300,7 @@ public class TargetRack : MonoBehaviour, ITargetHitNotify
         onRoundComplete?.Invoke();
     }
 
+    // Can Keep
     public void OnTargetHit(int points, TargetType type)
     {
         // Increase normal count
