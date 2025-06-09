@@ -17,6 +17,7 @@ namespace ShootingGallery.Game
 
         private MeshRenderer meshRenderer;
         private bool isTargetActive = true;
+        private bool isTargetInUse = false;
 
         private TargetType targetType;
         private ITargetHitNotify targetHitNotify;
@@ -37,6 +38,12 @@ namespace ShootingGallery.Game
         {
             get => points;
             set => points = value;
+        }
+
+        public bool IsTargetInUse
+        {
+            get => isTargetInUse;
+            set => isTargetInUse = value;
         }
 
         private void Awake()
