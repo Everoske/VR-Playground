@@ -16,15 +16,17 @@ namespace ShootingGallery.Game
 
         public float TimeBeforeSet
         {
-            get { return timeBeforeSet; }
-            private set { timeBeforeSet = value; }
+            get => timeBeforeSet;
+            private set => timeBeforeSet = value;
         }
 
         public void InitiateRoundSet()
         {
+            // TODO: Start Round Set Timer
+
             foreach (TargetSet targetSet in targetSets) 
             {
-                //targetSet.InitiateSet();
+                targetSet.InitiateTargetSet();
             }
         }
     }

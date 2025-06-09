@@ -14,11 +14,10 @@ namespace ShootingGallery.Game
         [SerializeField]
         private int setMultiplier;
 
-        protected Transform startPoint; // Under question
-        protected Transform endPoint; // Under question
+        protected Transform startPoint; 
+        protected Transform endPoint; 
         protected float distanceBetweenTargets;
-        protected Vector3 direction = Vector3.right; // Infer through vector math
-
+        protected Vector3 direction;
 
         protected List<ShootingTarget> shootingTargets = new List<ShootingTarget>();
 
@@ -26,6 +25,9 @@ namespace ShootingGallery.Game
         protected int totalTargets;
         protected int totalDecoys;
         protected int targetHits;
+
+        public UnityAction<int> onTargetHit;
+        public UnityAction onTargetSetComplete;
 
         public SetType GetSetType() => setType;
         public int GetTargetCount() => totalTargets;
@@ -36,7 +38,7 @@ namespace ShootingGallery.Game
 
         protected virtual void Start()
         {
-
+            direction = (startPoint.position - endPoint.position).normalized;
         }
 
         public void AssignTarget(ShootingTarget target)
@@ -44,7 +46,7 @@ namespace ShootingGallery.Game
             shootingTargets.Add(target);
         }
 
-        public void StartSet()
+        public void InitiateTargetSet()
         {
             SpawnTargets();
         }
@@ -86,7 +88,13 @@ namespace ShootingGallery.Game
         // Can Keep
         public void OnTargetHit(int points, TargetType type)
         {
-            
+            if (type == TargetType.Normal)
+            {
+                //targetsThisRound--;
+                // points = points * targetSets[activeSetIndex].GetSetMultiplier();
+            }
+
+            onTargetHit?.Invoke(points);
         }
     }
 
