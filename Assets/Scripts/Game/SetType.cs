@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public enum TargetType
+namespace ShootingGallery.Game
 {
-    Normal,
-    Decoy
+    public enum SetType
+    {
+        Stationary,
+        Moving
+    }
 }

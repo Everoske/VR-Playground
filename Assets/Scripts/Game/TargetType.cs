@@ -4,7 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public interface ITargetHitNotify
+namespace ShootingGallery.Game
 {
-    void OnTargetHit(int points, TargetType type);
+    public enum TargetType
+    {
+        Normal,
+        Decoy
+    }
+
 }
