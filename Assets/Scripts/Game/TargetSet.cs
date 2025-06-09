@@ -55,8 +55,6 @@ namespace ShootingGallery.Game
             return shootingTargets.Count == 0;
         }
 
-
-
         private void SpawnTargets()
         {
             for (int i = 0; i < shootingTargets.Count; i++)
