@@ -35,7 +35,7 @@ namespace ShootingGallery.Game
                 MoveTargets();
             }
 
-            if (targetHits >= totalTargets)
+            if (targetsHit >= totalTargets)
             {
                 currentLoop = totalLoops;
             }
@@ -54,7 +54,7 @@ namespace ShootingGallery.Game
 
                 if (currentLoop >= totalLoops)
                 {
-                    DespawnTargets();
+                    RemoveTargets();
                     return;
                 }
             }
@@ -82,15 +82,15 @@ namespace ShootingGallery.Game
             totalTrackLength = trackLength + spawnOffset;
         }
 
-        public override void TerminateRound()
+        public override void StopTargetSet()
         {
-            base.TerminateRound();
+            base.StopTargetSet();
             currentLoop = totalLoops;
         }
 
-        protected override void DespawnTargets()
+        protected override void RemoveTargets()
         {
-            base.DespawnTargets();
+            base.RemoveTargets();
             canMove = false;
         }
 

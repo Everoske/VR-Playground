@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,8 +10,9 @@ namespace ShootingGallery.Game
         [SerializeField]
         private TargetSet[] targetSets;
 
+        [Tooltip("Max time for the round set to play")]
         [SerializeField]
-        private float setTime = 10.0f; // Total time to run set
+        private float roundSetTimer = 10.0f; // Total time to run set
 
         [SerializeField]
         private float timeBeforeSet = 1.0f; // Time before set
@@ -19,6 +21,12 @@ namespace ShootingGallery.Game
         private int targetSetsComplete = 0;
 
         public UnityAction<int> onRoundSetComplete; // Inform GalleryRound with total points
+
+        public float TimeBeforeSet
+        {
+            get => timeBeforeSet;
+            private set => timeBeforeSet = value;
+        }
 
         private void OnEnable()
         {
@@ -72,15 +80,18 @@ namespace ShootingGallery.Game
             }
         }
 
-        public float TimeBeforeSet
+        private IEnumerator InitiateRoundSetTimer()
         {
-            get => timeBeforeSet;
-            private set => timeBeforeSet = value;
+            yield return new WaitForSeconds(roundSetTimer);
+            StopTargetSets();
         }
-
+        
+        /// <summary>
+        /// Initiate Round Set Timer and Target Sets
+        /// </summary>
         public void InitiateRoundSet()
         {
-            // TODO: Start Round Set Timer
+            StartCoroutine(InitiateRoundSetTimer());
 
             foreach (TargetSet targetSet in targetSets) 
             {

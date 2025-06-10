@@ -14,6 +14,9 @@ namespace ShootingGallery.Game
         [SerializeField]
         private int setMultiplier;
 
+        [SerializeField]
+        private TargetPool targetPool;
+
         protected Transform startPoint; 
         protected Transform endPoint; 
         protected float distanceBetweenTargets;
@@ -21,33 +24,43 @@ namespace ShootingGallery.Game
 
         protected List<ShootingTarget> shootingTargets = new List<ShootingTarget>();
 
-        protected SetType setType;
-        protected int totalTargets;
-        protected int totalDecoys;
-        protected int targetHits;
+        protected int totalTargets = 0;
+        protected int totalDecoys = 0;
+        protected int targetsHit = 0;
 
         public UnityAction<int> onTargetHit;
         public UnityAction onTargetSetComplete;
 
-        public SetType GetSetType() => setType;
         public int GetTargetCount() => totalTargets;
         public int GetDecoyCount() => totalDecoys;
         public int GetSetMultiplier() => setMultiplier;
 
         public TargetType[] GetSetOrder() => setOrder;
 
+        private void DetermineSetCounts()
+        {
+            foreach (ShootingTarget target in shootingTargets)
+            {
+                if (target.TargetType == TargetType.Normal)
+                {
+                    totalTargets++;
+                }
+                else if (target.TargetType == TargetType.Decoy)
+                {
+                    totalDecoys++;
+                }
+            }
+        }
+
         protected virtual void Start()
         {
             direction = (startPoint.position - endPoint.position).normalized;
-        }
-
-        public void AssignTarget(ShootingTarget target)
-        {
-            shootingTargets.Add(target);
+            DetermineSetCounts();
         }
 
         public void InitiateTargetSet()
         {
+            AssignTargets();
             SpawnTargets();
         }
 
@@ -55,6 +68,36 @@ namespace ShootingGallery.Game
         public bool IsTargetRackFree()
         {
             return shootingTargets.Count == 0;
+        }
+
+        private void DetermineTypeCounts()
+        {
+            foreach (TargetType type in setOrder)
+            {
+                if (type == TargetType.Normal)
+                {
+                    totalTargets++;
+                }
+                else if (type == TargetType.Decoy)
+                {
+                    totalDecoys++;
+                }
+            }
+        }
+
+        private void AssignTargets()
+        {
+            foreach (TargetType type in setOrder)
+            {
+                if (type == TargetType.Normal)
+                {
+                    shootingTargets.Add(targetPool.AllocateTarget(this));
+                }
+                else if (type == TargetType.Decoy)
+                {
+                    shootingTargets.Add(targetPool.AllocateDecoy(this));
+                }
+            }
         }
 
         private void SpawnTargets()
@@ -67,31 +110,28 @@ namespace ShootingGallery.Game
             }
         }
 
-        public virtual void TerminateRound()
+        public virtual void StopTargetSet()
         {
 
         }
 
-        protected virtual void DespawnTargets()
+        protected virtual void RemoveTargets()
         {
             foreach (ShootingTarget target in shootingTargets)
             {
-                target.ResetTarget();
-                target.gameObject.SetActive(false);
-                target.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
+                targetPool.DeallocateDecoy(target);
             }
 
             shootingTargets.Clear();
-            //onRoundComplete?.Invoke(); // Move to TargetSetManager
+            onTargetSetComplete?.Invoke();
         }
 
-        // Can Keep
         public void OnTargetHit(int points, TargetType type)
         {
             if (type == TargetType.Normal)
             {
-                //targetsThisRound--;
-                // points = points * targetSets[activeSetIndex].GetSetMultiplier();
+                targetsHit++;
+                points = points * setMultiplier;
             }
 
             onTargetHit?.Invoke(points);

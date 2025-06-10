@@ -67,6 +67,8 @@ namespace ShootingGallery.Game
             if (isTargetActive) return;
 
             isTargetActive = true;
+            isTargetInUse = false;
+            targetHitNotify = null;
             meshRenderer.material = activeMaterial;
             transform.rotation = Quaternion.identity;
         }

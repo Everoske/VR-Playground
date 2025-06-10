@@ -135,7 +135,7 @@ namespace ShootingGallery.Game
 
             foreach (TargetSet targetRack in targetRacks)
             {
-                targetRack.TerminateRound();
+                targetRack.StopTargetSet();
             }
         }
 

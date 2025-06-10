@@ -26,6 +26,11 @@ namespace ShootingGallery.Game
         private int allocatedTargets = 0;
         private int allocatedDecoys = 0;
 
+        private void Start()
+        {
+            CreatePools();
+        }
+
         private void CreatePools()
         {
             CreatePool(out targetPool, TargetType.Normal, ref targetPrefab);
@@ -43,7 +48,6 @@ namespace ShootingGallery.Game
                     new Vector3(0.0f, -1000.0f, 0.0f),
                     transform.rotation, transform
                     );
-                //pool[i].TargetHitNotify = this; // Do this on assign
                 pool[i].TargetType = type;
                 pool[i].gameObject.SetActive(false);
             }
@@ -93,7 +97,6 @@ namespace ShootingGallery.Game
             return -1;
         }
 
-        // PROBLEM: Designed for single set access only!
         public ShootingTarget AllocateTarget(ITargetHitNotify hitNotify)
         {
             if (allocatedTargets > targetPool.Length)
@@ -119,9 +122,7 @@ namespace ShootingGallery.Game
 
             firstFreeTarget = GetFirstActiveIndex(ref targetPool);
 
-            shootingTarget.IsTargetInUse = false;
-            shootingTarget.TargetHitNotify = null;
-            shootingTarget.transform.rotation = transform.rotation;
+            shootingTarget.ResetTarget();
             shootingTarget.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
             shootingTarget.gameObject.SetActive(false);
 
@@ -153,9 +154,7 @@ namespace ShootingGallery.Game
 
             firstFreeDecoy = GetFirstActiveIndex(ref decoyPool);
 
-            shootingDecoy.IsTargetInUse = false;
-            shootingDecoy.TargetHitNotify = null;
-            shootingDecoy.transform.rotation = transform.rotation;
+            shootingDecoy.ResetTarget();
             shootingDecoy.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
             shootingDecoy.gameObject.SetActive(false);
 
