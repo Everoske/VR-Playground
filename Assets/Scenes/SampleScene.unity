@@ -1475,6 +1475,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetSets:
   - {fileID: 8768202971956953106}
+  - {fileID: 2018254652}
   roundSetTimer: 60
   timeBeforeSet: 1
 --- !u!1 &185848926
@@ -11737,12 +11738,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a208eb425292b947a3c21521b5c8583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setOrder: 
+  setOrder: 00000000010000000000000001000000
   setMultiplier: 1
   targetPool: {fileID: 397749521}
   startPoint: {fileID: 1927325870}
   endPoint: {fileID: 240388850}
-  distanceBetweenTargets: 5
+  distanceBetweenTargets: 2
 --- !u!1 &2038639809
 GameObject:
   m_ObjectHideFlags: 0
@@ -13870,7 +13871,7 @@ MonoBehaviour:
   endPoint: {fileID: 1275243101587587806}
   distanceBetweenTargets: 5
   speed: 3
-  totalLoops: 5
+  totalLoops: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

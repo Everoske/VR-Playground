@@ -32,16 +32,12 @@ namespace ShootingGallery.Game
             SetTotalTrackLength();
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
             if (canMove && currentLoop <= totalLoops)
             {
                 MoveTargets();
-            }
-
-            if (targetsHit >= totalTargets)
-            {
-                currentLoop = totalLoops;
             }
         }
 

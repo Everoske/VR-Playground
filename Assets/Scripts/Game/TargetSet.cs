@@ -46,6 +46,14 @@ namespace ShootingGallery.Game
             DetermineTypeCounts();
         }
 
+        protected virtual void Update()
+        {
+            if (targetsHit >= totalTargets)
+            {
+                StopTargetSet();
+            }
+        }
+
         /// <summary>
         /// Get targets from target pool and spawn them.
         /// </summary>
