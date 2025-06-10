@@ -10,7 +10,7 @@ namespace ShootingGallery.Game
     /// </summary>
     public class TargetSet : MonoBehaviour, ITargetHitNotify
     {
-        [Tooltip("The number target types that will appear in the set in order left to right")]
+        [Tooltip("The number target types that will appear in the set in order left to right.")]
         [SerializeField]
         private TargetType[] setOrder;
 

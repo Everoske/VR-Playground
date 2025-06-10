@@ -12,7 +12,7 @@ namespace ShootingGallery.Game
         [SerializeField]
         private TargetSet[] targetSets;
 
-        [Tooltip("Max time for the round set to play")]
+        [Tooltip("Max time for the round set to play.")]
         [SerializeField]
         private float roundSetTimer = 10.0f; // Total time to run set
 

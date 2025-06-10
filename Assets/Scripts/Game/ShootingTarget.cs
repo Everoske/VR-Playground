@@ -15,6 +15,10 @@ namespace ShootingGallery.Game
         [SerializeField]
         private int points = 25;
 
+        [Tooltip("Represents which axes to rotate a target once it has been shot using Euler angles.")]
+        [SerializeField]
+        private Vector3 rotationAxes = new Vector3(-90.0f, 0.0f, 0.0f);
+
         private MeshRenderer meshRenderer;
         private bool isTargetActive = true;
         private bool isTargetInUse = false;
@@ -59,7 +63,7 @@ namespace ShootingGallery.Game
             meshRenderer.material = inactiveMaterial;
             isTargetActive = false;
 
-            transform.rotation = Quaternion.Euler(-90.0f, 0.0f, 0.0f);
+            transform.rotation = Quaternion.Euler(rotationAxes.x, rotationAxes.y, rotationAxes.z);
         }
 
         public void ResetTarget()
