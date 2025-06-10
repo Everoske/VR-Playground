@@ -9,11 +9,15 @@ namespace ShootingGallery.Game
     // Despawn Targets Outside View
     public class MovingSet : TargetSet
     {
-        private float speed;
-        private int totalLoops;
+        [SerializeField]
+        private float speed = 2.0f;
+
+        [SerializeField]
+        private int totalLoops = 2;
+
         private float trackLength;
         private int currentLoop;
-        private int leadIndex; // Under Question
+        private int leadIndex; 
         private bool canMove = false;
         private float totalTrackLength;
 
@@ -24,8 +28,8 @@ namespace ShootingGallery.Game
         protected override void Start()
         {
             base.Start();
-            setType = SetType.Moving;
             trackLength = Vector3.Distance(startPoint.position, endPoint.position);
+            SetTotalTrackLength();
         }
 
         private void Update()
@@ -82,6 +86,16 @@ namespace ShootingGallery.Game
             totalTrackLength = trackLength + spawnOffset;
         }
 
+        public override void InitiateTargetSet()
+        {
+            base.InitiateTargetSet();
+            canMove = true;
+            currentDirection = direction;
+        }
+
+        /// <summary>
+        /// Targets should continue moving until out of view and then despawn.
+        /// </summary>
         public override void StopTargetSet()
         {
             base.StopTargetSet();
@@ -93,7 +107,5 @@ namespace ShootingGallery.Game
             base.RemoveTargets();
             canMove = false;
         }
-
-
     }
 }

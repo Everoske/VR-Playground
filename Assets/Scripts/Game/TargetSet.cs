@@ -16,10 +16,16 @@ namespace ShootingGallery.Game
 
         [SerializeField]
         private TargetPool targetPool;
-
+        
+        [SerializeField]
         protected Transform startPoint; 
-        protected Transform endPoint; 
-        protected float distanceBetweenTargets;
+        
+        [SerializeField]
+        protected Transform endPoint;
+
+        [SerializeField]
+        protected float distanceBetweenTargets = 5.0f;
+        
         protected Vector3 direction;
 
         protected List<ShootingTarget> shootingTargets = new List<ShootingTarget>();
@@ -31,34 +37,13 @@ namespace ShootingGallery.Game
         public UnityAction<int> onTargetHit;
         public UnityAction onTargetSetComplete;
 
-        public int GetTargetCount() => totalTargets;
-        public int GetDecoyCount() => totalDecoys;
-        public int GetSetMultiplier() => setMultiplier;
-
-        public TargetType[] GetSetOrder() => setOrder;
-
-        private void DetermineSetCounts()
-        {
-            foreach (ShootingTarget target in shootingTargets)
-            {
-                if (target.TargetType == TargetType.Normal)
-                {
-                    totalTargets++;
-                }
-                else if (target.TargetType == TargetType.Decoy)
-                {
-                    totalDecoys++;
-                }
-            }
-        }
-
         protected virtual void Start()
         {
-            direction = (startPoint.position - endPoint.position).normalized;
-            DetermineSetCounts();
+            direction = (endPoint.position - startPoint.position).normalized;
+            DetermineTypeCounts();
         }
 
-        public void InitiateTargetSet()
+        public virtual void InitiateTargetSet()
         {
             AssignTargets();
             SpawnTargets();
@@ -110,11 +95,18 @@ namespace ShootingGallery.Game
             }
         }
 
+        /// <summary>
+        /// Initiates the stop sequence
+        /// </summary>
         public virtual void StopTargetSet()
         {
 
         }
 
+        /// <summary>
+        /// Returns targets to Target Pool. Should be called after targets are
+        /// out of the player's view
+        /// </summary>
         protected virtual void RemoveTargets()
         {
             foreach (ShootingTarget target in shootingTargets)
