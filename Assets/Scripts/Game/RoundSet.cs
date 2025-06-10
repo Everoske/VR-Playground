@@ -4,7 +4,9 @@ using UnityEngine.Events;
 
 namespace ShootingGallery.Game
 {
-    // Represents a series of target sets to spawn
+    /// <summary>
+    /// Represents a list of target sets to shoot during one sequence of a round.
+    /// </summary>
     public class RoundSet : MonoBehaviour
     {
         [SerializeField]
@@ -50,11 +52,19 @@ namespace ShootingGallery.Game
             UnsubscribeFromTargetSets();
         }
 
+        /// <summary>
+        /// Increments the total points earned by the player for this round set.
+        /// </summary>
+        /// <param name="points">Points earned.</param>
         private void ShootingTargetHit(int points)
         {
             totalPointsEarned = Mathf.Max(totalPointsEarned + points, 0);
         }
 
+        /// <summary>
+        /// Called when a target set finishes its stop sequence. Ends round set
+        /// once all targets have completed their stop sequence.
+        /// </summary>
         private void TargetSetComplete()
         {
             targetSetsComplete++;
@@ -65,8 +75,9 @@ namespace ShootingGallery.Game
             }
         }
 
-        // Stop any target set currently active
-        // Target sets should call onSetComplete when they are out of view from player
+        /// <summary>
+        /// Instructs all target sets to run their stop sequence.
+        /// </summary>
         private void StopTargetSets()
         {
             foreach (TargetSet targetSet in targetSets)
@@ -75,6 +86,9 @@ namespace ShootingGallery.Game
             }
         }
 
+        /// <summary>
+        /// Subscribes to target sets.
+        /// </summary>
         private void SubscribeToTargetSets()
         {
             foreach (TargetSet targetSet in targetSets)
@@ -84,6 +98,9 @@ namespace ShootingGallery.Game
             }
         }
 
+        /// <summary>
+        /// Unsubscribes from target sets.
+        /// </summary>
         private void UnsubscribeFromTargetSets()
         {
             foreach (TargetSet targetSet in targetSets)
@@ -93,6 +110,10 @@ namespace ShootingGallery.Game
             }
         }
 
+        /// <summary>
+        /// Runs a timer for the round set and stops the round set once completed.
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator InitiateRoundSetTimer()
         {
             yield return new WaitForSeconds(roundSetTimer);
@@ -101,7 +122,7 @@ namespace ShootingGallery.Game
         }
         
         /// <summary>
-        /// Initiate Round Set Timer and Target Sets
+        /// Initiates target sets and the round set timer.
         /// </summary>
         public void InitiateRoundSet()
         {

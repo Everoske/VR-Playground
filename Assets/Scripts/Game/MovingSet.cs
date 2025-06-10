@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace ShootingGallery.Game
 {
-    // Spawn Targets Outside View
-    // Move Between Two Points at a Certain Speed
-    // Move Outside View on Condition
-    // Despawn Targets Outside View
+    /// <summary>
+    /// A moving implementation of target set. Targets move between two points at a certain speed
+    /// during a set amount of loops or until time runs out in the round set. 
+    /// </summary>
     public class MovingSet : TargetSet
     {
         [SerializeField]
@@ -45,6 +45,9 @@ namespace ShootingGallery.Game
             }
         }
 
+        /// <summary>
+        /// Moves targets between end points.
+        /// </summary>
         private void MoveTargets()
         {
             if (LeadTargetReachedEndpoint())
@@ -69,6 +72,10 @@ namespace ShootingGallery.Game
             }
         }
 
+        /// <summary>
+        /// Determines if lead target has traveled the entire length of one track.
+        /// </summary>
+        /// <returns>True if lead target has reached an endpoint of the track.</returns>
         private bool LeadTargetReachedEndpoint()
         {
             if (shootingTargets.Count <= 0) return false;
@@ -78,6 +85,9 @@ namespace ShootingGallery.Game
             return Vector3.Distance(leadTarget.transform.position, currentStartPoint) >= totalTrackLength;
         }
 
+        /// <summary>
+        /// Sets the total track length based on the spawn location of the last target.
+        /// </summary>
         private void SetTotalTrackLength()
         {
             Vector3 lastSpawn = startPoint.position -
@@ -86,6 +96,9 @@ namespace ShootingGallery.Game
             totalTrackLength = trackLength + spawnOffset;
         }
 
+        /// <summary>
+        /// Moving set should be able to process movement upon initiation.
+        /// </summary>
         public override void InitiateTargetSet()
         {
             base.InitiateTargetSet();
@@ -102,6 +115,9 @@ namespace ShootingGallery.Game
             currentLoop = totalLoops;
         }
 
+        /// <summary>
+        /// Moving set should not move after targets have been removed.
+        /// </summary>
         protected override void RemoveTargets()
         {
             base.RemoveTargets();

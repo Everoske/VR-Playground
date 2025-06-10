@@ -5,6 +5,9 @@ using UnityEngine.Events;
 
 namespace ShootingGallery.Game
 {
+    /// <summary>
+    /// Represents a single set of similar targets for the player to hit.
+    /// </summary>
     public class TargetSet : MonoBehaviour, ITargetHitNotify
     {
         [Tooltip("The number target types that will appear in the set in order left to right")]
@@ -43,6 +46,9 @@ namespace ShootingGallery.Game
             DetermineTypeCounts();
         }
 
+        /// <summary>
+        /// Get targets from target pool and spawn them.
+        /// </summary>
         public virtual void InitiateTargetSet()
         {
             AssignTargets();
@@ -50,11 +56,14 @@ namespace ShootingGallery.Game
         }
 
         // Can Keep
-        public bool IsTargetRackFree()
+        public bool IsTargetSetFree()
         {
             return shootingTargets.Count == 0;
         }
 
+        /// <summary>
+        /// Determines how many normal targets and decoys are in this target set.
+        /// </summary>
         private void DetermineTypeCounts()
         {
             foreach (TargetType type in setOrder)
@@ -70,6 +79,9 @@ namespace ShootingGallery.Game
             }
         }
 
+        /// <summary>
+        /// Allocate targets from target pool to a local list.
+        /// </summary>
         private void AssignTargets()
         {
             foreach (TargetType type in setOrder)
@@ -85,6 +97,9 @@ namespace ShootingGallery.Game
             }
         }
 
+        /// <summary>
+        /// Spawn targets at incremental distances out of the player's view.
+        /// </summary>
         private void SpawnTargets()
         {
             for (int i = 0; i < shootingTargets.Count; i++)
@@ -118,6 +133,11 @@ namespace ShootingGallery.Game
             onTargetSetComplete?.Invoke();
         }
 
+        /// <summary>
+        /// Inform round set on points awarded for successfully hitting a target.
+        /// </summary>
+        /// <param name="points">Points from target</param>
+        /// <param name="type">Type of target</param>
         public void OnTargetHit(int points, TargetType type)
         {
             if (type == TargetType.Normal)

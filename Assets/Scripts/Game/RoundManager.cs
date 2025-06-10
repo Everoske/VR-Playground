@@ -171,7 +171,7 @@ namespace ShootingGallery.Game
             foreach (TargetSet targetRack in targetRacks)
             {
                 // Target racks with targets still visible to player
-                if (!targetRack.IsTargetRackFree()) return false;
+                if (!targetRack.IsTargetSetFree()) return false;
             }
 
             return true;
