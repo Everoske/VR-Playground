@@ -21,12 +21,20 @@ namespace ShootingGallery.Game
         private float stationarySetTime = 10.0f;
 
         private Vector3 centerPoint;
+        private Vector3 leadTargetPosition;
 
         protected override void Start()
         {
             base.Start();
             centerPoint = startPoint.position + 
                 ((Vector3.Distance(startPoint.position, endPoint.position) / 2) * direction);
+            DetermineLeadTargetPosition();
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
         }
 
         public override void InitiateTargetSet()
@@ -37,5 +45,32 @@ namespace ShootingGallery.Game
             
         }
 
+        private void DetermineLeadTargetPosition()
+        {
+            float leadOffset = 0.0f;
+
+            if (setOrder.Length % 2 == 0)
+            {
+                leadOffset = (setOrder.Length / 2 - 1) * distanceBetweenTargets + distanceBetweenTargets / 2;
+            }
+            else
+            {
+                leadOffset = (setOrder.Length - 1) / 2 * distanceBetweenTargets;
+            }
+
+            leadTargetPosition = centerPoint + leadOffset * direction;
+        }
+
+        private bool LeadTargetInPosition()
+        {
+            if (shootingTargets.Count == 0) return false;
+            return shootingTargets[0].transform.position == leadTargetPosition;
+        }
+
+        private bool LeadTargetReturned()
+        {
+            if (shootingTargets.Count == 0) return false;
+            return shootingTargets[0].transform.position == startPoint.position;
+        }
     }
 }
