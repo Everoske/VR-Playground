@@ -102,6 +102,8 @@ namespace ShootingGallery.Game
         public override void InitiateTargetSet()
         {
             base.InitiateTargetSet();
+            if (shootingTargets.Count == 0) return;
+
             canMove = true;
             currentDirection = direction;
         }

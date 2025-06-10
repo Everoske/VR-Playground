@@ -52,6 +52,14 @@ namespace ShootingGallery.Game
         public virtual void InitiateTargetSet()
         {
             AssignTargets();
+
+            // Automatically close an empty target set
+            if (shootingTargets.Count == 0)
+            {
+                CloseTargetSet();
+                return;
+            }
+
             SpawnTargets();
         }
 
@@ -111,6 +119,15 @@ namespace ShootingGallery.Game
         }
 
         /// <summary>
+        /// Clears shooting targets and informs round set that stop sequence has been completed.
+        /// </summary>
+        private void CloseTargetSet()
+        {
+            shootingTargets.Clear();
+            onTargetSetComplete?.Invoke();
+        }
+
+        /// <summary>
         /// Initiates the stop sequence
         /// </summary>
         public virtual void StopTargetSet()
@@ -129,8 +146,7 @@ namespace ShootingGallery.Game
                 targetPool.DeallocateDecoy(target);
             }
 
-            shootingTargets.Clear();
-            onTargetSetComplete?.Invoke();
+            CloseTargetSet();
         }
 
         /// <summary>
