@@ -17,9 +17,9 @@ namespace ShootingGallery.Game
         private float roundSetTimer = 10.0f; // Total time to run set
 
         [SerializeField]
-        private float timeBeforeSet = 1.0f; // Time before set
+        private float timeBeforeSet = 0.0f; // Time before set
 
-        private int totalPointsEarned = 0;
+        private int setScore = 0;
         private int targetSetsComplete = 0;
 
         public UnityAction<int> onRoundSetComplete; // Inform GalleryRound with total points
@@ -46,7 +46,7 @@ namespace ShootingGallery.Game
         /// <param name="points">Points earned.</param>
         private void ShootingTargetHit(int points)
         {
-            totalPointsEarned = Mathf.Max(totalPointsEarned + points, 0);
+            setScore = Mathf.Max(setScore + points, 0);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace ShootingGallery.Game
             targetSetsComplete++;
             if (targetSetsComplete >= targetSets.Length)
             {
-                onRoundSetComplete?.Invoke(totalPointsEarned);
+                onRoundSetComplete?.Invoke(setScore);
             }
         }
 
@@ -112,12 +112,18 @@ namespace ShootingGallery.Game
         /// </summary>
         public void InitiateRoundSet()
         {
+            setScore = 0;
             foreach (TargetSet targetSet in targetSets) 
             {
                 targetSet.InitiateTargetSet();
             }
 
             StartCoroutine(InitiateRoundSetTimer());
+        }
+
+        public void StopRoundSet()
+        {
+            StopTargetSets();
         }
     }
 }
