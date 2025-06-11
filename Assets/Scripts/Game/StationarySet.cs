@@ -4,13 +4,9 @@ using UnityEngine;
 
 namespace ShootingGallery.Game
 {
-    // Spawn Outside View - Done in Target Set
-    // Move to Center
-    // Targets stay centered until condition met
-    // Move targets outside view
-    // Despawn targets
-
-    // TODO: Remove targets outside of the visible area to the player
+    /// <summary>
+    /// Represents a stationary target set.
+    /// </summary>
     public class StationarySet : TargetSet
     {
         [Tooltip("Speed at which the Stationary Targets move into and out of position.")]
@@ -40,7 +36,6 @@ namespace ShootingGallery.Game
             ProcessTargetPositions();
         }
 
-        
         public override void InitiateTargetSet()
         {
             base.InitiateTargetSet();
@@ -55,6 +50,10 @@ namespace ShootingGallery.Game
             returnToStart = true;
         }
 
+        /// <summary>
+        /// Starts timer for stationary target set.
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator InitiateStationarySetTimer()
         {
             setTimerActive = true;
@@ -66,6 +65,9 @@ namespace ShootingGallery.Game
             }
         }
 
+        /// <summary>
+        /// Determines where the leading target should be positioned.
+        /// </summary>
         private void DetermineLeadTargetPosition()
         {
             float leadOffset = 0.0f;
@@ -82,6 +84,9 @@ namespace ShootingGallery.Game
             leadTargetPosition = centerPoint + leadOffset * direction;
         }
 
+        /// <summary>
+        /// Determines where the targets should move.
+        /// </summary>
         private void ProcessTargetPositions()
         {
             if (shootingTargets.Count == 0) return;
@@ -96,18 +101,29 @@ namespace ShootingGallery.Game
             }
         }
 
+        /// <summary>
+        /// Determines if the lead target is in the desired position for active gameplay.
+        /// </summary>
+        /// <returns>True if in desired position.</returns>
         private bool LeadTargetInPosition()
         {
             if (shootingTargets.Count == 0) return false;
             return shootingTargets[0].transform.position == leadTargetPosition;
         }
 
+        /// <summary>
+        /// Deterimes if the lead target has returned to its original spawn point.
+        /// </summary>
+        /// <returns>True if returned to spawn point.</returns>
         private bool LeadTargetReturned()
         {
             if (shootingTargets.Count == 0) return false;
             return shootingTargets[0].transform.position == startPoint.position;
         }
 
+        /// <summary>
+        /// Moves targets into the desired position for active gameplay.
+        /// </summary>
         private void MoveTargetsIntoPosition()
         {
             if (LeadTargetInPosition())
@@ -118,7 +134,9 @@ namespace ShootingGallery.Game
             TranslateTargets(leadTargetPosition, direction);
         }
 
-        
+        /// <summary>
+        /// Returns targets to their spawn points.
+        /// </summary>
         private void MoveTargetsToStart()
         {
             if (LeadTargetReturned())
@@ -129,6 +147,11 @@ namespace ShootingGallery.Game
             TranslateTargets(startPoint.position, -direction);
         }
 
+        /// <summary>
+        /// Moves targets toward a specified position.
+        /// </summary>
+        /// <param name="targetPosition">Desired position.</param>
+        /// <param name="currentDirection">Direction toward desired position.</param>
         private void TranslateTargets(Vector3 targetPosition, Vector3 currentDirection)
         {
             float speed = changePositionSpeed * Time.deltaTime;
