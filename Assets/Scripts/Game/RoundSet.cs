@@ -30,18 +30,6 @@ namespace ShootingGallery.Game
             private set => timeBeforeSet = value;
         }
 
-        private void Start()
-        {
-            StartCoroutine(DebugStartRound());
-        }
-
-        // FOR TESTING - REMOVE LATER
-        private IEnumerator DebugStartRound()
-        {
-            yield return new WaitForSeconds(5.0f);
-            InitiateRoundSet();
-        }
-
         private void OnEnable()
         {
             SubscribeToTargetSets();
@@ -70,7 +58,6 @@ namespace ShootingGallery.Game
             targetSetsComplete++;
             if (targetSetsComplete >= targetSets.Length)
             {
-                Debug.Log("All targets complete. Round set finished!");
                 onRoundSetComplete?.Invoke(totalPointsEarned);
             }
         }
@@ -117,7 +104,6 @@ namespace ShootingGallery.Game
         private IEnumerator InitiateRoundSetTimer()
         {
             yield return new WaitForSeconds(roundSetTimer);
-            Debug.Log("Round Set Timer Expired: Stopping Targets");
             StopTargetSets();
         }
         
