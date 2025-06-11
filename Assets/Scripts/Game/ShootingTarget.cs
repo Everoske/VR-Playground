@@ -19,6 +19,10 @@ namespace ShootingGallery.Game
         [SerializeField]
         private Vector3 rotationAxes = new Vector3(-90.0f, 0.0f, 0.0f);
 
+        // TODO: Implement smooth rotation
+        [SerializeField]
+        private float rotationSpeed = 1.0f; 
+
         private MeshRenderer meshRenderer;
         private bool isTargetActive = true;
         private bool isTargetInUse = false;
