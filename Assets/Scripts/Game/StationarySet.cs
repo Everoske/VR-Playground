@@ -24,6 +24,7 @@ namespace ShootingGallery.Game
         private Vector3 centerPoint;
         private Vector3 leadTargetPosition;
         private bool setTimerActive = false;
+        private bool returnToStart = true;
 
         protected override void Start()
         {
@@ -39,17 +40,19 @@ namespace ShootingGallery.Game
             ProcessTargetPositions();
         }
 
+        
         public override void InitiateTargetSet()
         {
             base.InitiateTargetSet();
             if (shootingTargets.Count == 0) return;
-            StartCoroutine(InitiateStationarySetTimer());
+            returnToStart = false;
         }
 
         public override void StopTargetSet()
         {
             base.StopTargetSet();
             setTimerActive = false;
+            returnToStart = true;
         }
 
         private IEnumerator InitiateStationarySetTimer()
@@ -83,11 +86,11 @@ namespace ShootingGallery.Game
         {
             if (shootingTargets.Count == 0) return;
 
-            if (setTimerActive)
+            if (!returnToStart)
             {
                 MoveTargetsIntoPosition();
             }
-            else
+            else 
             {
                 MoveTargetsToStart();
             }
@@ -107,11 +110,15 @@ namespace ShootingGallery.Game
 
         private void MoveTargetsIntoPosition()
         {
-            if (LeadTargetInPosition()) return;
+            if (LeadTargetInPosition())
+            {
+                StartCoroutine(InitiateStationarySetTimer());
+                return;
+            }
             TranslateTargets(leadTargetPosition, direction);
         }
 
-        // Move targets off s
+        
         private void MoveTargetsToStart()
         {
             if (LeadTargetReturned())
