@@ -1,3 +1,6 @@
+using ShootingGallery.UI;
+using System.Linq;
+using System;
 using UnityEngine;
 
 namespace ShootingGallery.Game
@@ -6,9 +9,141 @@ namespace ShootingGallery.Game
     public class GameSet : MonoBehaviour
     {
         // Weapons Used in Game
-        private float accuracy = 0.0f; // How accurate player is
-
         // [SerializeField]
-        // private GalleryRound[] rounds; 
+        // private XRWeapon[] usableWeapons;
+
+        [SerializeField]
+        private GalleryRound[] rounds;
+
+        [SerializeField]
+        private float timeBetweenRounds = 5.0f;
+
+        [SerializeField]
+        private ScoreTracker scoreTracker;
+
+        [SerializeField]
+        private RoundUI roundUI;
+
+        [SerializeField]
+        private int maxAccuracyBonus = 1000;
+
+        [Range(0, 1)]
+        [SerializeField]
+        private float minAccuracyForBonus = 0.80f;
+
+        private int activeRoundIndex = 0;
+        private int highestPossibleScore = 0;
+        private float accuracy = 0.0f; // How accurate player is
+        private float roundTimer = 0.0f; 
+        private bool timerActive = false;
+
+        private void Start()
+        {
+            CalculateHighestScore();
+        }
+
+        private void Update()
+        {
+            
+        }
+
+        private void OnEnable()
+        {
+            foreach (GalleryRound round in rounds)
+            {
+                round.onRoundComplete += RoundComplete;
+            }
+        }
+
+        private void OnDisable()
+        {
+            foreach (GalleryRound round in rounds)
+            {
+                round.onRoundComplete -= RoundComplete;
+            }
+        }
+
+        public void StartGameSet() // Allow something that manages game sets to control whether a game set can start
+        {
+            if (rounds == null || rounds.Length == 0)
+            {
+                EndGame();
+                return;
+            }
+
+            activeRoundIndex = 0;
+            StartCurrentRound();
+        }
+
+        private void RoundComplete(int score)
+        {
+            activeRoundIndex++;
+            if (activeRoundIndex >= rounds.Length)
+            {
+                EndGame();
+            }
+            else
+            {
+                StartRoundTimer();
+            }
+        }
+
+        // Calculate highest score in game set
+        // Include max accuracy bonus
+        private void CalculateHighestScore()
+        {
+
+        }
+
+        // Do once at end of game
+        private int CalculateAccuracyBonus()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private void StartCurrentRound()
+        {
+            
+            roundUI.SetCurrentRoundText(activeRoundIndex + 1);
+            rounds[activeRoundIndex].InitiateGalleryRound();
+        }
+
+        private void EndGame()
+        {
+            roundTimer = 0.0f;
+            timerActive = false;
+            roundUI.DeactivateTimerUI();
+            // Inform class controlling GameSets that game is over
+            // Calculate final score/perhaps send to above class
+            int finalScore = CalculateAccuracyBonus() + scoreTracker.CurrentScore;
+        }
+
+        private void StartRoundTimer()
+        {
+            roundTimer = timeBetweenRounds;
+            timerActive = true;
+            roundUI.ActivateTimerUI();
+        }
+
+        private void ProcessTimer()
+        {
+            if (!timerActive) return;
+
+            roundTimer -= Time.deltaTime;
+
+            if (roundTimer <= 0.0f)
+            {
+                roundUI.SetTimerText(0, 0);
+                timerActive = false;
+                roundUI.DeactivateTimerUI();
+                StartCurrentRound();
+            }
+            else
+            {
+                int minutes = (int)roundTimer / 60;
+                int seconds = (int)roundTimer % 60;
+                roundUI.SetTimerText(minutes, seconds);
+            }
+        }
     }
 }

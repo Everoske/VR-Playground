@@ -1479,7 +1479,7 @@ MonoBehaviour:
   - {fileID: 2018254652}
   - {fileID: 256414612}
   roundSetTimer: 60
-  timeBeforeSet: 1
+  timeBeforeSet: 0
 --- !u!1 &185848926
 GameObject:
   m_ObjectHideFlags: 0
@@ -9906,6 +9906,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1556440419}
+  - component: {fileID: 1556440420}
   m_Layer: 0
   m_Name: Round1
   m_TagString: Untagged
@@ -9929,6 +9930,20 @@ Transform:
   - {fileID: 181993764}
   m_Father: {fileID: 1620472246}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1556440420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556440418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39df9be3a6ebe9f4a8c639451c7137d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sets:
+  - {fileID: 181993765}
 --- !u!1 &1583219098
 GameObject:
   m_ObjectHideFlags: 0
@@ -9969,8 +9984,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1620472246}
+  - component: {fileID: 1620472247}
   m_Layer: 0
-  m_Name: Rounds
+  m_Name: MainGameSet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9992,6 +10008,25 @@ Transform:
   - {fileID: 1556440419}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1620472247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620472245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8649e3c4ae6325e4a9fa6b426d85b5dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rounds:
+  - {fileID: 1556440420}
+  timeBetweenRounds: 5
+  scoreTracker: {fileID: 0}
+  roundUI: {fileID: 1773244346}
+  maxAccuracyBonus: 1000
+  minAccuracyForBonus: 0.8
 --- !u!1 &1665762864
 GameObject:
   m_ObjectHideFlags: 0

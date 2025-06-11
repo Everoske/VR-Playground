@@ -8,27 +8,27 @@ namespace ShootingGallery.Game
     public class RoundManager : MonoBehaviour
     {
         [SerializeField]
-        private List<TargetSet> targetRacks;
+        private List<TargetSet> targetRacks; // Obsolete
 
         [SerializeField]
-        private List<RoundData> rounds;
+        private List<RoundData> rounds; // Obsolete
 
         [SerializeField]
-        private ScoreTracker scoreTracker;
+        private ScoreTracker scoreTracker; // Move to GameSet
 
         [SerializeField]
-        private RoundUI roundUI;
+        private RoundUI roundUI; // Move to GameSet
 
         [SerializeField]
-        private float timeBetweenRounds = 5.0f;
+        private float timeBetweenRounds = 5.0f; // Obsolete
 
-        private int numberOfRounds;
-        private int stride;
+        private int numberOfRounds; // Obsolete
+        private int stride; // Obsolete
 
-        private int currentRound = 0;
-        private int racksCompletedThisRound = 0;
-        private float roundTimer = 0.0f;
-        private bool timerActive = false;
+        private int currentRound = 0; // Obsolete
+        private int racksCompletedThisRound = 0; // Obsolete
+        private float roundTimer = 0.0f; // Obsolete
+        private bool timerActive = false; // Obsolete
 
         private void Start()
         {

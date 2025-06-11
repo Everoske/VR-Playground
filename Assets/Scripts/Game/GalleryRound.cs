@@ -10,11 +10,8 @@ namespace ShootingGallery.Game
         [SerializeField]
         private RoundSet[] sets;
 
-        [SerializeField]
-        private float timeBeforeRound = 5.0f; // Used by GameSet
-
         private int activeRoundSetIndex = 0;
-        private int roundScore = 0;
+        private int roundScore = 0; // Needs rework
 
         public UnityAction<int> onRoundComplete;
 
