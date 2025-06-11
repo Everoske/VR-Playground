@@ -2903,7 +2903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPrefab: {fileID: 5124307972626709947, guid: c01a66b45a841794cb0268da91c46427, type: 3}
-  decoyPrefab: {fileID: 5124307972626709947, guid: c01a66b45a841794cb0268da91c46427, type: 3}
+  decoyPrefab: {fileID: 5124307972626709947, guid: 437a3e682dcd16c49b33b030422aeaf3, type: 3}
   initialPoolSize: 25
 --- !u!1 &410087039
 GameObject:
@@ -11744,6 +11744,8 @@ MonoBehaviour:
   startPoint: {fileID: 1927325870}
   endPoint: {fileID: 240388850}
   distanceBetweenTargets: 2
+  changePositionSpeed: 2
+  stationarySetTime: 10
 --- !u!1 &2038639809
 GameObject:
   m_ObjectHideFlags: 0

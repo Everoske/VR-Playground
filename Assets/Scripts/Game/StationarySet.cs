@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ namespace ShootingGallery.Game
 
         private Vector3 centerPoint;
         private Vector3 leadTargetPosition;
+        private bool setTimerActive = false;
 
         protected override void Start()
         {
@@ -34,15 +36,31 @@ namespace ShootingGallery.Game
         protected override void Update()
         {
             base.Update();
-
+            ProcessTargetPositions();
         }
 
         public override void InitiateTargetSet()
         {
             base.InitiateTargetSet();
             if (shootingTargets.Count == 0) return;
+            StartCoroutine(InitiateStationarySetTimer());
+        }
 
-            
+        public override void StopTargetSet()
+        {
+            base.StopTargetSet();
+            setTimerActive = false;
+        }
+
+        private IEnumerator InitiateStationarySetTimer()
+        {
+            setTimerActive = true;
+            yield return new WaitForSeconds(stationarySetTime);
+
+            if (setTimerActive)
+            {
+                StopTargetSet();
+            }
         }
 
         private void DetermineLeadTargetPosition()
@@ -61,6 +79,20 @@ namespace ShootingGallery.Game
             leadTargetPosition = centerPoint + leadOffset * direction;
         }
 
+        private void ProcessTargetPositions()
+        {
+            if (shootingTargets.Count == 0) return;
+
+            if (setTimerActive)
+            {
+                MoveTargetsIntoPosition();
+            }
+            else
+            {
+                MoveTargetsToStart();
+            }
+        }
+
         private bool LeadTargetInPosition()
         {
             if (shootingTargets.Count == 0) return false;
@@ -71,6 +103,37 @@ namespace ShootingGallery.Game
         {
             if (shootingTargets.Count == 0) return false;
             return shootingTargets[0].transform.position == startPoint.position;
+        }
+
+        private void MoveTargetsIntoPosition()
+        {
+            if (LeadTargetInPosition()) return;
+            TranslateTargets(leadTargetPosition, direction);
+        }
+
+        // Move targets off s
+        private void MoveTargetsToStart()
+        {
+            if (LeadTargetReturned())
+            {
+                RemoveTargets();
+                return;
+            }
+            TranslateTargets(startPoint.position, -direction);
+        }
+
+        private void TranslateTargets(Vector3 targetPosition, Vector3 currentDirection)
+        {
+            float speed = changePositionSpeed * Time.deltaTime;
+            if (speed >= (targetPosition - shootingTargets[0].transform.position).magnitude)
+            {
+                speed = (targetPosition - shootingTargets[0].transform.position).magnitude;
+            }
+
+            for (int i = 0; i < shootingTargets.Count; i++)
+            {
+                shootingTargets[i].transform.Translate(currentDirection * speed);
+            }
         }
     }
 }
