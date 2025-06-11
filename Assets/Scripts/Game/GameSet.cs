@@ -37,6 +37,8 @@ namespace ShootingGallery.Game
         private float roundTimer = 0.0f; 
         private bool timerActive = false;
 
+        private bool gameActive = false;
+
         private void Start()
         {
             CalculateHighestScore();
@@ -44,7 +46,7 @@ namespace ShootingGallery.Game
 
         private void Update()
         {
-            
+            ProcessTimer();
         }
 
         private void OnEnable()
@@ -65,6 +67,7 @@ namespace ShootingGallery.Game
 
         public void StartGameSet() // Allow something that manages game sets to control whether a game set can start
         {
+            if (gameActive) return;
             if (rounds == null || rounds.Length == 0)
             {
                 EndGame();
@@ -72,13 +75,20 @@ namespace ShootingGallery.Game
             }
 
             activeRoundIndex = 0;
+            gameActive = true;
             StartCurrentRound();
+        }
+
+        public void StopGameSet()
+        {
+            if (!gameActive) return;
+            StopCurrentRound();
         }
 
         private void RoundComplete(int score)
         {
             activeRoundIndex++;
-            if (activeRoundIndex >= rounds.Length)
+            if (!gameActive || activeRoundIndex >= rounds.Length)
             {
                 EndGame();
             }
@@ -102,10 +112,15 @@ namespace ShootingGallery.Game
         }
 
         private void StartCurrentRound()
-        {
-            
+        { 
             roundUI.SetCurrentRoundText(activeRoundIndex + 1);
             rounds[activeRoundIndex].InitiateGalleryRound();
+        }
+
+        private void StopCurrentRound()
+        {
+            if (activeRoundIndex >= rounds.Length) return;
+            rounds[activeRoundIndex].StopRound();
         }
 
         private void EndGame()
@@ -116,6 +131,7 @@ namespace ShootingGallery.Game
             // Inform class controlling GameSets that game is over
             // Calculate final score/perhaps send to above class
             int finalScore = CalculateAccuracyBonus() + scoreTracker.CurrentScore;
+            gameActive = false;
         }
 
         private void StartRoundTimer()

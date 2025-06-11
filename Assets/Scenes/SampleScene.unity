@@ -3916,18 +3916,18 @@ PrefabInstance:
     - target: {fileID: 2519362026444304012, guid: 935c23131803edc45b5b3f4b5823136a, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1620472247}
     - target: {fileID: 2519362026444304012, guid: 935c23131803edc45b5b3f4b5823136a, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2519362026444304012, guid: 935c23131803edc45b5b3f4b5823136a, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StartGame
+      value: StartGameSet
       objectReference: {fileID: 0}
     - target: {fileID: 2519362026444304012, guid: 935c23131803edc45b5b3f4b5823136a, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: RoundManager, Assembly-CSharp
+      value: ShootingGallery.Game.GameSet, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2519362026444304012, guid: 935c23131803edc45b5b3f4b5823136a, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -8890,18 +8890,18 @@ PrefabInstance:
     - target: {fileID: 2519362026444304012, guid: 935c23131803edc45b5b3f4b5823136a, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1620472247}
     - target: {fileID: 2519362026444304012, guid: 935c23131803edc45b5b3f4b5823136a, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2519362026444304012, guid: 935c23131803edc45b5b3f4b5823136a, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StopGame
+      value: StopGameSet
       objectReference: {fileID: 0}
     - target: {fileID: 2519362026444304012, guid: 935c23131803edc45b5b3f4b5823136a, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: RoundManager, Assembly-CSharp
+      value: ShootingGallery.Game.GameSet, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2519362026444304012, guid: 935c23131803edc45b5b3f4b5823136a, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
