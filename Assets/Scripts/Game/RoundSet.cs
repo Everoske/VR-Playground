@@ -58,8 +58,16 @@ namespace ShootingGallery.Game
             targetSetsComplete++;
             if (targetSetsComplete >= targetSets.Length)
             {
-                onRoundSetComplete?.Invoke(setScore);
+                ReleaseRoundSet();
             }
+        }
+
+        /// <summary>
+        /// Inform GalleryRound that RoundSet has been terminated.
+        /// </summary>
+        private void ReleaseRoundSet()
+        {
+            onRoundSetComplete?.Invoke(setScore);
         }
 
         /// <summary>
@@ -112,6 +120,12 @@ namespace ShootingGallery.Game
         /// </summary>
         public void InitiateRoundSet()
         {
+            if (targetSets == null ||  targetSets.Length == 0)
+            {
+                ReleaseRoundSet();
+                return;
+            }
+
             setScore = 0;
             foreach (TargetSet targetSet in targetSets) 
             {
@@ -121,7 +135,10 @@ namespace ShootingGallery.Game
             StartCoroutine(InitiateRoundSetTimer());
         }
 
-        public void StopRoundSet()
+        /// <summary>
+        /// Initiate the stopping procedure so the RoundSet can be released.
+        /// </summary>
+        public void InitiateStopRoundSet()
         {
             StopTargetSets();
         }
