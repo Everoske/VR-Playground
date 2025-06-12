@@ -120,13 +120,11 @@ namespace ShootingGallery.Game
             // Ensure shootingTarget belongs to object
             if (shootingTarget.transform.parent != transform) return;
 
-            firstFreeTarget = GetFirstActiveIndex(ref targetPool);
-
             shootingTarget.ResetTarget();
             shootingTarget.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
             shootingTarget.gameObject.SetActive(false);
-
             allocatedTargets--;
+            firstFreeTarget = GetFirstActiveIndex(ref targetPool);
         }
 
         public ShootingTarget AllocateDecoy(ITargetHitNotify hitNotify)
@@ -152,13 +150,11 @@ namespace ShootingGallery.Game
             // Ensure shootingTarget belongs to object
             if (shootingDecoy.transform.parent != transform) return;
 
-            firstFreeDecoy = GetFirstActiveIndex(ref decoyPool);
-
             shootingDecoy.ResetTarget();
             shootingDecoy.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
             shootingDecoy.gameObject.SetActive(false);
-
             allocatedDecoys--;
+            firstFreeDecoy = GetFirstActiveIndex(ref decoyPool);
         }
     }
 }
