@@ -102,20 +102,6 @@ namespace ShootingGallery.Game
                 ref stationaryTargetPrefab, TargetType.Normal, ref allocatedStationaryTargets);
         }
 
-        public ShootingTarget AllocateTarget(ITargetHitNotify hitNotify)
-        {
-            if (allocatedStationaryTargets > stationaryTargetPool.Length)
-            {
-                ExpandPool(ref stationaryTargetPool, TargetType.Normal, ref stationaryTargetPrefab);
-            }
-
-            allocatedStationaryTargets++;
-            int index = allocatedStationaryTargets - 1;
-            stationaryTargetPool[index].TargetHitNotify = hitNotify;
-
-            return stationaryTargetPool[index];
-        }
-
         public void DeallocateTarget(ShootingTarget shootingTarget)
         {
             // Ensure shootingTarget belongs to object
@@ -127,18 +113,16 @@ namespace ShootingGallery.Game
             allocatedStationaryTargets--;
         }
 
-        public ShootingTarget AllocateDecoy(ITargetHitNotify hitNotify)
+        public ShootingTarget AllocateDecoy(ITargetHitNotify hitNotify, SetType setType)
         {
-            if (allocatedStationaryDecoys > stationaryDecoyPool.Length)
+            if (setType == SetType.Moving)
             {
-                ExpandPool(ref stationaryDecoyPool, TargetType.Decoy, ref stationaryDecoyPrefab);
+                return AllocateShootingTarget(hitNotify, ref movingDecoyPool,
+                    ref movingDecoyPrefab, TargetType.Normal, ref allocatedMovingDecoys);
             }
 
-            allocatedStationaryDecoys++;
-            int index = allocatedStationaryDecoys - 1;
-            stationaryDecoyPool[index].TargetHitNotify = hitNotify;
-
-            return stationaryDecoyPool[index];
+            return AllocateShootingTarget(hitNotify, ref stationaryDecoyPool,
+                ref stationaryDecoyPrefab, TargetType.Normal, ref allocatedStationaryDecoys);
         }
 
         public void DeallocateDecoy(ShootingTarget shootingDecoy)

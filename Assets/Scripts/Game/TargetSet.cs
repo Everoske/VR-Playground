@@ -106,11 +106,11 @@ namespace ShootingGallery.Game
             {
                 if (type == TargetType.Normal)
                 {
-                    shootingTargets.Add(targetPool.AllocateTarget(this));
+                    shootingTargets.Add(targetPool.AllocateTarget(this, setType));
                 }
                 else if (type == TargetType.Decoy)
                 {
-                    shootingTargets.Add(targetPool.AllocateDecoy(this));
+                    shootingTargets.Add(targetPool.AllocateDecoy(this, setType));
                 }
             }
         }
