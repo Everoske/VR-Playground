@@ -74,12 +74,13 @@ namespace ShootingGallery.Game
                 return;
             }
 
+            Debug.Log("Starting Game Set");
             activeRoundIndex = 0;
             gameActive = true;
             StartCurrentRound();
         }
 
-        public void StopGameSet()
+        public void InitiateStopGameSet()
         {
             if (!gameActive) return;
             StopCurrentRound();
@@ -120,7 +121,7 @@ namespace ShootingGallery.Game
         private void StopCurrentRound()
         {
             if (activeRoundIndex >= rounds.Length) return;
-            rounds[activeRoundIndex].StopRound();
+            rounds[activeRoundIndex].InitiateStopRound();
         }
 
         private void EndGame()
@@ -130,8 +131,9 @@ namespace ShootingGallery.Game
             roundUI.DeactivateTimerUI();
             // Inform class controlling GameSets that game is over
             // Calculate final score/perhaps send to above class
-            int finalScore = CalculateAccuracyBonus() + scoreTracker.CurrentScore;
+            //int finalScore = CalculateAccuracyBonus() + scoreTracker.CurrentScore;
             gameActive = false;
+            Debug.Log("GameSet Ended");
         }
 
         private void StartRoundTimer()
