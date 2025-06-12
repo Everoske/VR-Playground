@@ -17,6 +17,12 @@ namespace ShootingGallery.Game
 
         public void InitiateGalleryRound()
         {
+            if (sets == null || sets.Length == 0)
+            {
+                ReleaseGalleryRound();
+                return;
+            }
+
             roundScore = 0;
             activeRoundSetIndex = 0;
             HandleStartRoundSet();
@@ -55,11 +61,19 @@ namespace ShootingGallery.Game
 
             if (activeRoundSetIndex >= sets.Length)
             {
-                onRoundComplete?.Invoke(roundScore);
+                ReleaseGalleryRound();
                 return;
             }
 
             HandleStartRoundSet();
+        }
+
+        /// <summary>
+        /// Inform GameSet that the GalleryRound has completed.
+        /// </summary>
+        private void ReleaseGalleryRound()
+        {
+            onRoundComplete?.Invoke(roundScore);
         }
 
         private void HandleStartRoundSet()
@@ -80,10 +94,13 @@ namespace ShootingGallery.Game
             sets[activeRoundSetIndex].InitiateRoundSet();
         }
 
-        public void StopRound()
+        /// <summary>
+        /// Initiate the stop procedure so the GalleryRound can be released.
+        /// </summary>
+        public void InitiateStopRound()
         {
             if (activeRoundSetIndex >= sets.Length) return;
-            sets[activeRoundSetIndex].StopRoundSet();
+            sets[activeRoundSetIndex].InitiateStopRoundSet();
         }
     }
 }
