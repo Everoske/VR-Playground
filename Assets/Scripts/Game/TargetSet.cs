@@ -33,6 +33,7 @@ namespace ShootingGallery.Game
 
         protected List<ShootingTarget> shootingTargets = new List<ShootingTarget>();
 
+        protected SetType setType;
         protected int totalTargets = 0;
         protected int totalDecoys = 0;
         protected int targetsHit = 0;
@@ -96,7 +97,8 @@ namespace ShootingGallery.Game
         }
 
         /// <summary>
-        /// Allocate targets from target pool to a local list.
+        /// Allocate targets from target pool to a local list. This should be
+        /// done only once per GalleryRound.
         /// </summary>
         private void AssignTargets()
         {

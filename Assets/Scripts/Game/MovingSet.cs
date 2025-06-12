@@ -25,6 +25,10 @@ namespace ShootingGallery.Game
         private Vector3 currentEndPoint;
         private Vector3 currentDirection;
 
+        private void Awake()
+        {
+            setType = SetType.Moving;
+        }
         protected override void Start()
         {
             base.Start();

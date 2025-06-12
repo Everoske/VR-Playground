@@ -26,7 +26,7 @@ namespace ShootingGallery.Game
         private ShootingTarget[] movingTargetPool;
         private ShootingTarget[] movingDecoyPool;
 
-        private int allocatedStationTargets = 0;
+        private int allocatedStationaryTargets = 0;
         private int allocatedStationaryDecoys = 0;
         private int allocatedMovingTargets = 0;
         private int allocatedMovingDecoys = 0;
@@ -40,6 +40,8 @@ namespace ShootingGallery.Game
         {
             CreatePool(out stationaryTargetPool, TargetType.Normal, ref stationaryTargetPrefab);
             CreatePool(out stationaryDecoyPool, TargetType.Decoy, ref stationaryDecoyPrefab);
+            CreatePool(out movingTargetPool, TargetType.Normal, ref movingTargetPrefab);
+            CreatePool(out movingDecoyPool, TargetType.Decoy, ref  movingDecoyPrefab);
         }
 
         private void CreatePool(out ShootingTarget[] pool, TargetType type, ref ShootingTarget targetPrefab)
@@ -88,15 +90,27 @@ namespace ShootingGallery.Game
             }
         }
 
+        public ShootingTarget AllocateTarget(ITargetHitNotify hitNotify, SetType setType)
+        {
+            if (setType == SetType.Moving)
+            {
+                return AllocateShootingTarget(hitNotify, ref movingTargetPool, 
+                    ref movingTargetPrefab, TargetType.Normal, ref allocatedMovingTargets);
+            }
+
+            return AllocateShootingTarget(hitNotify, ref stationaryTargetPool, 
+                ref stationaryTargetPrefab, TargetType.Normal, ref allocatedStationaryTargets);
+        }
+
         public ShootingTarget AllocateTarget(ITargetHitNotify hitNotify)
         {
-            if (allocatedStationTargets > stationaryTargetPool.Length)
+            if (allocatedStationaryTargets > stationaryTargetPool.Length)
             {
                 ExpandPool(ref stationaryTargetPool, TargetType.Normal, ref stationaryTargetPrefab);
             }
 
-            allocatedStationTargets++;
-            int index = allocatedStationTargets - 1;
+            allocatedStationaryTargets++;
+            int index = allocatedStationaryTargets - 1;
             stationaryTargetPool[index].TargetHitNotify = hitNotify;
 
             return stationaryTargetPool[index];
@@ -110,7 +124,7 @@ namespace ShootingGallery.Game
             shootingTarget.ResetTarget();
             shootingTarget.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
             shootingTarget.gameObject.SetActive(false);
-            allocatedStationTargets--;
+            allocatedStationaryTargets--;
         }
 
         public ShootingTarget AllocateDecoy(ITargetHitNotify hitNotify)
@@ -136,6 +150,20 @@ namespace ShootingGallery.Game
             shootingDecoy.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
             shootingDecoy.gameObject.SetActive(false);
             allocatedStationaryDecoys--;
+        }
+
+        private ShootingTarget AllocateShootingTarget(ITargetHitNotify hitNotify, ref ShootingTarget[] pool,
+            ref ShootingTarget targetPrefab, TargetType type, ref int numberAllocated)
+        {
+            if (numberAllocated > pool.Length)
+            {
+                ExpandPool(ref pool, type, ref targetPrefab);
+            }
+
+            numberAllocated++;
+            int index = numberAllocated - 1;
+            pool[index].TargetHitNotify = hitNotify;
+            return pool[index];
         }
     }
 }

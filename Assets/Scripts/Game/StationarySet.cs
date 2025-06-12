@@ -22,6 +22,10 @@ namespace ShootingGallery.Game
         private bool setTimerActive = false;
         private bool returnToStart = true;
 
+        private void Awake()
+        {
+            setType = SetType.Stationary;
+        }
         protected override void Start()
         {
             base.Start();
