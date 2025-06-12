@@ -9,22 +9,27 @@ namespace ShootingGallery.Game
     public class TargetPool : MonoBehaviour
     {
         [SerializeField]
-        private ShootingTarget targetPrefab;
+        private ShootingTarget stationaryTargetPrefab;
         [SerializeField]
-        private ShootingTarget decoyPrefab;
+        private ShootingTarget stationaryDecoyPrefab;
+        [SerializeField]
+        private ShootingTarget movingTargetPrefab;
+        [SerializeField]
+        private ShootingTarget movingDecoyPrefab;
 
         [Tooltip("Initial Size for Object Pools")]
         [SerializeField]
         private int initialPoolSize = 25;
 
-        private ShootingTarget[] targetPool;
-        private ShootingTarget[] decoyPool;
+        private ShootingTarget[] stationaryTargetPool; // rename to stationaryTargetPool
+        private ShootingTarget[] stationaryDecoyPool; // rename to stationaryDecoyPool
+        private ShootingTarget[] movingTargetPool;
+        private ShootingTarget[] movingDecoyPool;
 
-        private int firstFreeTarget = 0;
-        private int firstFreeDecoy = 0;
-
-        private int allocatedTargets = 0;
-        private int allocatedDecoys = 0;
+        private int allocatedStationTargets = 0;
+        private int allocatedStationaryDecoys = 0;
+        private int allocatedMovingTargets = 0;
+        private int allocatedMovingDecoys = 0;
 
         private void Start()
         {
@@ -33,8 +38,8 @@ namespace ShootingGallery.Game
 
         private void CreatePools()
         {
-            CreatePool(out targetPool, TargetType.Normal, ref targetPrefab);
-            CreatePool(out decoyPool, TargetType.Decoy, ref decoyPrefab);
+            CreatePool(out stationaryTargetPool, TargetType.Normal, ref stationaryTargetPrefab);
+            CreatePool(out stationaryDecoyPool, TargetType.Decoy, ref stationaryDecoyPrefab);
         }
 
         private void CreatePool(out ShootingTarget[] pool, TargetType type, ref ShootingTarget targetPrefab)
@@ -83,36 +88,18 @@ namespace ShootingGallery.Game
             }
         }
 
-        // Could be optimized by including a index in the ShootingTarget class
-        private int GetFirstActiveIndex(ref ShootingTarget[] pool)
-        {
-            for (int i = 0; i < pool.Length; i++)
-            {
-                if (!pool[i].IsTargetInUse)
-                {
-                    return i;
-                }
-            }
-
-            return -1;
-        }
-
         public ShootingTarget AllocateTarget(ITargetHitNotify hitNotify)
         {
-            if (allocatedTargets > targetPool.Length)
+            if (allocatedStationTargets > stationaryTargetPool.Length)
             {
-                ExpandPool(ref targetPool, TargetType.Normal, ref targetPrefab);
-                firstFreeTarget = targetPool.Length - 1;
+                ExpandPool(ref stationaryTargetPool, TargetType.Normal, ref stationaryTargetPrefab);
             }
 
-            allocatedTargets++;
-            int index = firstFreeTarget;
-            targetPool[index].IsTargetInUse = true;
-            targetPool[index].TargetHitNotify = hitNotify;
+            allocatedStationTargets++;
+            int index = allocatedStationTargets - 1;
+            stationaryTargetPool[index].TargetHitNotify = hitNotify;
 
-            firstFreeTarget = GetFirstActiveIndex(ref targetPool);
-
-            return targetPool[index];
+            return stationaryTargetPool[index];
         }
 
         public void DeallocateTarget(ShootingTarget shootingTarget)
@@ -123,26 +110,21 @@ namespace ShootingGallery.Game
             shootingTarget.ResetTarget();
             shootingTarget.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
             shootingTarget.gameObject.SetActive(false);
-            allocatedTargets--;
-            firstFreeTarget = GetFirstActiveIndex(ref targetPool);
+            allocatedStationTargets--;
         }
 
         public ShootingTarget AllocateDecoy(ITargetHitNotify hitNotify)
         {
-            if (allocatedDecoys > decoyPool.Length)
+            if (allocatedStationaryDecoys > stationaryDecoyPool.Length)
             {
-                ExpandPool(ref decoyPool, TargetType.Decoy, ref decoyPrefab);
-                firstFreeDecoy = decoyPool.Length - 1;
+                ExpandPool(ref stationaryDecoyPool, TargetType.Decoy, ref stationaryDecoyPrefab);
             }
 
-            allocatedDecoys++;
-            int index = firstFreeDecoy;
-            decoyPool[index].IsTargetInUse = true;
-            decoyPool[index].TargetHitNotify = hitNotify;
+            allocatedStationaryDecoys++;
+            int index = allocatedStationaryDecoys - 1;
+            stationaryDecoyPool[index].TargetHitNotify = hitNotify;
 
-            firstFreeDecoy = GetFirstActiveIndex(ref decoyPool);
-
-            return decoyPool[index];
+            return stationaryDecoyPool[index];
         }
 
         public void DeallocateDecoy(ShootingTarget shootingDecoy)
@@ -153,8 +135,7 @@ namespace ShootingGallery.Game
             shootingDecoy.ResetTarget();
             shootingDecoy.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
             shootingDecoy.gameObject.SetActive(false);
-            allocatedDecoys--;
-            firstFreeDecoy = GetFirstActiveIndex(ref decoyPool);
+            allocatedStationaryDecoys--;
         }
     }
 }
