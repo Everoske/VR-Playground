@@ -13,6 +13,9 @@ namespace ShootingGallery.Game
         // private XRWeapon[] usableWeapons;
 
         [SerializeField]
+        private TargetPool targetPool;
+
+        [SerializeField]
         private GalleryRound[] rounds;
 
         [SerializeField]
@@ -77,7 +80,8 @@ namespace ShootingGallery.Game
             Debug.Log("Starting Game Set");
             activeRoundIndex = 0;
             gameActive = true;
-            StartCurrentRound();
+            //StartCurrentRound();
+            StartRoundTimer();
         }
 
         public void InitiateStopGameSet()
@@ -136,6 +140,7 @@ namespace ShootingGallery.Game
             Debug.Log("GameSet Ended");
         }
 
+        // StartRoundTimer(float time)
         private void StartRoundTimer()
         {
             roundTimer = timeBetweenRounds;
