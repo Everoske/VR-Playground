@@ -106,47 +106,14 @@ namespace ShootingGallery.Game
             }
         }
 
-        /// <summary>
-        /// Determines if the lead target is in the desired position for active gameplay.
-        /// </summary>
-        /// <returns>True if in desired position.</returns>
-        private bool LeadTargetInPosition()
-        {
-            if (shootingTargets.Length == 0) return false;
-            return shootingTargets[0].transform.position == trackActivePosition;
-        }
-
         private bool TrackInPosition()
         {
             return targetTrack.position == trackActivePosition;
         }
 
-        /// <summary>
-        /// Deterimes if the lead target has returned to its original spawn point.
-        /// </summary>
-        /// <returns>True if returned to spawn point.</returns>
-        private bool LeadTargetReturned()
-        {
-            if (shootingTargets.Length == 0) return false;
-            return shootingTargets[0].transform.position == startPoint.position;
-        }
-
         private bool TrackReturned()
         {
             return targetTrack.position == startPoint.position;
-        }
-
-        /// <summary>
-        /// Moves targets into the desired position for active gameplay.
-        /// </summary>
-        private void MoveTargetsIntoPosition()
-        {
-            if (LeadTargetInPosition())
-            {
-                StartCoroutine(InitiateStationarySetTimer());
-                return;
-            }
-            TranslateTargets(trackActivePosition, direction);
         }
 
         private void MoveTrackIntoPosition()
@@ -159,20 +126,6 @@ namespace ShootingGallery.Game
             TranslateTrack(trackActivePosition, direction);
         }
 
-        /// <summary>
-        /// Returns targets to their spawn points.
-        /// </summary>
-        private void MoveTargetsToStart()
-        {
-            if (LeadTargetReturned())
-            {
-                RemoveTargets();
-                setActive = false;
-                return;
-            }
-            TranslateTargets(startPoint.position, -direction);
-        }
-
         private void MoveTrackToStart()
         {
             if (TrackReturned())
@@ -182,25 +135,6 @@ namespace ShootingGallery.Game
                 return;
             }
             TranslateTrack(startPoint.position, -direction);
-        }
-
-        /// <summary>
-        /// Moves targets toward a specified position.
-        /// </summary>
-        /// <param name="targetPosition">Desired position.</param>
-        /// <param name="currentDirection">Direction toward desired position.</param>
-        private void TranslateTargets(Vector3 targetPosition, Vector3 currentDirection)
-        {
-            float speed = changePositionSpeed * Time.deltaTime;
-            if (speed >= (targetPosition - shootingTargets[0].transform.position).magnitude)
-            {
-                speed = (targetPosition - shootingTargets[0].transform.position).magnitude;
-            }
-
-            for (int i = 0; i < shootingTargets.Length; i++)
-            {
-                shootingTargets[i].transform.Translate(currentDirection * speed);
-            }
         }
 
         private void TranslateTrack(Vector3 targetPosition, Vector3 currentDirection)
