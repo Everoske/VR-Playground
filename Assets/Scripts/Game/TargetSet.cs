@@ -16,7 +16,7 @@ namespace ShootingGallery.Game
         protected TargetType[] setOrder;
 
         [SerializeField]
-        protected Transform targetParent;
+        protected Transform targetTrack;
 
         [SerializeField]
         private int setMultiplier;
@@ -46,6 +46,7 @@ namespace ShootingGallery.Game
         {
             direction = (endPoint.position - startPoint.position).normalized;
             shootingTargets = new ShootingTarget[setOrder.Length];
+            targetTrack.position = startPoint.position;
             DetermineTypeCounts();
         }
 
@@ -116,7 +117,7 @@ namespace ShootingGallery.Game
                     shootingTargets[i] = pool.AllocateDecoy(this, setType);
                 }
 
-                shootingTargets[i].transform.parent = targetParent;
+                shootingTargets[i].transform.parent = targetTrack;
             }
         }
 

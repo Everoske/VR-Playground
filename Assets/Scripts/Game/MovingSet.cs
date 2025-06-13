@@ -62,12 +62,12 @@ namespace ShootingGallery.Game
                 }
             }
 
-            targetParent.Translate(currentDirection * speed * Time.deltaTime);
+            targetTrack.Translate(currentDirection * speed * Time.deltaTime);
         }
 
         private bool TrackReachedEndpoint()
         {
-            return Vector3.Distance(targetParent.position, currentStartPoint) >= totalTrackLength;
+            return Vector3.Distance(targetTrack.position, currentStartPoint) >= totalTrackLength;
         }
 
         /// <summary>

@@ -118,7 +118,7 @@ namespace ShootingGallery.Game
 
         private bool TrackInPosition()
         {
-            return targetParent.position == trackActivePosition;
+            return targetTrack.position == trackActivePosition;
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace ShootingGallery.Game
 
         private bool TrackReturned()
         {
-            return targetParent.position == startPoint.position;
+            return targetTrack.position == startPoint.position;
         }
 
         /// <summary>
@@ -206,12 +206,12 @@ namespace ShootingGallery.Game
         private void TranslateTrack(Vector3 targetPosition, Vector3 currentDirection)
         {
             float speed = changePositionSpeed * Time.deltaTime;
-            if (speed >= (targetPosition - targetParent.position).magnitude)
+            if (speed >= (targetPosition - targetTrack.position).magnitude)
             {
-                speed = (targetPosition - targetParent.position).magnitude;
+                speed = (targetPosition - targetTrack.position).magnitude;
             }
 
-            targetParent.transform.Translate(currentDirection * speed);
+            targetTrack.transform.Translate(currentDirection * speed);
         }
     }
 }
