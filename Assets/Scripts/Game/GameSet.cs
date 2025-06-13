@@ -16,6 +16,9 @@ namespace ShootingGallery.Game
         private GalleryRound[] rounds;
 
         [SerializeField]
+        private float timeBeforeStart = 5.0f;
+
+        [SerializeField]
         private float timeBetweenRounds = 5.0f;
 
         [SerializeField]
@@ -77,8 +80,7 @@ namespace ShootingGallery.Game
             Debug.Log("Starting Game Set");
             activeRoundIndex = 0;
             gameActive = true;
-            //StartCurrentRound();
-            StartRoundTimer();
+            StartRoundTimer("Starting Game in:", timeBeforeStart);
         }
 
         public void InitiateStopGameSet()
@@ -107,7 +109,7 @@ namespace ShootingGallery.Game
             }
             else
             {
-                StartRoundTimer();
+                StartRoundTimer("Time until next round:", timeBetweenRounds);
             }
         }
 
@@ -145,11 +147,11 @@ namespace ShootingGallery.Game
             Debug.Log("GameSet Ended");
         }
 
-        // StartRoundTimer(float time)
-        private void StartRoundTimer()
+        private void StartRoundTimer(string header, float time)
         {
-            roundTimer = timeBetweenRounds;
+            roundTimer = time;
             timerActive = true;
+            roundUI.SetTimerLabel(header);
             roundUI.ActivateTimerUI();
             SetupCurrentRound();
         }

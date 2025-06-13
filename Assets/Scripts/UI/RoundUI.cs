@@ -12,6 +12,8 @@ namespace ShootingGallery.UI
         [SerializeField]
         private GameObject timerUI;
         [SerializeField]
+        private TMP_Text timerHeaderText;
+        [SerializeField]
         private TMP_Text timerText;
 
         public void ActivateTimerUI()
@@ -22,6 +24,11 @@ namespace ShootingGallery.UI
         public void DeactivateTimerUI()
         {
             timerUI.SetActive(false);
+        }
+
+        public void SetTimerLabel(string header)
+        {
+            timerHeaderText.text = header;
         }
 
         public void SetTimerText(int minutes, int seconds)
