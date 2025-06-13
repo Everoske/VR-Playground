@@ -42,6 +42,11 @@ namespace ShootingGallery.Game
 
         private bool gameActive = false;
 
+        private void Awake()
+        {
+            ScoreLocator.Provide(scoreTracker);
+        }
+
         private void Start()
         {
             CalculateHighestScore();
