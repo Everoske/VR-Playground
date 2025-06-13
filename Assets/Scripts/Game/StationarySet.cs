@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace ShootingGallery.Game
@@ -18,7 +17,7 @@ namespace ShootingGallery.Game
         private float stationarySetTime = 10.0f;
 
         private Vector3 centerPoint;
-        private Vector3 leadTargetPosition;
+        private Vector3 trackActivePosition;
         private bool setActive = false;
         private bool setTimerActive = false;
         private bool returnToStart = true;
@@ -38,7 +37,7 @@ namespace ShootingGallery.Game
         protected override void Update()
         {
             base.Update();
-            ProcessTargetPositions();
+            ProcessTrackPosition();
         }
 
         public override void InitiateTargetSet()
@@ -87,23 +86,23 @@ namespace ShootingGallery.Game
                 leadOffset = (setOrder.Length - 1) / 2 * distanceBetweenTargets;
             }
 
-            leadTargetPosition = centerPoint + leadOffset * direction;
+            trackActivePosition = centerPoint + leadOffset * direction;
         }
 
         /// <summary>
         /// Determines where the targets should move.
         /// </summary>
-        private void ProcessTargetPositions()
+        private void ProcessTrackPosition()
         {
             if (!setActive) return;
 
             if (!returnToStart)
             {
-                MoveTargetsIntoPosition();
+                MoveTrackIntoPosition();
             }
             else 
             {
-                MoveTargetsToStart();
+                MoveTrackToStart();
             }
         }
 
@@ -114,7 +113,12 @@ namespace ShootingGallery.Game
         private bool LeadTargetInPosition()
         {
             if (shootingTargets.Length == 0) return false;
-            return shootingTargets[0].transform.position == leadTargetPosition;
+            return shootingTargets[0].transform.position == trackActivePosition;
+        }
+
+        private bool TrackInPosition()
+        {
+            return targetParent.position == trackActivePosition;
         }
 
         /// <summary>
@@ -127,6 +131,11 @@ namespace ShootingGallery.Game
             return shootingTargets[0].transform.position == startPoint.position;
         }
 
+        private bool TrackReturned()
+        {
+            return targetParent.position == startPoint.position;
+        }
+
         /// <summary>
         /// Moves targets into the desired position for active gameplay.
         /// </summary>
@@ -137,7 +146,17 @@ namespace ShootingGallery.Game
                 StartCoroutine(InitiateStationarySetTimer());
                 return;
             }
-            TranslateTargets(leadTargetPosition, direction);
+            TranslateTargets(trackActivePosition, direction);
+        }
+
+        private void MoveTrackIntoPosition()
+        {
+            if (TrackInPosition())
+            {
+                StartCoroutine(InitiateStationarySetTimer());
+                return;
+            }
+            TranslateTrack(trackActivePosition, direction);
         }
 
         /// <summary>
@@ -152,6 +171,17 @@ namespace ShootingGallery.Game
                 return;
             }
             TranslateTargets(startPoint.position, -direction);
+        }
+
+        private void MoveTrackToStart()
+        {
+            if (TrackReturned())
+            {
+                RemoveTargets();
+                setActive = false;
+                return;
+            }
+            TranslateTrack(startPoint.position, -direction);
         }
 
         /// <summary>
@@ -171,6 +201,17 @@ namespace ShootingGallery.Game
             {
                 shootingTargets[i].transform.Translate(currentDirection * speed);
             }
+        }
+
+        private void TranslateTrack(Vector3 targetPosition, Vector3 currentDirection)
+        {
+            float speed = changePositionSpeed * Time.deltaTime;
+            if (speed >= (targetPosition - targetParent.position).magnitude)
+            {
+                speed = (targetPosition - targetParent.position).magnitude;
+            }
+
+            targetParent.transform.Translate(currentDirection * speed);
         }
     }
 }

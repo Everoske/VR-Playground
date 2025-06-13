@@ -2059,6 +2059,7 @@ Transform:
   - {fileID: 557057280}
   - {fileID: 382573619}
   - {fileID: 413393657}
+  - {fileID: 1673698540}
   m_Father: {fileID: 181993764}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &256414612
@@ -2074,8 +2075,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setOrder: 010000000000000001000000
+  targetParent: {fileID: 1673698540}
   setMultiplier: 2
-  targetPool: {fileID: 0}
   startPoint: {fileID: 382573619}
   endPoint: {fileID: 413393657}
   distanceBetweenTargets: 2
@@ -8849,7 +8850,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2519362026444304012, guid: 935c23131803edc45b5b3f4b5823136a, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: StopGameSet
+      value: InitiateStopGameSet
       objectReference: {fileID: 0}
     - target: {fileID: 2519362026444304012, guid: 935c23131803edc45b5b3f4b5823136a, type: 3}
       propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -8913,6 +8914,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3778296703193264195, guid: 935c23131803edc45b5b3f4b5823136a, type: 3}
   m_PrefabInstance: {fileID: 1451395349}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1467845247
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1467845248}
+  m_Layer: 0
+  m_Name: TargetParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1467845248
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1467845247}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2018254651}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1473583813
 GameObject:
   m_ObjectHideFlags: 0
@@ -9896,7 +9928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39df9be3a6ebe9f4a8c639451c7137d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPool: {fileID: 0}
+  targetPool: {fileID: 1546393652}
   sets:
   - {fileID: 181993765}
 --- !u!1 &1583219098
@@ -9977,6 +10009,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rounds:
   - {fileID: 1556440420}
+  timeBeforeStart: 5
   timeBetweenRounds: 5
   scoreTracker: {fileID: 0}
   roundUI: {fileID: 1773244346}
@@ -10118,6 +10151,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1665762864}
   m_CullTransparentMesh: 1
+--- !u!1 &1673698539
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1673698540}
+  m_Layer: 0
+  m_Name: TargetParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1673698540
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673698539}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 256414611}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1683975494
 GameObject:
   m_ObjectHideFlags: 0
@@ -10794,6 +10858,7 @@ MonoBehaviour:
   scoreText: {fileID: 1762296504}
   roundText: {fileID: 1340801764}
   timerUI: {fileID: 1064649320}
+  timerHeaderText: {fileID: 2068983318}
   timerText: {fileID: 1319646660}
 --- !u!1 &1776795068
 GameObject:
@@ -11255,6 +11320,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1859833925}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1924059000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1924059001}
+  m_Layer: 0
+  m_Name: TargetParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1924059001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924059000}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7602589886297203374}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1927325869
 GameObject:
   m_ObjectHideFlags: 0
@@ -11940,6 +12036,7 @@ Transform:
   - {fileID: 1224435869}
   - {fileID: 1927325870}
   - {fileID: 240388850}
+  - {fileID: 1467845248}
   m_Father: {fileID: 181993764}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2018254652
@@ -11955,8 +12052,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setOrder: 00000000010000000000000001000000
+  targetParent: {fileID: 1467845248}
   setMultiplier: 1
-  targetPool: {fileID: 0}
   startPoint: {fileID: 1927325870}
   endPoint: {fileID: 240388850}
   distanceBetweenTargets: 2
@@ -13841,6 +13938,7 @@ Transform:
   - {fileID: 2135882835805493200}
   - {fileID: 2044349724571159038}
   - {fileID: 1275243101587587806}
+  - {fileID: 1924059001}
   m_Father: {fileID: 181993764}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7952512393201813557
@@ -14051,8 +14149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setOrder: 000000000100000000000000
+  targetParent: {fileID: 1924059001}
   setMultiplier: 2
-  targetPool: {fileID: 1546393652}
   startPoint: {fileID: 2044349724571159038}
   endPoint: {fileID: 1275243101587587806}
   distanceBetweenTargets: 5

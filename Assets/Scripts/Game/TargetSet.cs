@@ -16,6 +16,9 @@ namespace ShootingGallery.Game
         protected TargetType[] setOrder;
 
         [SerializeField]
+        protected Transform targetParent;
+
+        [SerializeField]
         private int setMultiplier;
         
         [SerializeField]
@@ -112,6 +115,8 @@ namespace ShootingGallery.Game
                 {
                     shootingTargets[i] = pool.AllocateDecoy(this, setType);
                 }
+
+                shootingTargets[i].transform.parent = targetParent;
             }
         }
 

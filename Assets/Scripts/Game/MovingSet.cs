@@ -41,24 +41,20 @@ namespace ShootingGallery.Game
             base.Update();
             if (canMove && currentLoop <= totalLoops)
             {
-                MoveTargets();
+                MoveTrack();
             }
         }
 
-        /// <summary>
-        /// Moves targets between end points.
-        /// </summary>
-        private void MoveTargets()
+        private void MoveTrack()
         {
-            if (LeadTargetReachedEndpoint())
+            if (TrackReachedEndpoint())
             {
                 currentLoop++;
                 currentDirection *= -1;
                 Vector3 temp = currentEndPoint;
                 currentEndPoint = currentStartPoint;
                 currentStartPoint = temp;
-                leadIndex = leadIndex > 0 ? 0 : shootingTargets.Length - 1;
-
+                
                 if (currentLoop >= totalLoops)
                 {
                     RemoveTargets();
@@ -66,23 +62,12 @@ namespace ShootingGallery.Game
                 }
             }
 
-            for (int i = 0; i < shootingTargets.Length; i++)
-            {
-                shootingTargets[i].transform.Translate(currentDirection * speed * Time.deltaTime);
-            }
+            targetParent.Translate(currentDirection * speed * Time.deltaTime);
         }
 
-        /// <summary>
-        /// Determines if lead target has traveled the entire length of one track.
-        /// </summary>
-        /// <returns>True if lead target has reached an endpoint of the track.</returns>
-        private bool LeadTargetReachedEndpoint()
+        private bool TrackReachedEndpoint()
         {
-            if (shootingTargets.Length <= 0) return false;
-            ShootingTarget leadTarget = shootingTargets[leadIndex];
-            if (leadTarget == null) return false;
-
-            return Vector3.Distance(leadTarget.transform.position, currentStartPoint) >= totalTrackLength;
+            return Vector3.Distance(targetParent.position, currentStartPoint) >= totalTrackLength;
         }
 
         /// <summary>
