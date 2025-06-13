@@ -63,7 +63,6 @@ namespace ShootingGallery.Game
         /// </summary>
         public virtual void InitiateTargetSet()
         {
-            // Automatically close an empty target set
             targetsHit = 0;
             if (shootingTargets.Length == 0)
             {

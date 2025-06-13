@@ -93,7 +93,7 @@ namespace ShootingGallery.Game
                 timerActive = false;
                 roundUI.DeactivateTimerUI();
                 rounds[activeRoundIndex].FreeTargetPool();
-                EndGame();
+                activeRoundIndex = rounds.Length;
                 return;
             }
             
@@ -103,7 +103,7 @@ namespace ShootingGallery.Game
         private void RoundComplete(int score)
         {
             activeRoundIndex++;
-            if (!gameActive || activeRoundIndex >= rounds.Length)
+            if (activeRoundIndex >= rounds.Length)
             {
                 EndGame();
             }

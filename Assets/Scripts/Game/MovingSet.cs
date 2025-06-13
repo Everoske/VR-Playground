@@ -109,6 +109,7 @@ namespace ShootingGallery.Game
         {
             base.RemoveTargets();
             canMove = false;
+            targetTrack.position = startPoint.position;
         }
     }
 }
