@@ -19,6 +19,7 @@ namespace ShootingGallery.Game
 
         private Vector3 centerPoint;
         private Vector3 leadTargetPosition;
+        private bool setActive = false;
         private bool setTimerActive = false;
         private bool returnToStart = true;
 
@@ -43,7 +44,8 @@ namespace ShootingGallery.Game
         public override void InitiateTargetSet()
         {
             base.InitiateTargetSet();
-            if (shootingTargets.Count == 0) return;
+            if (shootingTargets.Length == 0) return;
+            setActive = true;
             returnToStart = false;
         }
 
@@ -93,7 +95,7 @@ namespace ShootingGallery.Game
         /// </summary>
         private void ProcessTargetPositions()
         {
-            if (shootingTargets.Count == 0) return;
+            if (!setActive) return;
 
             if (!returnToStart)
             {
@@ -111,7 +113,7 @@ namespace ShootingGallery.Game
         /// <returns>True if in desired position.</returns>
         private bool LeadTargetInPosition()
         {
-            if (shootingTargets.Count == 0) return false;
+            if (shootingTargets.Length == 0) return false;
             return shootingTargets[0].transform.position == leadTargetPosition;
         }
 
@@ -121,7 +123,7 @@ namespace ShootingGallery.Game
         /// <returns>True if returned to spawn point.</returns>
         private bool LeadTargetReturned()
         {
-            if (shootingTargets.Count == 0) return false;
+            if (shootingTargets.Length == 0) return false;
             return shootingTargets[0].transform.position == startPoint.position;
         }
 
@@ -146,6 +148,7 @@ namespace ShootingGallery.Game
             if (LeadTargetReturned())
             {
                 RemoveTargets();
+                setActive = false;
                 return;
             }
             TranslateTargets(startPoint.position, -direction);
@@ -164,7 +167,7 @@ namespace ShootingGallery.Game
                 speed = (targetPosition - shootingTargets[0].transform.position).magnitude;
             }
 
-            for (int i = 0; i < shootingTargets.Count; i++)
+            for (int i = 0; i < shootingTargets.Length; i++)
             {
                 shootingTargets[i].transform.Translate(currentDirection * speed);
             }

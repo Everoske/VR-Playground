@@ -1,4 +1,5 @@
 using ShootingGallery.Interfaces;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,9 +17,6 @@ namespace ShootingGallery.Game
 
         [SerializeField]
         private int setMultiplier;
-
-        [SerializeField]
-        private TargetPool targetPool;
         
         [SerializeField]
         protected Transform startPoint; 
@@ -31,7 +29,7 @@ namespace ShootingGallery.Game
         
         protected Vector3 direction;
 
-        protected List<ShootingTarget> shootingTargets = new List<ShootingTarget>();
+        protected ShootingTarget[] shootingTargets;
 
         protected SetType setType;
         protected int totalTargets = 0;
@@ -44,6 +42,7 @@ namespace ShootingGallery.Game
         protected virtual void Start()
         {
             direction = (endPoint.position - startPoint.position).normalized;
+            shootingTargets = new ShootingTarget[setOrder.Length];
             DetermineTypeCounts();
         }
 
@@ -60,10 +59,9 @@ namespace ShootingGallery.Game
         /// </summary>
         public virtual void InitiateTargetSet()
         {
-            AssignTargets();
-
             // Automatically close an empty target set
-            if (shootingTargets.Count == 0)
+            targetsHit = 0;
+            if (shootingTargets.Length == 0)
             {
                 CloseTargetSet();
                 return;
@@ -75,8 +73,9 @@ namespace ShootingGallery.Game
         // Can Keep
         public bool IsTargetSetFree()
         {
-            return shootingTargets.Count == 0;
+            return shootingTargets.Length == 0;
         }
+
 
         /// <summary>
         /// Determines how many normal targets and decoys are in this target set.
@@ -100,17 +99,18 @@ namespace ShootingGallery.Game
         /// Allocate targets from target pool to a local list. This should be
         /// done only once per GalleryRound.
         /// </summary>
-        private void AssignTargets()
+        public void AssignTargets(ref TargetPool pool)
         {
-            foreach (TargetType type in setOrder)
+            for (int i = 0; i < setOrder.Length; i++)
             {
+                TargetType type = setOrder[i]; 
                 if (type == TargetType.Normal)
                 {
-                    shootingTargets.Add(targetPool.AllocateTarget(this, setType));
+                    shootingTargets[i] = pool.AllocateTarget(this, setType);
                 }
                 else if (type == TargetType.Decoy)
                 {
-                    shootingTargets.Add(targetPool.AllocateDecoy(this, setType));
+                    shootingTargets[i] = pool.AllocateDecoy(this, setType);
                 }
             }
         }
@@ -120,7 +120,7 @@ namespace ShootingGallery.Game
         /// </summary>
         private void SpawnTargets()
         {
-            for (int i = 0; i < shootingTargets.Count; i++)
+            for (int i = 0; i < shootingTargets.Length; i++)
             {
                 Vector3 spawnPoint = startPoint.position - direction * (i * distanceBetweenTargets);
                 shootingTargets[i].transform.position = spawnPoint;
@@ -133,7 +133,11 @@ namespace ShootingGallery.Game
         /// </summary>
         private void CloseTargetSet()
         {
-            shootingTargets.Clear();
+            for (int i = 0; i < shootingTargets.Length; i++)
+            {
+                shootingTargets[i] = null;
+            }
+            
             onTargetSetComplete?.Invoke();
         }
 
@@ -153,7 +157,9 @@ namespace ShootingGallery.Game
         {
             foreach (ShootingTarget target in shootingTargets)
             {
-                targetPool.DeallocateDecoy(target);
+                target.ResetTarget();
+                target.gameObject.SetActive(false);
+                target.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
             }
 
             CloseTargetSet();
@@ -175,5 +181,4 @@ namespace ShootingGallery.Game
             onTargetHit?.Invoke(points);
         }
     }
-
 }

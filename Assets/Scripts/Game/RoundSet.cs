@@ -142,5 +142,13 @@ namespace ShootingGallery.Game
         {
             StopTargetSets();
         }
+
+        public void AssignTargetSets(ref TargetPool pool)
+        {
+            foreach (TargetSet targetSet in targetSets)
+            {
+                targetSet.AssignTargets(ref pool);
+            }
+        }
     }
 }

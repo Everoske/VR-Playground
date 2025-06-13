@@ -2075,7 +2075,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setOrder: 010000000000000001000000
   setMultiplier: 2
-  targetPool: {fileID: 397749521}
+  targetPool: {fileID: 0}
   startPoint: {fileID: 382573619}
   endPoint: {fileID: 413393657}
   distanceBetweenTargets: 2
@@ -2111,7 +2111,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1546393653}
-  - {fileID: 397749520}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &274377495
@@ -2946,53 +2945,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 256414611}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &397749519
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 397749520}
-  - component: {fileID: 397749521}
-  m_Layer: 0
-  m_Name: StationaryTargets
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &397749520
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 397749519}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 260942999}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &397749521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 397749519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4162c299d15a9a4c8812f322f21dd71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetPrefab: {fileID: 5124307972626709947, guid: c01a66b45a841794cb0268da91c46427, type: 3}
-  decoyPrefab: {fileID: 5124307972626709947, guid: 437a3e682dcd16c49b33b030422aeaf3, type: 3}
-  initialPoolSize: 25
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -9861,7 +9813,7 @@ GameObject:
   - component: {fileID: 1546393653}
   - component: {fileID: 1546393652}
   m_Layer: 0
-  m_Name: MovingTargets
+  m_Name: TargetPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9879,8 +9831,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4162c299d15a9a4c8812f322f21dd71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPrefab: {fileID: 5124307972626709947, guid: 43ec74d8e09079545b3b8c1f37301ec9, type: 3}
-  decoyPrefab: {fileID: 5124307972626709947, guid: d438e0959e8c8f44185a470002e3c592, type: 3}
+  stationaryTargetPrefab: {fileID: 5124307972626709947, guid: c01a66b45a841794cb0268da91c46427, type: 3}
+  stationaryDecoyPrefab: {fileID: 5124307972626709947, guid: 437a3e682dcd16c49b33b030422aeaf3, type: 3}
+  movingTargetPrefab: {fileID: 5124307972626709947, guid: 43ec74d8e09079545b3b8c1f37301ec9, type: 3}
+  movingDecoyPrefab: {fileID: 5124307972626709947, guid: d438e0959e8c8f44185a470002e3c592, type: 3}
   initialPoolSize: 25
 --- !u!4 &1546393653
 Transform:
@@ -9942,6 +9896,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39df9be3a6ebe9f4a8c639451c7137d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPool: {fileID: 0}
   sets:
   - {fileID: 181993765}
 --- !u!1 &1583219098
@@ -12001,7 +11956,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setOrder: 00000000010000000000000001000000
   setMultiplier: 1
-  targetPool: {fileID: 397749521}
+  targetPool: {fileID: 0}
   startPoint: {fileID: 1927325870}
   endPoint: {fileID: 240388850}
   distanceBetweenTargets: 2

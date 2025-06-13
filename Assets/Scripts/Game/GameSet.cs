@@ -13,9 +13,6 @@ namespace ShootingGallery.Game
         // private XRWeapon[] usableWeapons;
 
         [SerializeField]
-        private TargetPool targetPool;
-
-        [SerializeField]
         private GalleryRound[] rounds;
 
         [SerializeField]
@@ -146,6 +143,7 @@ namespace ShootingGallery.Game
             roundTimer = timeBetweenRounds;
             timerActive = true;
             roundUI.ActivateTimerUI();
+            SetupCurrentRound();
         }
 
         private void ProcessTimer()
@@ -167,6 +165,11 @@ namespace ShootingGallery.Game
                 int seconds = (int)roundTimer % 60;
                 roundUI.SetTimerText(minutes, seconds);
             }
+        }
+
+        private void SetupCurrentRound()
+        {
+            rounds[activeRoundIndex].AssignRoundSets();
         }
     }
 }

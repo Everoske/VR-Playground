@@ -136,6 +136,14 @@ namespace ShootingGallery.Game
             allocatedStationaryDecoys--;
         }
 
+        public void FreePools()
+        {
+            allocatedMovingDecoys = 0;
+            allocatedMovingTargets = 0;
+            allocatedStationaryDecoys = 0;
+            allocatedStationaryTargets = 0;
+        }
+
         private ShootingTarget AllocateShootingTarget(ITargetHitNotify hitNotify, ref ShootingTarget[] pool,
             ref ShootingTarget targetPrefab, TargetType type, ref int numberAllocated)
         {

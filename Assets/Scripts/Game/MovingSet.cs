@@ -57,7 +57,7 @@ namespace ShootingGallery.Game
                 Vector3 temp = currentEndPoint;
                 currentEndPoint = currentStartPoint;
                 currentStartPoint = temp;
-                leadIndex = leadIndex > 0 ? 0 : shootingTargets.Count - 1;
+                leadIndex = leadIndex > 0 ? 0 : shootingTargets.Length - 1;
 
                 if (currentLoop >= totalLoops)
                 {
@@ -66,7 +66,7 @@ namespace ShootingGallery.Game
                 }
             }
 
-            for (int i = 0; i < shootingTargets.Count; i++)
+            for (int i = 0; i < shootingTargets.Length; i++)
             {
                 shootingTargets[i].transform.Translate(currentDirection * speed * Time.deltaTime);
             }
@@ -78,7 +78,7 @@ namespace ShootingGallery.Game
         /// <returns>True if lead target has reached an endpoint of the track.</returns>
         private bool LeadTargetReachedEndpoint()
         {
-            if (shootingTargets.Count <= 0) return false;
+            if (shootingTargets.Length <= 0) return false;
             ShootingTarget leadTarget = shootingTargets[leadIndex];
             if (leadTarget == null) return false;
 
@@ -91,7 +91,7 @@ namespace ShootingGallery.Game
         private void SetTotalTrackLength()
         {
             Vector3 lastSpawn = startPoint.position -
-                direction * (distanceBetweenTargets * (shootingTargets.Count - 1));
+                direction * (distanceBetweenTargets * (shootingTargets.Length - 1));
             float spawnOffset = Vector3.Distance(startPoint.position, lastSpawn);
             totalTrackLength = trackLength + spawnOffset;
         }
@@ -102,7 +102,7 @@ namespace ShootingGallery.Game
         public override void InitiateTargetSet()
         {
             base.InitiateTargetSet();
-            if (shootingTargets.Count == 0) return;
+            if (shootingTargets.Length == 0) return;
 
             canMove = true;
             currentDirection = direction;

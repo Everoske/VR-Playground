@@ -8,6 +8,9 @@ namespace ShootingGallery.Game
     public class GalleryRound : MonoBehaviour
     {
         [SerializeField]
+        private TargetPool targetPool;
+
+        [SerializeField]
         private RoundSet[] sets;
 
         private int activeRoundSetIndex = 0;
@@ -58,6 +61,7 @@ namespace ShootingGallery.Game
         {
             roundScore += setScore;
             activeRoundSetIndex++;
+            targetPool.FreePools();
 
             if (activeRoundSetIndex >= sets.Length)
             {
@@ -101,6 +105,14 @@ namespace ShootingGallery.Game
         {
             if (activeRoundSetIndex >= sets.Length) return;
             sets[activeRoundSetIndex].InitiateStopRoundSet();
+        }
+
+        public void AssignRoundSets()
+        {
+            foreach (RoundSet set in sets)
+            {
+                set.AssignTargetSets(ref targetPool);
+            }
         }
     }
 }
