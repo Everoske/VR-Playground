@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5941641294263334603}
   - component: {fileID: 6772210080928604855}
   - component: {fileID: 8001362104229401268}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: Mesh
   m_TagString: Target
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8524261014247839105}
   - component: {fileID: 5124307972626709947}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: MovingTarget
   m_TagString: Target
   m_Icon: {fileID: 0}
@@ -156,3 +156,5 @@ MonoBehaviour:
   activeMaterial: {fileID: 2100000, guid: f6af5c455dffa844b9b93cb8a648077e, type: 2}
   inactiveMaterial: {fileID: 2100000, guid: 19cd14443773ff840acf8bf77d07a6c4, type: 2}
   points: 25
+  rotationAxes: {x: -90, y: 0, z: 0}
+  rotationSpeed: 1
