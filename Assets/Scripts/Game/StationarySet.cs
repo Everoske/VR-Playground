@@ -123,7 +123,7 @@ namespace ShootingGallery.Game
                 StartCoroutine(InitiateStationarySetTimer());
                 return;
             }
-            TranslateTrack(trackActivePosition, direction);
+            TranslateTrack(trackActivePosition, direction, changePositionSpeed);
         }
 
         private void MoveTrackToStart()
@@ -134,18 +134,7 @@ namespace ShootingGallery.Game
                 setActive = false;
                 return;
             }
-            TranslateTrack(startPoint.position, -direction);
-        }
-
-        private void TranslateTrack(Vector3 targetPosition, Vector3 currentDirection)
-        {
-            float speed = changePositionSpeed * Time.deltaTime;
-            if (speed >= (targetPosition - targetTrack.position).magnitude)
-            {
-                speed = (targetPosition - targetTrack.position).magnitude;
-            }
-
-            targetTrack.transform.Translate(currentDirection * speed);
+            TranslateTrack(startPoint.position, -direction, changePositionSpeed);
         }
     }
 }

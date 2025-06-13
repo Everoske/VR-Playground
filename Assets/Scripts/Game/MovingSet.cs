@@ -15,12 +15,10 @@ namespace ShootingGallery.Game
         [SerializeField]
         private int totalLoops = 2;
 
-        private float trackLength;
         private int currentLoop;
-        private int leadIndex; 
         private bool canMove = false;
-        private float totalTrackLength;
 
+        private Vector3 trueEndPoint;
         private Vector3 currentStartPoint;
         private Vector3 currentEndPoint;
         private Vector3 currentDirection;
@@ -32,8 +30,7 @@ namespace ShootingGallery.Game
         protected override void Start()
         {
             base.Start();
-            trackLength = Vector3.Distance(startPoint.position, endPoint.position);
-            SetTotalTrackLength();
+            DetermineTrueEndPoint();
         }
 
         protected override void Update()
@@ -62,23 +59,23 @@ namespace ShootingGallery.Game
                 }
             }
 
-            targetTrack.Translate(currentDirection * speed * Time.deltaTime);
+            TranslateTrack(currentEndPoint, currentDirection, speed);
         }
 
         private bool TrackReachedEndpoint()
         {
-            return Vector3.Distance(targetTrack.position, currentStartPoint) >= totalTrackLength;
+            return targetTrack.position == currentEndPoint;
         }
 
         /// <summary>
         /// Sets the total track length based on the spawn location of the last target.
         /// </summary>
-        private void SetTotalTrackLength()
+        private void DetermineTrueEndPoint()
         {
             Vector3 lastSpawn = startPoint.position -
                 direction * (distanceBetweenTargets * (shootingTargets.Length - 1));
             float spawnOffset = Vector3.Distance(startPoint.position, lastSpawn);
-            totalTrackLength = trackLength + spawnOffset;
+            trueEndPoint = endPoint.position + spawnOffset * direction;
         }
 
         /// <summary>
@@ -91,6 +88,8 @@ namespace ShootingGallery.Game
 
             canMove = true;
             currentDirection = direction;
+            currentStartPoint = startPoint.position;
+            currentEndPoint = trueEndPoint;
         }
 
         /// <summary>

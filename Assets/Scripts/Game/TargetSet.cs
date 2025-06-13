@@ -171,6 +171,17 @@ namespace ShootingGallery.Game
             CloseTargetSet();
         }
 
+        protected void TranslateTrack(Vector3 targetPosition, Vector3 currentDirection, float speed)
+        {
+            speed = speed * Time.deltaTime;
+            if (speed >= (targetPosition - targetTrack.position).magnitude)
+            {
+                speed = (targetPosition - targetTrack.position).magnitude;
+            }
+
+            targetTrack.transform.Translate(currentDirection * speed);
+        }
+
         /// <summary>
         /// Inform round set on points awarded for successfully hitting a target.
         /// </summary>
