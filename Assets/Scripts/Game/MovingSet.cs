@@ -87,6 +87,7 @@ namespace ShootingGallery.Game
             if (shootingTargets.Length == 0) return;
 
             canMove = true;
+            currentLoop = 0;
             currentDirection = direction;
             currentStartPoint = startPoint.position;
             currentEndPoint = trueEndPoint;
