@@ -114,5 +114,10 @@ namespace ShootingGallery.Game
                 set.AssignTargetSets(ref targetPool);
             }
         }
+
+        public void FreeTargetPool()
+        {
+            targetPool.FreePools();
+        }
     }
 }

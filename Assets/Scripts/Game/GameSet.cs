@@ -84,6 +84,17 @@ namespace ShootingGallery.Game
         public void InitiateStopGameSet()
         {
             if (!gameActive) return;
+
+            if (timerActive)
+            {
+                roundTimer = 0.0f;
+                timerActive = false;
+                roundUI.DeactivateTimerUI();
+                rounds[activeRoundIndex].FreeTargetPool();
+                EndGame();
+                return;
+            }
+            
             StopCurrentRound();
         }
 
@@ -127,9 +138,6 @@ namespace ShootingGallery.Game
 
         private void EndGame()
         {
-            roundTimer = 0.0f;
-            timerActive = false;
-            roundUI.DeactivateTimerUI();
             // Inform class controlling GameSets that game is over
             // Calculate final score/perhaps send to above class
             //int finalScore = CalculateAccuracyBonus() + scoreTracker.CurrentScore;
