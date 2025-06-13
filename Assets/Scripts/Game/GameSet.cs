@@ -56,7 +56,7 @@ namespace ShootingGallery.Game
         {
             foreach (GalleryRound round in rounds)
             {
-                round.onRoundComplete += RoundComplete;
+                round.onRoundReleased += RoundComplete;
             }
         }
 
@@ -64,7 +64,7 @@ namespace ShootingGallery.Game
         {
             foreach (GalleryRound round in rounds)
             {
-                round.onRoundComplete -= RoundComplete;
+                round.onRoundReleased -= RoundComplete;
             }
         }
 

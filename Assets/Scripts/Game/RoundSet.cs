@@ -22,7 +22,7 @@ namespace ShootingGallery.Game
         private int setScore = 0;
         private int targetSetsComplete = 0;
 
-        public UnityAction<int> onRoundSetComplete; // Inform GalleryRound with total points
+        public UnityAction<int> onRoundSetReleased; // Inform GalleryRound with total points
 
         public float TimeBeforeSet
         {
@@ -53,7 +53,7 @@ namespace ShootingGallery.Game
         /// Called when a target set finishes its stop sequence. Ends round set
         /// once all targets have completed their stop sequence.
         /// </summary>
-        private void TargetSetComplete()
+        private void TargetSetReleased()
         {
             targetSetsComplete++;
             if (targetSetsComplete >= targetSets.Length)
@@ -67,7 +67,7 @@ namespace ShootingGallery.Game
         /// </summary>
         private void ReleaseRoundSet()
         {
-            onRoundSetComplete?.Invoke(setScore);
+            onRoundSetReleased?.Invoke(setScore);
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace ShootingGallery.Game
             foreach (TargetSet targetSet in targetSets)
             {
                 targetSet.onTargetHit += ShootingTargetHit;
-                targetSet.onTargetSetComplete += TargetSetComplete;
+                targetSet.onTargetSetComplete += TargetSetReleased;
             }
         }
 
@@ -101,7 +101,7 @@ namespace ShootingGallery.Game
             foreach (TargetSet targetSet in targetSets)
             {
                 targetSet.onTargetHit -= ShootingTargetHit;
-                targetSet.onTargetSetComplete -= TargetSetComplete;
+                targetSet.onTargetSetComplete -= TargetSetReleased;
             }
         }
 

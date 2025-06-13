@@ -66,7 +66,7 @@ namespace ShootingGallery.Game
             targetsHit = 0;
             if (shootingTargets.Length == 0)
             {
-                CloseTargetSet();
+                ReleaseTargetSet();
                 return;
             }
 
@@ -136,7 +136,7 @@ namespace ShootingGallery.Game
         /// <summary>
         /// Clears shooting targets and informs round set that stop sequence has been completed.
         /// </summary>
-        private void CloseTargetSet()
+        private void ReleaseTargetSet()
         {
             for (int i = 0; i < shootingTargets.Length; i++)
             {
@@ -167,9 +167,15 @@ namespace ShootingGallery.Game
                 target.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
             }
 
-            CloseTargetSet();
+            ReleaseTargetSet();
         }
 
+        /// <summary>
+        /// Moves target track toward the target position at the given speed and direction.
+        /// </summary>
+        /// <param name="targetPosition"></param>
+        /// <param name="currentDirection"></param>
+        /// <param name="speed"></param>
         protected void TranslateTrack(Vector3 targetPosition, Vector3 currentDirection, float speed)
         {
             speed = speed * Time.deltaTime;
