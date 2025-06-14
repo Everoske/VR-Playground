@@ -14,7 +14,6 @@ namespace ShootingGallery.Game
         private RoundSet[] sets;
 
         private int activeRoundSetIndex = 0;
-        private int roundScore = 0; // Needs rework
 
         public UnityAction onRoundReleased;
 
@@ -26,7 +25,6 @@ namespace ShootingGallery.Game
                 return;
             }
 
-            roundScore = 0;
             activeRoundSetIndex = 0;
             HandleStartRoundSet();
         }
