@@ -109,7 +109,7 @@ namespace ShootingGallery.Game
             StopCurrentRound();
         }
 
-        private void RoundComplete(int score)
+        private void RoundComplete()
         {
             activeRoundIndex++;
             if (activeRoundIndex >= rounds.Length)

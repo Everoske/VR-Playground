@@ -19,10 +19,9 @@ namespace ShootingGallery.Game
         [SerializeField]
         private float timeBeforeSet = 0.0f; // Time before set
 
-        private int setScore = 0;
         private int targetSetsComplete = 0;
 
-        public UnityAction<int> onRoundSetReleased; // Inform GalleryRound with total points
+        public UnityAction onRoundSetReleased; // Inform GalleryRound with total points
 
         public float TimeBeforeSet
         {
@@ -38,15 +37,6 @@ namespace ShootingGallery.Game
         private void OnDisable()
         {
             UnsubscribeFromTargetSets();
-        }
-
-        /// <summary>
-        /// Increments the total points earned by the player for this round set.
-        /// </summary>
-        /// <param name="points">Points earned.</param>
-        private void ShootingTargetHit(int points)
-        {
-            setScore = Mathf.Max(setScore + points, 0);
         }
 
         /// <summary>
@@ -67,7 +57,7 @@ namespace ShootingGallery.Game
         /// </summary>
         private void ReleaseRoundSet()
         {
-            onRoundSetReleased?.Invoke(setScore);
+            onRoundSetReleased?.Invoke();
         }
 
         /// <summary>
@@ -88,7 +78,6 @@ namespace ShootingGallery.Game
         {
             foreach (TargetSet targetSet in targetSets)
             {
-                targetSet.onTargetHit += ShootingTargetHit;
                 targetSet.onTargetSetComplete += TargetSetReleased;
             }
         }
@@ -100,7 +89,6 @@ namespace ShootingGallery.Game
         {
             foreach (TargetSet targetSet in targetSets)
             {
-                targetSet.onTargetHit -= ShootingTargetHit;
                 targetSet.onTargetSetComplete -= TargetSetReleased;
             }
         }
@@ -126,7 +114,6 @@ namespace ShootingGallery.Game
                 return;
             }
 
-            setScore = 0;
             foreach (TargetSet targetSet in targetSets) 
             {
                 targetSet.InitiateTargetSet();

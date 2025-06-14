@@ -16,7 +16,7 @@ namespace ShootingGallery.Game
         private int activeRoundSetIndex = 0;
         private int roundScore = 0; // Needs rework
 
-        public UnityAction<int> onRoundReleased;
+        public UnityAction onRoundReleased;
 
         public void InitiateGalleryRound()
         {
@@ -57,9 +57,8 @@ namespace ShootingGallery.Game
             }
         }
 
-        private void RoundSetComplete(int setScore)
+        private void RoundSetComplete()
         {
-            roundScore += setScore;
             activeRoundSetIndex++;
             targetPool.FreePools();
 
@@ -77,7 +76,7 @@ namespace ShootingGallery.Game
         /// </summary>
         private void ReleaseGalleryRound()
         {
-            onRoundReleased?.Invoke(roundScore);
+            onRoundReleased?.Invoke();
         }
 
         private void HandleStartRoundSet()

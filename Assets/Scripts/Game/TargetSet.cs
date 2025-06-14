@@ -39,7 +39,7 @@ namespace ShootingGallery.Game
         protected int totalDecoys = 0;
         protected int targetsHit = 0;
 
-        public UnityAction<int> onTargetHit;
+        public UnityAction onTargetHit;
         public UnityAction onTargetSetComplete;
 
         protected virtual void Start()
@@ -201,7 +201,7 @@ namespace ShootingGallery.Game
             }
 
             ScoreLocator.GetScoreTracker().AddToScore(points);
-            onTargetHit?.Invoke(points);
+            onTargetHit?.Invoke();
         }
     }
 }
