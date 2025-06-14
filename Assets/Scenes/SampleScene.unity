@@ -9973,7 +9973,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1620472246}
   - component: {fileID: 1620472247}
-  - component: {fileID: 1620472248}
   m_Layer: 0
   m_Name: MainGameSet
   m_TagString: Untagged
@@ -10013,22 +10012,10 @@ MonoBehaviour:
   - {fileID: 1556440420}
   timeBeforeStart: 5
   timeBetweenRounds: 5
-  scoreTracker: {fileID: 1620472248}
+  scoreTracker: {fileID: 0}
   roundUI: {fileID: 1773244346}
   maxAccuracyBonus: 1000
   minAccuracyForBonus: 0.8
---- !u!114 &1620472248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1620472245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baae900b894a3304b92bab20e1d9251d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1665762864
 GameObject:
   m_ObjectHideFlags: 0

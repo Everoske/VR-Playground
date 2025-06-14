@@ -22,9 +22,6 @@ namespace ShootingGallery.Game
         private float timeBetweenRounds = 5.0f;
 
         [SerializeField]
-        private ScoreTracker scoreTracker;
-
-        [SerializeField]
         private RoundUI roundUI;
 
         [SerializeField]
@@ -36,6 +33,7 @@ namespace ShootingGallery.Game
 
         private int activeRoundIndex = 0;
         private int highestPossibleScore = -1;
+        private ScoreTracker scoreTracker;
         private AccuracyTracker accuracyTracker;
         private float roundTimer = 0.0f; 
         private bool timerActive = false;
@@ -44,6 +42,7 @@ namespace ShootingGallery.Game
 
         private void Awake()
         {
+            scoreTracker = new ScoreTracker();
             accuracyTracker = new AccuracyTracker();
             ScoreLocator.Provide(scoreTracker);
             AccuracyLocator.Provide(accuracyTracker);

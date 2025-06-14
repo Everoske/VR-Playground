@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 namespace ShootingGallery.Game
 {
-    public class ScoreTracker : MonoBehaviour
+    public class ScoreTracker 
     {
         private int currentScore;
 
