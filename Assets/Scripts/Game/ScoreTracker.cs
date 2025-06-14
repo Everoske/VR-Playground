@@ -7,7 +7,6 @@ namespace ShootingGallery.Game
 {
     public class ScoreTracker : MonoBehaviour
     {
-        private int highestPossibleScore;
         private int currentScore;
 
         public int CurrentScore
@@ -20,20 +19,6 @@ namespace ShootingGallery.Game
         }
 
         public UnityAction<int> onUpdateScore;
-
-        public void CalculateHighestScore(List<RoundData> rounds)
-        {
-            foreach (RoundData round in rounds)
-            {
-                foreach (TargetType target in round.targets)
-                {
-                    if (target == TargetType.Normal)
-                    {
-                        highestPossibleScore += 25 * round.roundMultiplier;
-                    }
-                }
-            }
-        }
 
         public void ResetScore()
         {

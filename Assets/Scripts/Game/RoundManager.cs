@@ -37,8 +37,6 @@ namespace ShootingGallery.Game
             {
                 numberOfRounds = rounds.Count / stride;
             }
-
-            scoreTracker.CalculateHighestScore(rounds);
         }
 
         private void OnEnable()

@@ -36,7 +36,7 @@ namespace ShootingGallery.Game
 
         private int activeRoundIndex = 0;
         private int highestPossibleScore = -1;
-        private float accuracy = 0.0f; // How accurate player is
+        private AccuracyTracker accuracyTracker;
         private float roundTimer = 0.0f; 
         private bool timerActive = false;
 
@@ -44,12 +44,9 @@ namespace ShootingGallery.Game
 
         private void Awake()
         {
+            accuracyTracker = new AccuracyTracker();
             ScoreLocator.Provide(scoreTracker);
-        }
-
-        private void Start()
-        {
-            //CalculateHighestScore(); - Possible Race Condition
+            AccuracyLocator.Provide(accuracyTracker);
         }
 
         private void Update()
@@ -57,7 +54,6 @@ namespace ShootingGallery.Game
             if (highestPossibleScore < 0)
             {
                 CalculateHighestScore();
-                Debug.Log(highestPossibleScore.ToString());
             }
 
             ProcessTimer();
@@ -93,6 +89,8 @@ namespace ShootingGallery.Game
             }
 
             Debug.Log("Starting Game Set");
+            scoreTracker.ResetScore();
+            accuracyTracker.ResetAccuracyTracker();
             activeRoundIndex = 0;
             gameActive = true;
             StartRoundTimer("Starting Game in:", timeBeforeStart);
@@ -149,7 +147,12 @@ namespace ShootingGallery.Game
         // Do once at end of game
         private int CalculateAccuracyBonus()
         {
-            throw new System.NotImplementedException();
+            if (accuracyTracker.GetAccuracy() >= minAccuracyForBonus)
+            {
+                return (int) (accuracyTracker.GetAccuracy() * maxAccuracyBonus);
+            }
+
+            return 0;
         }
 
         private void StartCurrentRound()
@@ -168,8 +171,11 @@ namespace ShootingGallery.Game
         {
             // Inform class controlling GameSets that game is over
             // Calculate final score/perhaps send to above class
-            //int finalScore = CalculateAccuracyBonus() + scoreTracker.CurrentScore;
+            int finalScore = CalculateAccuracyBonus() + scoreTracker.CurrentScore;
+            roundUI.SetScoreText(finalScore);
             gameActive = false;
+            Debug.Log($"Accuracy: {accuracyTracker.GetAccuracy() * 100}");
+            Debug.Log($"Accuracy Bonus: {finalScore - scoreTracker.CurrentScore}");
             Debug.Log("GameSet Ended");
         }
 

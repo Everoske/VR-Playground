@@ -169,6 +169,7 @@ namespace ShootingGallery.XR.Weapon
             roundInChamber = magWell.HasLoadedMagazine();
             PlayAudioClip(shootClip);
             // PlaySmokeEffect();
+            AccuracyLocator.GetAccuracyTracker().IncrementShotsFired();
             RaycastHit hit;
 
             if (Physics.Raycast(shootingOrigin.position, shootingOrigin.forward, out hit))

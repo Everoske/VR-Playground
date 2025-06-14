@@ -207,6 +207,7 @@ namespace ShootingGallery.Game
             {
                 targetsHit++;
                 points = targetPoints;
+                AccuracyLocator.GetAccuracyTracker().IncrementTargetsHit();
             }
             else
             {
