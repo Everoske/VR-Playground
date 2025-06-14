@@ -137,5 +137,16 @@ namespace ShootingGallery.Game
                 targetSet.AssignTargets(ref pool);
             }
         }
+
+        public int GetTotalRoundSetScore()
+        {
+            int score = 0;
+            foreach (TargetSet targetSet in targetSets)
+            {
+                score += targetSet.GetTotalTargetSetScore();
+            }
+
+            return score;
+        }
     }
 }

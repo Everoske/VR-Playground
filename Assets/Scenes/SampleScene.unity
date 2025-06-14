@@ -2076,7 +2076,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setOrder: 010000000000000001000000
   targetTrack: {fileID: 1673698540}
-  setMultiplier: 2
+  targetPoints: 25
+  decoyPoints: -25
   startPoint: {fileID: 382573619}
   endPoint: {fileID: 413393657}
   distanceBetweenTargets: 2
@@ -9972,6 +9973,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1620472246}
   - component: {fileID: 1620472247}
+  - component: {fileID: 1620472248}
   m_Layer: 0
   m_Name: MainGameSet
   m_TagString: Untagged
@@ -10011,10 +10013,22 @@ MonoBehaviour:
   - {fileID: 1556440420}
   timeBeforeStart: 5
   timeBetweenRounds: 5
-  scoreTracker: {fileID: 0}
+  scoreTracker: {fileID: 1620472248}
   roundUI: {fileID: 1773244346}
   maxAccuracyBonus: 1000
   minAccuracyForBonus: 0.8
+--- !u!114 &1620472248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620472245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baae900b894a3304b92bab20e1d9251d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1665762864
 GameObject:
   m_ObjectHideFlags: 0
@@ -12053,7 +12067,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setOrder: 00000000010000000000000001000000
   targetTrack: {fileID: 1467845248}
-  setMultiplier: 1
+  targetPoints: 25
+  decoyPoints: -25
   startPoint: {fileID: 1927325870}
   endPoint: {fileID: 240388850}
   distanceBetweenTargets: 2
@@ -14150,7 +14165,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setOrder: 000000000100000000000000
   targetTrack: {fileID: 1924059001}
-  setMultiplier: 2
+  targetPoints: 25
+  decoyPoints: -25
   startPoint: {fileID: 2044349724571159038}
   endPoint: {fileID: 1275243101587587806}
   distanceBetweenTargets: 5

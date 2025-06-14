@@ -35,7 +35,7 @@ namespace ShootingGallery.Game
         private float minAccuracyForBonus = 0.80f;
 
         private int activeRoundIndex = 0;
-        private int highestPossibleScore = 0;
+        private int highestPossibleScore = -1;
         private float accuracy = 0.0f; // How accurate player is
         private float roundTimer = 0.0f; 
         private bool timerActive = false;
@@ -49,11 +49,17 @@ namespace ShootingGallery.Game
 
         private void Start()
         {
-            CalculateHighestScore();
+            //CalculateHighestScore(); - Possible Race Condition
         }
 
         private void Update()
         {
+            if (highestPossibleScore < 0)
+            {
+                CalculateHighestScore();
+                Debug.Log(highestPossibleScore.ToString());
+            }
+
             ProcessTimer();
         }
 
@@ -131,7 +137,13 @@ namespace ShootingGallery.Game
         // Include max accuracy bonus
         private void CalculateHighestScore()
         {
+            int highestRawScore = 0;
+            foreach (GalleryRound round in rounds)
+            {
+                highestRawScore += round.GetTotalGalleryRoundScore();
+            }
 
+            highestPossibleScore = highestRawScore + maxAccuracyBonus;
         }
 
         // Do once at end of game

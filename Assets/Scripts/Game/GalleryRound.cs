@@ -118,5 +118,16 @@ namespace ShootingGallery.Game
         {
             targetPool.FreePools();
         }
+
+        public int GetTotalGalleryRoundScore()
+        {
+            int score = 0;
+            foreach (RoundSet set in sets)
+            {
+                score += set.GetTotalRoundSetScore();
+            }
+
+            return score;
+        }
     }
 }

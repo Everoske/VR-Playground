@@ -123,6 +123,11 @@ namespace ShootingGallery.Game
             }
         }
 
+        public int GetTotalTargetSetScore()
+        {
+            return totalTargets * targetPoints;
+        }
+
         /// <summary>
         /// Spawn targets at incremental distances out of the player's view.
         /// </summary>
