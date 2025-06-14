@@ -200,8 +200,7 @@ namespace ShootingGallery.Game
                 points = points * setMultiplier;
             }
 
-            // ScoreLocator.GetScoreTracker().AddToScore(points);
-
+            ScoreLocator.GetScoreTracker().AddToScore(points);
             onTargetHit?.Invoke(points);
         }
     }

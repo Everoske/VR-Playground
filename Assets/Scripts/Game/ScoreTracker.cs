@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ShootingGallery.Game
 {
@@ -17,6 +18,8 @@ namespace ShootingGallery.Game
                 currentScore = Mathf.Max(value, 0);
             }
         }
+
+        public UnityAction<int> onUpdateScore;
 
         public void CalculateHighestScore(List<RoundData> rounds)
         {
@@ -35,6 +38,12 @@ namespace ShootingGallery.Game
         public void ResetScore()
         {
             currentScore = 0;
+        }
+
+        public void AddToScore(int score)
+        {
+            currentScore = Mathf.Max(currentScore + score, 0);
+            onUpdateScore?.Invoke(currentScore);
         }
     }
 }

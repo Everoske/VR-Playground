@@ -63,6 +63,8 @@ namespace ShootingGallery.Game
             {
                 round.onRoundReleased += RoundComplete;
             }
+
+            scoreTracker.onUpdateScore += ScoreUpdated;
         }
 
         private void OnDisable()
@@ -71,6 +73,8 @@ namespace ShootingGallery.Game
             {
                 round.onRoundReleased -= RoundComplete;
             }
+
+            scoreTracker.onUpdateScore -= ScoreUpdated;
         }
 
         public void StartGameSet() // Allow something that manages game sets to control whether a game set can start
@@ -116,6 +120,11 @@ namespace ShootingGallery.Game
             {
                 StartRoundTimer("Time until next round:", timeBetweenRounds);
             }
+        }
+
+        private void ScoreUpdated(int score)
+        {
+            roundUI.SetScoreText(score);
         }
 
         // Calculate highest score in game set
