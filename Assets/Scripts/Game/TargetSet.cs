@@ -19,8 +19,11 @@ namespace ShootingGallery.Game
         protected Transform targetTrack;
 
         [SerializeField]
-        private int setMultiplier;
-        
+        private int targetPoints = 25;
+
+        [SerializeField]
+        private int decoyPoints = -25;
+
         [SerializeField]
         protected Transform startPoint; 
         
@@ -192,12 +195,17 @@ namespace ShootingGallery.Game
         /// </summary>
         /// <param name="points">Points from target</param>
         /// <param name="type">Type of target</param>
-        public void OnTargetHit(int points, TargetType type)
+        public void OnTargetHit(TargetType type)
         {
+            int points;
             if (type == TargetType.Normal)
             {
                 targetsHit++;
-                points = points * setMultiplier;
+                points = targetPoints;
+            }
+            else
+            {
+                points = decoyPoints;
             }
 
             ScoreLocator.GetScoreTracker().AddToScore(points);

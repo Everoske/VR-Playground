@@ -12,9 +12,6 @@ namespace ShootingGallery.Game
         [SerializeField]
         private Material inactiveMaterial;
 
-        [SerializeField]
-        private int points = 25;
-
         [Tooltip("Represents which axes to rotate a target once it has been shot using Euler angles.")]
         [SerializeField]
         private Vector3 rotationAxes = new Vector3(-90.0f, 0.0f, 0.0f);
@@ -41,12 +38,6 @@ namespace ShootingGallery.Game
             set => targetHitNotify = value;
         }
 
-        public int Points
-        {
-            get => points;
-            set => points = value;
-        }
-
         private void Awake()
         {
             meshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -56,7 +47,7 @@ namespace ShootingGallery.Game
         {
             if (!isTargetActive) return;
 
-            targetHitNotify.OnTargetHit(points, targetType);
+            targetHitNotify.OnTargetHit(targetType);
             meshRenderer.material = inactiveMaterial;
             isTargetActive = false;
 

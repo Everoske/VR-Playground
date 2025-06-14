@@ -21,7 +21,7 @@ namespace ShootingGallery.Game
 
         private int targetSetsComplete = 0;
 
-        public UnityAction onRoundSetReleased; // Inform GalleryRound with total points
+        public UnityAction onRoundSetReleased;
 
         public float TimeBeforeSet
         {

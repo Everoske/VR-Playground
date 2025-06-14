@@ -4,6 +4,6 @@ namespace ShootingGallery.Interfaces
 {
     public interface ITargetHitNotify
     {
-        void OnTargetHit(int points, TargetType type);
+        void OnTargetHit(TargetType type);
     }
 }
