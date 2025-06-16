@@ -104,7 +104,6 @@ namespace ShootingGallery.Game
                 roundTimer = 0.0f;
                 timerActive = false;
                 roundUI.DeactivateTimerUI();
-                rounds[activeRoundIndex].FreeTargetPool();
                 activeRoundIndex = rounds.Length;
                 return;
             }
