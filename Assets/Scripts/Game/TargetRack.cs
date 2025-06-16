@@ -1,16 +1,37 @@
 using UnityEngine;
 
-public class TargetRack : MonoBehaviour
+namespace ShootingGallery.Game
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class TargetRack : MonoBehaviour
     {
-        
-    }
+        [SerializeField]
+        private Transform startPoint;
+        [SerializeField]
+        private Transform endPoint;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public Vector3 GetStartPoint()
+        {
+            if (startPoint == null)
+            {
+                throw new System.Exception("TargetRack: Start Point requested is null.");
+            }
+
+            return startPoint.position;
+        }
+
+        public Vector3 GetEndPoint()
+        {
+            if (endPoint == null)
+            {
+                throw new System.Exception("TargetRack: End Point requested is null.");
+            }
+
+            return endPoint.position;
+        }
+
+        public Vector3 GetRackDirection()
+        {
+            return (endPoint.position - startPoint.position).normalized;
+        }
     }
 }

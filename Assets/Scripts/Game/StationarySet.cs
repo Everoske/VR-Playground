@@ -25,8 +25,8 @@ namespace ShootingGallery.Game
         protected override void Start()
         {
             base.Start();
-            centerPoint = startPoint.position + 
-                ((Vector3.Distance(startPoint.position, endPoint.position) / 2) * direction);
+            centerPoint = targetRack.GetStartPoint() + 
+                ((Vector3.Distance(targetRack.GetStartPoint(), targetRack.GetEndPoint()) / 2) * direction);
             DetermineLeadTargetPosition();
         }
 
@@ -109,7 +109,7 @@ namespace ShootingGallery.Game
 
         private bool TrackReturned()
         {
-            return targetTrack.position == startPoint.position;
+            return targetTrack.position == targetRack.GetStartPoint();
         }
 
         private void MoveTrackIntoPosition()
@@ -130,7 +130,7 @@ namespace ShootingGallery.Game
                 setActive = false;
                 return;
             }
-            TranslateTrack(startPoint.position, -direction, changePositionSpeed);
+            TranslateTrack(targetRack.GetStartPoint(), -direction, changePositionSpeed);
         }
     }
 }

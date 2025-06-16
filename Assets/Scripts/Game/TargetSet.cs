@@ -28,10 +28,7 @@ namespace ShootingGallery.Game
         private int decoyPoints = -25;
 
         [SerializeField]
-        protected Transform startPoint; 
-        
-        [SerializeField]
-        protected Transform endPoint;
+        protected TargetRack targetRack;
 
         [SerializeField]
         protected float distanceBetweenTargets = 5.0f;
@@ -49,9 +46,9 @@ namespace ShootingGallery.Game
 
         protected virtual void Start()
         {
-            direction = (endPoint.position - startPoint.position).normalized;
+            direction = targetRack.GetRackDirection();
             shootingTargets = new ShootingTarget[setOrder.Length];
-            targetTrack.position = startPoint.position;
+            targetTrack.position = targetRack.GetStartPoint();
             DetermineTypeCounts();
         }
 
@@ -137,7 +134,7 @@ namespace ShootingGallery.Game
         {
             for (int i = 0; i < shootingTargets.Length; i++)
             {
-                Vector3 spawnPoint = startPoint.position - direction * (i * distanceBetweenTargets);
+                Vector3 spawnPoint = targetRack.GetStartPoint() - direction * (i * distanceBetweenTargets);
                 shootingTargets[i].transform.position = spawnPoint;
                 shootingTargets[i].gameObject.SetActive(true);
             }

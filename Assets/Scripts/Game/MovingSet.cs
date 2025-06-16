@@ -68,10 +68,10 @@ namespace ShootingGallery.Game
         /// </summary>
         private void DetermineTrueEndPoint()
         {
-            Vector3 lastSpawn = startPoint.position -
+            Vector3 lastSpawn = targetRack.GetStartPoint() -
                 direction * (distanceBetweenTargets * (shootingTargets.Length - 1));
-            float spawnOffset = Vector3.Distance(startPoint.position, lastSpawn);
-            trueEndPoint = endPoint.position + spawnOffset * direction;
+            float spawnOffset = Vector3.Distance(targetRack.GetStartPoint(), lastSpawn);
+            trueEndPoint = targetRack.GetEndPoint() + spawnOffset * direction;
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace ShootingGallery.Game
             canMove = true;
             currentLoop = 0;
             currentDirection = direction;
-            currentStartPoint = startPoint.position;
+            currentStartPoint = targetRack.GetStartPoint();
             currentEndPoint = trueEndPoint;
         }
 
@@ -105,7 +105,7 @@ namespace ShootingGallery.Game
         {
             base.RemoveTargets();
             canMove = false;
-            targetTrack.position = startPoint.position;
+            targetTrack.position = targetRack.GetStartPoint();
         }
     }
 }
