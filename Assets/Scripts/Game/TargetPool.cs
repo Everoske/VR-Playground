@@ -9,27 +9,19 @@ namespace ShootingGallery.Game
     public class TargetPool : MonoBehaviour
     {
         [SerializeField]
-        private ShootingTarget stationaryTargetPrefab;
+        private ShootingTarget targetPrefab;
         [SerializeField]
-        private ShootingTarget stationaryDecoyPrefab;
-        [SerializeField]
-        private ShootingTarget movingTargetPrefab;
-        [SerializeField]
-        private ShootingTarget movingDecoyPrefab;
+        private ShootingTarget decoyPrefab;
 
         [Tooltip("Initial Size for Object Pools")]
         [SerializeField]
         private int initialPoolSize = 25;
 
-        private ShootingTarget[] stationaryTargetPool; // rename to stationaryTargetPool
-        private ShootingTarget[] stationaryDecoyPool; // rename to stationaryDecoyPool
-        private ShootingTarget[] movingTargetPool;
-        private ShootingTarget[] movingDecoyPool;
+        private ShootingTarget[] targetPool; 
+        private ShootingTarget[] decoyPool; 
 
-        private int allocatedStationaryTargets = 0;
-        private int allocatedStationaryDecoys = 0;
-        private int allocatedMovingTargets = 0;
-        private int allocatedMovingDecoys = 0;
+        private int allocatedTargets = 0;
+        private int allocatedDecoys = 0;
 
         private void Start()
         {
@@ -38,10 +30,8 @@ namespace ShootingGallery.Game
 
         private void CreatePools()
         {
-            CreatePool(out stationaryTargetPool, TargetType.Normal, ref stationaryTargetPrefab);
-            CreatePool(out stationaryDecoyPool, TargetType.Decoy, ref stationaryDecoyPrefab);
-            CreatePool(out movingTargetPool, TargetType.Normal, ref movingTargetPrefab);
-            CreatePool(out movingDecoyPool, TargetType.Decoy, ref  movingDecoyPrefab);
+            CreatePool(out targetPool, TargetType.Normal, ref targetPrefab);
+            CreatePool(out decoyPool, TargetType.Decoy, ref decoyPrefab);
         }
 
         private void CreatePool(out ShootingTarget[] pool, TargetType type, ref ShootingTarget targetPrefab)
@@ -90,58 +80,26 @@ namespace ShootingGallery.Game
             }
         }
 
-        public ShootingTarget AllocateTarget(ITargetHitNotify hitNotify, SetType setType)
+        public ShootingTarget AllocateTarget(ITargetHitNotify hitNotify)
         {
-            if (setType == SetType.Moving)
-            {
-                return AllocateShootingTarget(hitNotify, ref movingTargetPool, 
-                    ref movingTargetPrefab, TargetType.Normal, ref allocatedMovingTargets);
-            }
-
-            return AllocateShootingTarget(hitNotify, ref stationaryTargetPool, 
-                ref stationaryTargetPrefab, TargetType.Normal, ref allocatedStationaryTargets);
+            return AllocateShootingTarget(hitNotify, ref targetPool, 
+                ref targetPrefab, TargetType.Normal, ref allocatedTargets);
         }
 
-        public void DeallocateTarget(ShootingTarget shootingTarget)
+        public ShootingTarget AllocateDecoy(ITargetHitNotify hitNotify)
         {
-            // Ensure shootingTarget belongs to object
-            if (shootingTarget.transform.parent != transform) return;
+            return AllocateShootingTarget(hitNotify, ref decoyPool,
+                ref decoyPrefab, TargetType.Normal, ref allocatedDecoys);
+        }
 
-            shootingTarget.ResetTarget();
+        public void DeallocateShootingTarget(ShootingTarget shootingTarget)
+        {
+            shootingTarget.transform.parent = transform;
             shootingTarget.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
+            shootingTarget.ResetTarget();
             shootingTarget.gameObject.SetActive(false);
-            allocatedStationaryTargets--;
-        }
 
-        public ShootingTarget AllocateDecoy(ITargetHitNotify hitNotify, SetType setType)
-        {
-            if (setType == SetType.Moving)
-            {
-                return AllocateShootingTarget(hitNotify, ref movingDecoyPool,
-                    ref movingDecoyPrefab, TargetType.Normal, ref allocatedMovingDecoys);
-            }
-
-            return AllocateShootingTarget(hitNotify, ref stationaryDecoyPool,
-                ref stationaryDecoyPrefab, TargetType.Normal, ref allocatedStationaryDecoys);
-        }
-
-        public void DeallocateDecoy(ShootingTarget shootingDecoy)
-        {
-            // Ensure shootingTarget belongs to object
-            if (shootingDecoy.transform.parent != transform) return;
-
-            shootingDecoy.ResetTarget();
-            shootingDecoy.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
-            shootingDecoy.gameObject.SetActive(false);
-            allocatedStationaryDecoys--;
-        }
-
-        public void FreePools()
-        {
-            allocatedMovingDecoys = 0;
-            allocatedMovingTargets = 0;
-            allocatedStationaryDecoys = 0;
-            allocatedStationaryTargets = 0;
+            DecrementNumberAllocated(shootingTarget.TargetType);
         }
 
         private ShootingTarget AllocateShootingTarget(ITargetHitNotify hitNotify, ref ShootingTarget[] pool,
@@ -156,6 +114,19 @@ namespace ShootingGallery.Game
             int index = numberAllocated - 1;
             pool[index].TargetHitNotify = hitNotify;
             return pool[index];
+        }
+
+        private void DecrementNumberAllocated(TargetType type)
+        {
+            switch (type)
+            {
+                case TargetType.Normal:
+                    allocatedTargets--;
+                    break;
+                case TargetType.Decoy:
+                    allocatedDecoys--;
+                    break;
+            }
         }
     }
 }

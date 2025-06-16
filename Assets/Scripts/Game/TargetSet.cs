@@ -11,6 +11,9 @@ namespace ShootingGallery.Game
     /// </summary>
     public class TargetSet : MonoBehaviour, ITargetHitNotify
     {
+        [SerializeField]
+        private TargetPool targetPool;
+
         [Tooltip("The number target types that will appear in the set in order left to right.")]
         [SerializeField]
         protected TargetType[] setOrder;
@@ -37,7 +40,6 @@ namespace ShootingGallery.Game
 
         protected ShootingTarget[] shootingTargets;
 
-        protected SetType setType;
         protected int totalTargets = 0;
         protected int totalDecoys = 0;
         protected int targetsHit = 0;
@@ -105,18 +107,18 @@ namespace ShootingGallery.Game
         /// Allocate targets from target pool to a local list. This should be
         /// done only once per GalleryRound.
         /// </summary>
-        public void AssignTargets(ref TargetPool pool)
+        public void AssignTargets()
         {
             for (int i = 0; i < setOrder.Length; i++)
             {
                 TargetType type = setOrder[i]; 
                 if (type == TargetType.Normal)
                 {
-                    shootingTargets[i] = pool.AllocateTarget(this, setType);
+                    shootingTargets[i] = targetPool.AllocateTarget(this);
                 }
                 else if (type == TargetType.Decoy)
                 {
-                    shootingTargets[i] = pool.AllocateDecoy(this, setType);
+                    shootingTargets[i] = targetPool.AllocateDecoy(this);
                 }
 
                 shootingTargets[i].transform.parent = targetTrack;
@@ -170,9 +172,7 @@ namespace ShootingGallery.Game
         {
             foreach (ShootingTarget target in shootingTargets)
             {
-                target.ResetTarget();
-                target.gameObject.SetActive(false);
-                target.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
+                targetPool.DeallocateShootingTarget(target);
             }
 
             ReleaseTargetSet();
