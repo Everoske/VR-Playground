@@ -42,17 +42,26 @@ namespace ShootingGallery.Game
         protected int targetsHit = 0;
 
         public UnityAction onTargetHit;
-        public UnityAction onTargetSetComplete;
+        public UnityAction<bool> onTargetSetComplete;
+
+        public bool IsDecoyOnly()
+        {
+            return totalTargets <= 0 && totalDecoys > 0;
+        }
+
+        protected virtual void Awake()
+        {
+            DetermineTypeCounts();
+        }
 
         protected virtual void Start()
         {
             direction = targetRack.GetRackDirection();
             shootingTargets = new ShootingTarget[setOrder.Length];
             targetTrack.position = targetRack.GetStartPoint();
-            DetermineTypeCounts();
         }
 
-        protected virtual void Update()
+        private void CheckAllTargetsHit()
         {
             if (targetsHit >= totalTargets)
             {
@@ -122,6 +131,11 @@ namespace ShootingGallery.Game
             }
         }
 
+        public void UnassignTargets()
+        {
+            RemoveTargets();
+        }
+
         public int GetTotalTargetSetScore()
         {
             return totalTargets * targetPoints;
@@ -150,7 +164,7 @@ namespace ShootingGallery.Game
                 shootingTargets[i] = null;
             }
             
-            onTargetSetComplete?.Invoke();
+            onTargetSetComplete?.Invoke(IsDecoyOnly());
         }
 
         /// <summary>
@@ -205,6 +219,7 @@ namespace ShootingGallery.Game
                 targetsHit++;
                 points = targetPoints;
                 AccuracyLocator.GetAccuracyTracker().IncrementTargetsHit();
+                CheckAllTargetsHit();
             }
             else
             {

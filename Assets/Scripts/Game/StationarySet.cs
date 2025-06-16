@@ -30,9 +30,8 @@ namespace ShootingGallery.Game
             DetermineLeadTargetPosition();
         }
 
-        protected override void Update()
+        private void Update()
         {
-            base.Update();
             ProcessTrackPosition();
         }
 

@@ -29,9 +29,8 @@ namespace ShootingGallery.Game
             DetermineTrueEndPoint();
         }
 
-        protected override void Update()
+        private void Update()
         {
-            base.Update();
             if (canMove && currentLoop <= totalLoops)
             {
                 MoveTrack();

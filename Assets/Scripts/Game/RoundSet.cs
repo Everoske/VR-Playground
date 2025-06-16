@@ -19,7 +19,9 @@ namespace ShootingGallery.Game
         [SerializeField]
         private float timeBeforeSet = 0.0f; // Time before set
 
-        private int targetSetsComplete = 0;
+        private int totalTargetSetsComplete = 0;
+        private int totalNonDecoyOnlySets = 0;
+        private int nonDecoyOnlySetsComplete = 0;
 
         public UnityAction onRoundSetReleased;
 
@@ -27,6 +29,11 @@ namespace ShootingGallery.Game
         {
             get => timeBeforeSet;
             private set => timeBeforeSet = value;
+        }
+
+        private void Start()
+        {
+            DetermineNumberOfNonDecoySets();
         }
 
         private void OnEnable()
@@ -43,13 +50,22 @@ namespace ShootingGallery.Game
         /// Called when a target set finishes its stop sequence. Ends round set
         /// once all targets have completed their stop sequence.
         /// </summary>
-        private void TargetSetReleased()
+        private void TargetSetReleased(bool isDecoySet)
         {
-            targetSetsComplete++;
-            if (targetSetsComplete >= targetSets.Length)
+            totalTargetSetsComplete++;
+            if (totalTargetSetsComplete >= targetSets.Length)
             {
                 ReleaseRoundSet();
+                return;
             }
+
+            if (isDecoySet) return;
+
+            nonDecoyOnlySetsComplete++;
+            if (nonDecoyOnlySetsComplete >= totalNonDecoyOnlySets)
+            {
+                StopTargetSets();
+            } 
         }
 
         /// <summary>
@@ -57,6 +73,7 @@ namespace ShootingGallery.Game
         /// </summary>
         private void ReleaseRoundSet()
         {
+            ResetRoundSet();
             onRoundSetReleased?.Invoke();
         }
 
@@ -102,15 +119,33 @@ namespace ShootingGallery.Game
             yield return new WaitForSeconds(roundSetTimer);
             StopTargetSets();
         }
-        
+
+        private void DetermineNumberOfNonDecoySets()
+        {
+            foreach (TargetSet targetSet in targetSets)
+            {
+                if (!targetSet.IsDecoyOnly())
+                {
+                    totalNonDecoyOnlySets++;
+                }
+            }
+        }
+
+        private void ResetRoundSet()
+        {
+            totalTargetSetsComplete = 0;
+            nonDecoyOnlySetsComplete = 0;
+        }
+
         /// <summary>
         /// Initiates target sets and the round set timer.
         /// </summary>
         public void InitiateRoundSet()
         {
-            if (targetSets == null ||  targetSets.Length == 0)
+            if (targetSets == null ||  targetSets.Length == 0 || totalNonDecoyOnlySets == 0)
             {
                 ReleaseRoundSet();
+                UnassignTargetSets();
                 return;
             }
 
@@ -135,6 +170,14 @@ namespace ShootingGallery.Game
             foreach (TargetSet targetSet in targetSets)
             {
                 targetSet.AssignTargets();
+            }
+        }
+
+        private void UnassignTargetSets()
+        {
+            foreach (TargetSet targetSet in targetSets)
+            {
+                targetSet.UnassignTargets();
             }
         }
 
