@@ -2074,6 +2074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a208eb425292b947a3c21521b5c8583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPool: {fileID: 0}
   setOrder: 010000000000000001000000
   targetTrack: {fileID: 1673698540}
   targetPoints: 25
@@ -2113,6 +2114,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1546393653}
+  - {fileID: 1422740534}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &274377495
@@ -8717,6 +8719,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1419631730}
   m_CullTransparentMesh: 1
+--- !u!1 &1422740533
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1422740534}
+  - component: {fileID: 1422740535}
+  m_Layer: 0
+  m_Name: SmallTargetPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1422740534
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422740533}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 260942999}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1422740535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422740533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4162c299d15a9a4c8812f322f21dd71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPrefab: {fileID: 5124307972626709947, guid: 43ec74d8e09079545b3b8c1f37301ec9, type: 3}
+  decoyPrefab: {fileID: 5124307972626709947, guid: d438e0959e8c8f44185a470002e3c592, type: 3}
+  initialPoolSize: 25
 --- !u!1 &1431310901
 GameObject:
   m_ObjectHideFlags: 0
@@ -9846,7 +9895,7 @@ GameObject:
   - component: {fileID: 1546393653}
   - component: {fileID: 1546393652}
   m_Layer: 0
-  m_Name: TargetPool
+  m_Name: LargeTargetPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9864,10 +9913,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4162c299d15a9a4c8812f322f21dd71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stationaryTargetPrefab: {fileID: 5124307972626709947, guid: c01a66b45a841794cb0268da91c46427, type: 3}
-  stationaryDecoyPrefab: {fileID: 5124307972626709947, guid: 437a3e682dcd16c49b33b030422aeaf3, type: 3}
-  movingTargetPrefab: {fileID: 5124307972626709947, guid: 43ec74d8e09079545b3b8c1f37301ec9, type: 3}
-  movingDecoyPrefab: {fileID: 5124307972626709947, guid: d438e0959e8c8f44185a470002e3c592, type: 3}
+  targetPrefab: {fileID: 5124307972626709947, guid: c01a66b45a841794cb0268da91c46427, type: 3}
+  decoyPrefab: {fileID: 5124307972626709947, guid: 437a3e682dcd16c49b33b030422aeaf3, type: 3}
   initialPoolSize: 25
 --- !u!4 &1546393653
 Transform:
@@ -9929,7 +9976,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39df9be3a6ebe9f4a8c639451c7137d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPool: {fileID: 1546393652}
   sets:
   - {fileID: 181993765}
 --- !u!1 &1583219098
@@ -10012,7 +10058,6 @@ MonoBehaviour:
   - {fileID: 1556440420}
   timeBeforeStart: 5
   timeBetweenRounds: 5
-  scoreTracker: {fileID: 0}
   roundUI: {fileID: 1773244346}
   maxAccuracyBonus: 1000
   minAccuracyForBonus: 0.8
@@ -12052,6 +12097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a208eb425292b947a3c21521b5c8583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPool: {fileID: 0}
   setOrder: 00000000010000000000000001000000
   targetTrack: {fileID: 1467845248}
   targetPoints: 25
@@ -14150,6 +14196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db666194e94452e498d717f53de926ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetPool: {fileID: 0}
   setOrder: 000000000100000000000000
   targetTrack: {fileID: 1924059001}
   targetPoints: 25
