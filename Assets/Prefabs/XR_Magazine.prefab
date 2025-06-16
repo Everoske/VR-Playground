@@ -323,5 +323,5 @@ MonoBehaviour:
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
   m_FarAttachMode: 0
-  maxAmmoCount: 12
-  startingAmmo: 12
+  maxAmmoCount: 17
+  startingAmmo: 17
