@@ -111,7 +111,7 @@ namespace ShootingGallery.Game
 
         /// <summary>
         /// Allocate targets from target pool to a local list. This should be
-        /// done only once per GalleryRound.
+        /// done only once per GalleryRound during the round timer.
         /// </summary>
         public void AssignTargets()
         {
@@ -195,6 +195,23 @@ namespace ShootingGallery.Game
         }
 
         /// <summary>
+        /// Execute the default behavior of the target set.
+        /// </summary>
+        protected virtual void ExecuteMainSequence()
+        {
+
+        }
+
+        /// <summary>
+        /// Execute the move-out-of-view behavior of the target set to allow it to
+        /// be released.
+        /// </summary>
+        protected virtual void ExecuteStopSequence()
+        {
+
+        }
+
+        /// <summary>
         /// Moves target track toward the target position at the given speed and direction.
         /// </summary>
         /// <param name="targetPosition"></param>
@@ -234,5 +251,13 @@ namespace ShootingGallery.Game
             ScoreLocator.GetScoreTracker().AddToScore(points);
             onTargetHit?.Invoke();
         }
+    }
+
+    public enum TargetSetState
+    {
+        Inactive, 
+        Assigned,
+        Active,
+        Terminating
     }
 }

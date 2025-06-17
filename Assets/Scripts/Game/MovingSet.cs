@@ -12,10 +12,15 @@ namespace ShootingGallery.Game
         [SerializeField]
         private float speed = 2.0f;
 
+        [Tooltip("The track will continue to move until told to stop.")]
         [SerializeField]
-        private int totalLoops = 2;
+        private bool loop = false;
 
-        private int currentLoop;
+        [Tooltip("Determines how many times the track will pass by the player. Ignored if loop set to true.")]
+        [SerializeField]
+        private int totalPasses = 2;
+
+        private int currentPass;
         private bool canMove = false;
 
         private Vector3 trueEndPoint;
@@ -31,23 +36,20 @@ namespace ShootingGallery.Game
 
         private void Update()
         {
-            if (canMove && currentLoop <= totalLoops)
-            {
-                MoveTrack();
-            }
+            
         }
 
         private void MoveTrack()
         {
             if (TrackReachedEndpoint())
             {
-                currentLoop++;
+                currentPass++;
                 currentDirection *= -1;
                 Vector3 temp = currentEndPoint;
                 currentEndPoint = currentStartPoint;
                 currentStartPoint = temp;
                 
-                if (currentLoop >= totalLoops)
+                if (currentPass >= totalPasses)
                 {
                     RemoveTargets();
                     return;
@@ -60,6 +62,11 @@ namespace ShootingGallery.Game
         private bool TrackReachedEndpoint()
         {
             return targetTrack.position == currentEndPoint;
+        }
+
+        private bool CanMove()
+        {
+            return canMove && currentPass <= totalPasses;
         }
 
         /// <summary>
@@ -82,7 +89,7 @@ namespace ShootingGallery.Game
             if (shootingTargets.Length == 0) return;
 
             canMove = true;
-            currentLoop = 0;
+            currentPass = 0;
             currentDirection = direction;
             currentStartPoint = targetRack.GetStartPoint();
             currentEndPoint = trueEndPoint;
@@ -96,7 +103,16 @@ namespace ShootingGallery.Game
             base.StopTargetSet();
             if (!IsSetActive()) return;
 
-            currentLoop = totalLoops;
+            currentPass = totalPasses;
+        }
+
+        protected override void ExecuteMainSequence()
+        {
+            base.ExecuteMainSequence();
+            if (CanMove())
+            {
+                MoveTrack();
+            }
         }
 
         /// <summary>

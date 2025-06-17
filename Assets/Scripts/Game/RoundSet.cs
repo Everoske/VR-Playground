@@ -144,8 +144,8 @@ namespace ShootingGallery.Game
         {
             if (targetSets == null ||  targetSets.Length == 0 || totalNonDecoyOnlySets == 0)
             {
-                ReleaseRoundSet();
                 UnassignTargetSets();
+                ReleaseRoundSet();
                 return;
             }
 

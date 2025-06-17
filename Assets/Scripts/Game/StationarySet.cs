@@ -32,7 +32,7 @@ namespace ShootingGallery.Game
 
         private void Update()
         {
-            ProcessTrackPosition();
+            
         }
 
         public override void InitiateTargetSet()
@@ -47,6 +47,7 @@ namespace ShootingGallery.Game
         {
             base.StopTargetSet();
             if (!IsSetActive()) return;
+
             setTimerActive = false;
             returnToStart = true;
         }
@@ -54,6 +55,12 @@ namespace ShootingGallery.Game
         protected override bool IsSetActive()
         {
             return setActive;
+        }
+
+        protected override void ExecuteMainSequence()
+        {
+            base.ExecuteMainSequence();
+            ProcessTrackPosition();
         }
 
         /// <summary>
