@@ -30,11 +30,6 @@ namespace ShootingGallery.Game
             DetermineLeadTargetPosition();
         }
 
-        private void Update()
-        {
-            
-        }
-
         public override void InitiateTargetSet()
         {
             base.InitiateTargetSet();

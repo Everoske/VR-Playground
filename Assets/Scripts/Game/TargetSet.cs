@@ -33,6 +33,7 @@ namespace ShootingGallery.Game
         [SerializeField]
         protected float distanceBetweenTargets = 5.0f;
         
+        protected TargetSetState currentState = TargetSetState.Inactive;
         protected Vector3 direction;
 
         protected ShootingTarget[] shootingTargets;
@@ -59,6 +60,23 @@ namespace ShootingGallery.Game
             direction = targetRack.GetRackDirection();
             shootingTargets = new ShootingTarget[setOrder.Length];
             targetTrack.position = targetRack.GetStartPoint();
+        }
+
+        private void Update()
+        {
+            switch (currentState)
+            {
+                case TargetSetState.Inactive:
+                    break;
+                case TargetSetState.Assigned:
+                    break;
+                case TargetSetState.Active:
+                    ExecuteMainSequence();
+                    break;
+                case TargetSetState.Terminating:
+                    ExecuteStopSequence();
+                    break;
+            }
         }
 
         private void CheckAllTargetsHit()

@@ -34,11 +34,6 @@ namespace ShootingGallery.Game
             DetermineTrueEndPoint();
         }
 
-        private void Update()
-        {
-            
-        }
-
         private void MoveTrack()
         {
             if (TrackReachedEndpoint())
