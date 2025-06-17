@@ -189,6 +189,11 @@ namespace ShootingGallery.Game
             ReleaseTargetSet();
         }
 
+        protected virtual bool IsSetActive()
+        {
+            return shootingTargets.Length > 0;
+        }
+
         /// <summary>
         /// Moves target track toward the target position at the given speed and direction.
         /// </summary>

@@ -94,6 +94,8 @@ namespace ShootingGallery.Game
         public override void StopTargetSet()
         {
             base.StopTargetSet();
+            if (!IsSetActive()) return;
+
             currentLoop = totalLoops;
         }
 

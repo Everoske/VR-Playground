@@ -64,7 +64,7 @@ namespace ShootingGallery.Game
             nonDecoyOnlySetsComplete++;
             if (nonDecoyOnlySetsComplete >= totalNonDecoyOnlySets)
             {
-                StopTargetSets();
+                InitiateStopRoundSet();
             } 
         }
 

@@ -46,8 +46,14 @@ namespace ShootingGallery.Game
         public override void StopTargetSet()
         {
             base.StopTargetSet();
+            if (!IsSetActive()) return;
             setTimerActive = false;
             returnToStart = true;
+        }
+
+        protected override bool IsSetActive()
+        {
+            return setActive;
         }
 
         /// <summary>
