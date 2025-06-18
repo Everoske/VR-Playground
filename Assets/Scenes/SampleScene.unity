@@ -13722,7 +13722,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPrefab: {fileID: 5124307972626709947, guid: 43ec74d8e09079545b3b8c1f37301ec9, type: 3}
   decoyPrefab: {fileID: 5124307972626709947, guid: d438e0959e8c8f44185a470002e3c592, type: 3}
-  initialPoolSize: 25
+  initialPoolSize: 50
 --- !u!1 &1427283394
 GameObject:
   m_ObjectHideFlags: 0
@@ -15142,7 +15142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetPrefab: {fileID: 5124307972626709947, guid: c01a66b45a841794cb0268da91c46427, type: 3}
   decoyPrefab: {fileID: 5124307972626709947, guid: 437a3e682dcd16c49b33b030422aeaf3, type: 3}
-  initialPoolSize: 25
+  initialPoolSize: 50
 --- !u!4 &1546393653
 Transform:
   m_ObjectHideFlags: 0

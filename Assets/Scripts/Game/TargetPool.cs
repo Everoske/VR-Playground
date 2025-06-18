@@ -89,7 +89,7 @@ namespace ShootingGallery.Game
         public ShootingTarget AllocateDecoy(ITargetHitNotify hitNotify)
         {
             return AllocateShootingTarget(hitNotify, ref decoyPool,
-                ref decoyPrefab, TargetType.Normal, ref allocatedDecoys);
+                ref decoyPrefab, TargetType.Decoy, ref allocatedDecoys);
         }
 
         public void DeallocateShootingTarget(ShootingTarget shootingTarget)
@@ -105,7 +105,7 @@ namespace ShootingGallery.Game
         private ShootingTarget AllocateShootingTarget(ITargetHitNotify hitNotify, ref ShootingTarget[] pool,
             ref ShootingTarget targetPrefab, TargetType type, ref int numberAllocated)
         {
-            if (numberAllocated > pool.Length)
+            if (numberAllocated >= pool.Length)
             {
                 ExpandPool(ref pool, type, ref targetPrefab);
             }
