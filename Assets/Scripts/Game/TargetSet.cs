@@ -102,7 +102,9 @@ namespace ShootingGallery.Game
                 return;
             }
 
+            ResetTargetSet();
             SpawnTargets();
+            currentState = TargetSetState.Active;
         }
 
         /// <summary>
@@ -182,7 +184,6 @@ namespace ShootingGallery.Game
                 shootingTargets[i] = null;
             }
 
-            ResetTargetSet();
             currentState = TargetSetState.Inactive;
             onTargetSetComplete?.Invoke(IsDecoyOnly());
         }
