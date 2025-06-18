@@ -16,20 +16,11 @@ namespace ShootingGallery.Game
         [SerializeField]
         private float roundSetTimer = 10.0f; // Total time to run set
 
-        [SerializeField]
-        private float timeBeforeSet = 0.0f; // Time before set
-
         private int totalTargetSetsComplete = 0;
         private int totalNonDecoyOnlySets = 0;
         private int nonDecoyOnlySetsComplete = 0;
 
         public UnityAction onRoundSetReleased;
-
-        public float TimeBeforeSet
-        {
-            get => timeBeforeSet;
-            private set => timeBeforeSet = value;
-        }
 
         private void Start()
         {

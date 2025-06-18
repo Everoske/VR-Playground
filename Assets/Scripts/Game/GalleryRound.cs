@@ -75,19 +75,6 @@ namespace ShootingGallery.Game
 
         private void HandleStartRoundSet()
         {
-            if (sets[activeRoundSetIndex].TimeBeforeSet > 0.0f)
-            {
-                StartCoroutine(StartSetAfterDelay());
-            }
-            else
-            {
-                sets[activeRoundSetIndex].InitiateRoundSet();
-            }
-        }
-
-        private IEnumerator StartSetAfterDelay()
-        {
-            yield return new WaitForSeconds(sets[activeRoundSetIndex].TimeBeforeSet);
             sets[activeRoundSetIndex].InitiateRoundSet();
         }
 
