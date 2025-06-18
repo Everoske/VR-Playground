@@ -155,6 +155,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeMaterial: {fileID: 2100000, guid: f6af5c455dffa844b9b93cb8a648077e, type: 2}
   inactiveMaterial: {fileID: 2100000, guid: 19cd14443773ff840acf8bf77d07a6c4, type: 2}
-  points: 25
   rotationAxes: {x: -90, y: 0, z: 0}
-  rotationSpeed: 1
+  rotationSpeed: 0.15

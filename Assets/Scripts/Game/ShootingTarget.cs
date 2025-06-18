@@ -18,7 +18,7 @@ namespace ShootingGallery.Game
 
         // TODO: Implement smooth rotation
         [SerializeField]
-        private float rotationSpeed = 1.0f; 
+        private float rotationSpeed = 0.15f; 
 
         private MeshRenderer meshRenderer;
         private bool isTargetActive = true;
@@ -43,6 +43,15 @@ namespace ShootingGallery.Game
             meshRenderer = GetComponentInChildren<MeshRenderer>();
         }
 
+        private void Update()
+        {
+            if (isTargetActive) return;
+
+            Quaternion currentRotation = transform.rotation;
+            Quaternion targetRotation = Quaternion.Euler(rotationAxes.x, rotationAxes.y, rotationAxes.z);
+            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime / rotationSpeed);
+        }
+
         public void HitTarget()
         {
             if (!isTargetActive) return;
@@ -50,8 +59,6 @@ namespace ShootingGallery.Game
             targetHitNotify.OnTargetHit(targetType);
             meshRenderer.material = inactiveMaterial;
             isTargetActive = false;
-
-            transform.rotation = Quaternion.Euler(rotationAxes.x, rotationAxes.y, rotationAxes.z);
         }
 
         public void ResetTarget()
