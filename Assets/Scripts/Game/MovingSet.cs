@@ -10,7 +10,7 @@ namespace ShootingGallery.Game
     public class MovingSet : TargetSet
     {
         [SerializeField]
-        private float speed = 2.0f;
+        private float speed = 4.0f;
 
         [Tooltip("The track will continue to move until told to stop.")]
         [SerializeField]

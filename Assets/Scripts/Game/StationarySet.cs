@@ -10,11 +10,11 @@ namespace ShootingGallery.Game
     {
         [Tooltip("Speed at which the Stationary Targets move into and out of position.")]
         [SerializeField]
-        private float changePositionSpeed = 2.0f;
+        private float changePositionSpeed = 5.0f;
 
         [Tooltip("Time until stationary set automatically stops.")]
         [SerializeField]
-        private float stationarySetTime = 10.0f;
+        private float stationarySetTime = 15.0f;
 
         private Vector3 centerPoint;
         private Vector3 trackActivePosition;
