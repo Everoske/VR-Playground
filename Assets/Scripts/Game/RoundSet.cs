@@ -117,7 +117,7 @@ namespace ShootingGallery.Game
         private IEnumerator InitiateRoundSetTimer()
         {
             yield return new WaitForSeconds(roundSetTimer);
-            StopTargetSets();
+            StopTargetSets(); // Perhaps add a check here to see if round already stopped?
         }
 
         /// <summary>
