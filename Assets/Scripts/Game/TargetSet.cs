@@ -68,7 +68,7 @@ namespace ShootingGallery.Game
             {
                 case TargetSetState.Inactive:
                     break;
-                case TargetSetState.Assigned:
+                case TargetSetState.Ready:
                     break;
                 case TargetSetState.Active:
                     ExecuteMainSequence();
@@ -94,7 +94,7 @@ namespace ShootingGallery.Game
         /// </summary>
         public void InitiateTargetSet()
         {
-            if (currentState != TargetSetState.Assigned) return;
+            if (currentState != TargetSetState.Ready) return;
 
             if (shootingTargets.Length == 0)
             {
@@ -146,7 +146,7 @@ namespace ShootingGallery.Game
                 shootingTargets[i].transform.parent = targetTrack;
             }
 
-            currentState = TargetSetState.Assigned;
+            currentState = TargetSetState.Ready;
         }
 
         public void UnassignTargets()
@@ -192,7 +192,7 @@ namespace ShootingGallery.Game
         /// </summary>
         public void StopTargetSet()
         {
-            if (currentState == TargetSetState.Assigned)
+            if (currentState == TargetSetState.Ready)
             {
                 RemoveTargets();
             }
@@ -233,6 +233,9 @@ namespace ShootingGallery.Game
 
         }
 
+        /// <summary>
+        /// Reset target set and any of its parameters.
+        /// </summary>
         protected virtual void ResetTargetSet()
         {
             targetsHit = 0;
@@ -283,7 +286,7 @@ namespace ShootingGallery.Game
     public enum TargetSetState
     {
         Inactive, 
-        Assigned,
+        Ready,
         Active,
         Terminating,
         Stopped

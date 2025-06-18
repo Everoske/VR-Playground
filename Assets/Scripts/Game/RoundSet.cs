@@ -33,7 +33,7 @@ namespace ShootingGallery.Game
 
         private void Start()
         {
-            DetermineNumberOfNonDecoySets();
+            DetermineNumberOfNonDecoyOnlySets();
         }
 
         private void OnEnable()
@@ -120,7 +120,10 @@ namespace ShootingGallery.Game
             StopTargetSets();
         }
 
-        private void DetermineNumberOfNonDecoySets()
+        /// <summary>
+        /// Determine number of non-decoy only target sets.
+        /// </summary>
+        private void DetermineNumberOfNonDecoyOnlySets()
         {
             foreach (TargetSet targetSet in targetSets)
             {
@@ -131,6 +134,9 @@ namespace ShootingGallery.Game
             }
         }
 
+        /// <summary>
+        /// Reset round set parameters.
+        /// </summary>
         private void ResetRoundSet()
         {
             totalTargetSetsComplete = 0;
@@ -165,6 +171,9 @@ namespace ShootingGallery.Game
             StopTargetSets();
         }
 
+        /// <summary>
+        /// Set all target sets to the Ready state.
+        /// </summary>
         public void AssignTargetSets()
         {
             foreach (TargetSet targetSet in targetSets)
@@ -173,6 +182,10 @@ namespace ShootingGallery.Game
             }
         }
 
+        /// <summary>
+        /// Retrieve total score for round set.
+        /// </summary>
+        /// <returns>Total round set score.</returns>
         public int GetTotalRoundSetScore()
         {
             int score = 0;
