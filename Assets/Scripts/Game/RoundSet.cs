@@ -144,7 +144,7 @@ namespace ShootingGallery.Game
         {
             if (targetSets == null ||  targetSets.Length == 0 || totalNonDecoyOnlySets == 0)
             {
-                UnassignTargetSets();
+                StopTargetSets();
                 ReleaseRoundSet();
                 return;
             }
@@ -170,14 +170,6 @@ namespace ShootingGallery.Game
             foreach (TargetSet targetSet in targetSets)
             {
                 targetSet.AssignTargets();
-            }
-        }
-
-        private void UnassignTargetSets()
-        {
-            foreach (TargetSet targetSet in targetSets)
-            {
-                targetSet.UnassignTargets();
             }
         }
 

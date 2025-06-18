@@ -18,9 +18,6 @@ namespace ShootingGallery.Game
 
         private Vector3 centerPoint;
         private Vector3 trackActivePosition;
-        private bool setActive = false;
-        private bool setTimerActive = false;
-        private bool returnToStart = true;
 
         protected override void Start()
         {
@@ -30,32 +27,38 @@ namespace ShootingGallery.Game
             DetermineLeadTargetPosition();
         }
 
-        public override void InitiateTargetSet()
-        {
-            base.InitiateTargetSet();
-            if (shootingTargets.Length == 0) return;
-            setActive = true;
-            returnToStart = false;
-        }
-
-        public override void StopTargetSet()
-        {
-            base.StopTargetSet();
-            if (!IsSetActive()) return;
-
-            setTimerActive = false;
-            returnToStart = true;
-        }
-
-        protected override bool IsSetActive()
-        {
-            return setActive;
-        }
-
+        /// <summary>
+        /// Move track into its position for the round and start round timer.
+        /// </summary>
         protected override void ExecuteMainSequence()
         {
             base.ExecuteMainSequence();
-            ProcessTrackPosition();
+
+            if (TrackInPosition())
+            {
+                StartCoroutine(InitiateStationarySetTimer());
+            }
+            else
+            {
+                MoveTrackIntoPosition();
+            }   
+        }
+
+        /// <summary>
+        /// Move track to its original position to despawn targets.
+        /// </summary>
+        protected override void ExecuteStopSequence()
+        {
+            base.ExecuteStopSequence();
+
+            if (TrackReturned())
+            {
+                RemoveTargets();
+            }
+            else
+            {
+                MoveTrackToStart();
+            } 
         }
 
         /// <summary>
@@ -64,10 +67,9 @@ namespace ShootingGallery.Game
         /// <returns></returns>
         private IEnumerator InitiateStationarySetTimer()
         {
-            setTimerActive = true;
             yield return new WaitForSeconds(stationarySetTime);
 
-            if (setTimerActive)
+            if (currentState == TargetSetState.Active)
             {
                 StopTargetSet();
             }
@@ -93,50 +95,36 @@ namespace ShootingGallery.Game
         }
 
         /// <summary>
-        /// Determines where the targets should move.
+        /// Track reached intended position to active round.
         /// </summary>
-        private void ProcessTrackPosition()
-        {
-            if (!setActive) return;
-
-            if (!returnToStart)
-            {
-                MoveTrackIntoPosition();
-            }
-            else 
-            {
-                MoveTrackToStart();
-            }
-        }
-
+        /// <returns></returns>
         private bool TrackInPosition()
         {
             return targetTrack.position == trackActivePosition;
         }
 
+        /// <summary>
+        /// Track returned to its original start point.
+        /// </summary>
+        /// <returns></returns>
         private bool TrackReturned()
         {
             return targetTrack.position == targetRack.GetStartPoint();
         }
 
+        /// <summary>
+        /// Move track toward active game position.
+        /// </summary>
         private void MoveTrackIntoPosition()
         {
-            if (TrackInPosition())
-            {
-                StartCoroutine(InitiateStationarySetTimer());
-                return;
-            }
             TranslateTrack(trackActivePosition, direction, changePositionSpeed);
         }
 
+        /// <summary>
+        /// Move track back toward its spawn point.
+        /// </summary>
         private void MoveTrackToStart()
         {
-            if (TrackReturned())
-            {
-                RemoveTargets();
-                setActive = false;
-                return;
-            }
             TranslateTrack(targetRack.GetStartPoint(), -direction, changePositionSpeed);
         }
     }

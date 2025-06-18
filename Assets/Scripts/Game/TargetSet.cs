@@ -76,6 +76,8 @@ namespace ShootingGallery.Game
                 case TargetSetState.Terminating:
                     ExecuteStopSequence();
                     break;
+                case TargetSetState.Stopped:
+                    break;
             }
         }
 
@@ -90,9 +92,10 @@ namespace ShootingGallery.Game
         /// <summary>
         /// Get targets from target pool and spawn them.
         /// </summary>
-        public virtual void InitiateTargetSet()
+        public void InitiateTargetSet()
         {
-            targetsHit = 0;
+            if (currentState != TargetSetState.Assigned) return;
+
             if (shootingTargets.Length == 0)
             {
                 ReleaseTargetSet();
@@ -101,13 +104,6 @@ namespace ShootingGallery.Game
 
             SpawnTargets();
         }
-
-        // Can Keep
-        public bool IsTargetSetFree()
-        {
-            return shootingTargets.Length == 0;
-        }
-
 
         /// <summary>
         /// Determines how many normal targets and decoys are in this target set.
@@ -133,6 +129,8 @@ namespace ShootingGallery.Game
         /// </summary>
         public void AssignTargets()
         {
+            if (currentState != TargetSetState.Inactive) return;
+
             for (int i = 0; i < setOrder.Length; i++)
             {
                 TargetType type = setOrder[i]; 
@@ -147,6 +145,8 @@ namespace ShootingGallery.Game
 
                 shootingTargets[i].transform.parent = targetTrack;
             }
+
+            currentState = TargetSetState.Assigned;
         }
 
         public void UnassignTargets()
@@ -181,23 +181,32 @@ namespace ShootingGallery.Game
             {
                 shootingTargets[i] = null;
             }
-            
+
+            ResetTargetSet();
+            currentState = TargetSetState.Inactive;
             onTargetSetComplete?.Invoke(IsDecoyOnly());
         }
 
         /// <summary>
-        /// Initiates the stop sequence
+        /// Initiates the stop sequence.
         /// </summary>
-        public virtual void StopTargetSet()
+        public void StopTargetSet()
         {
-
+            if (currentState == TargetSetState.Assigned)
+            {
+                RemoveTargets();
+            }
+            else if (currentState == TargetSetState.Active)
+            {
+                currentState = TargetSetState.Terminating;
+            }
         }
 
         /// <summary>
         /// Returns targets to Target Pool. Should be called after targets are
         /// out of the player's view
         /// </summary>
-        protected virtual void RemoveTargets()
+        protected void RemoveTargets()
         {
             foreach (ShootingTarget target in shootingTargets)
             {
@@ -205,11 +214,6 @@ namespace ShootingGallery.Game
             }
 
             ReleaseTargetSet();
-        }
-
-        protected virtual bool IsSetActive()
-        {
-            return shootingTargets.Length > 0;
         }
 
         /// <summary>
@@ -227,6 +231,11 @@ namespace ShootingGallery.Game
         protected virtual void ExecuteStopSequence()
         {
 
+        }
+
+        protected virtual void ResetTargetSet()
+        {
+            targetsHit = 0;
         }
 
         /// <summary>
@@ -276,6 +285,7 @@ namespace ShootingGallery.Game
         Inactive, 
         Assigned,
         Active,
-        Terminating
+        Terminating,
+        Stopped
     }
 }

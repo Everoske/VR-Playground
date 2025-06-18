@@ -21,7 +21,6 @@ namespace ShootingGallery.Game
         private int totalPasses = 2;
 
         private int currentPass;
-        private bool canMove = false;
 
         private Vector3 trueEndPoint;
         private Vector3 currentStartPoint;
@@ -34,34 +33,13 @@ namespace ShootingGallery.Game
             DetermineTrueEndPoint();
         }
 
-        private void MoveTrack()
-        {
-            if (TrackReachedEndpoint())
-            {
-                currentPass++;
-                currentDirection *= -1;
-                Vector3 temp = currentEndPoint;
-                currentEndPoint = currentStartPoint;
-                currentStartPoint = temp;
-                
-                if (currentPass >= totalPasses)
-                {
-                    RemoveTargets();
-                    return;
-                }
-            }
-
-            TranslateTrack(currentEndPoint, currentDirection, speed);
-        }
-
+        /// <summary>
+        /// Track reached current endpoint.
+        /// </summary>
+        /// <returns></returns>
         private bool TrackReachedEndpoint()
         {
             return targetTrack.position == currentEndPoint;
-        }
-
-        private bool CanMove()
-        {
-            return canMove && currentPass <= totalPasses;
         }
 
         /// <summary>
@@ -76,48 +54,70 @@ namespace ShootingGallery.Game
         }
 
         /// <summary>
-        /// Moving set should be able to process movement upon initiation.
+        /// Make multiple passes before the player until either told to stop
+        /// or after a certain number of passes.
         /// </summary>
-        public override void InitiateTargetSet()
-        {
-            base.InitiateTargetSet();
-            if (shootingTargets.Length == 0) return;
-
-            canMove = true;
-            currentPass = 0;
-            currentDirection = direction;
-            currentStartPoint = targetRack.GetStartPoint();
-            currentEndPoint = trueEndPoint;
-        }
-
-        /// <summary>
-        /// Targets should continue moving until out of view and then despawn.
-        /// </summary>
-        public override void StopTargetSet()
-        {
-            base.StopTargetSet();
-            if (!IsSetActive()) return;
-
-            currentPass = totalPasses;
-        }
-
         protected override void ExecuteMainSequence()
         {
             base.ExecuteMainSequence();
-            if (CanMove())
+
+            if (TrackReachedEndpoint())
             {
-                MoveTrack();
+                currentPass++;
+                ChangeDirectionAndTarget();
+            }
+
+            if (loop || currentPass < totalPasses)
+            {
+                TranslateTrack(currentEndPoint, currentDirection, speed);
+            }
+            else
+            {
+                StopTargetSet();
             }
         }
 
         /// <summary>
-        /// Moving set should not move after targets have been removed.
+        /// Move targets out of view toward current endpoint.
         /// </summary>
-        protected override void RemoveTargets()
+        protected override void ExecuteStopSequence()
         {
-            base.RemoveTargets();
-            canMove = false;
+            base.ExecuteStopSequence();
+
+            if (TrackReachedEndpoint())
+            {
+                RemoveTargets();
+            }
+            else
+            {
+                TranslateTrack(currentEndPoint, currentDirection, speed);
+            }
+        }
+
+        /// <summary>
+        /// Reset passes, direction, start/end points, and track position.
+        /// </summary>
+        protected override void ResetTargetSet()
+        {
+            base.ResetTargetSet();
+            currentPass = 0;
+            currentDirection = direction;
+            currentStartPoint = targetRack.GetStartPoint();
+            currentEndPoint = trueEndPoint;
             targetTrack.position = targetRack.GetStartPoint();
+        }
+
+        /// <summary>
+        /// Change current target endpoint and direction.
+        /// </summary>
+        private void ChangeDirectionAndTarget()
+        {
+            if (!loop && currentPass >= totalPasses) return;
+
+            currentDirection *= -1;
+            Vector3 temp = currentEndPoint;
+            currentEndPoint = currentStartPoint;
+            currentStartPoint = temp;
         }
     }
 }
