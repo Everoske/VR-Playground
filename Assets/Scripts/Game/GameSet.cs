@@ -50,7 +50,6 @@ namespace ShootingGallery.Game
             accuracyTracker = new AccuracyTracker();
             ScoreLocator.Provide(scoreTracker);
             AccuracyLocator.Provide(accuracyTracker);
-            Debug.Log($"{Application.persistentDataPath}");
         }
 
         private void Update()
