@@ -11,6 +11,7 @@ namespace ShootingGallery.Game
         private RoundSet[] sets;
 
         private int activeRoundSetIndex = 0;
+        private bool shouldEndRound = false;
 
         public UnityAction onRoundReleased;
 
@@ -23,6 +24,7 @@ namespace ShootingGallery.Game
             }
 
             activeRoundSetIndex = 0;
+            shouldEndRound = false;
             HandleStartRoundSet();
         }
 
@@ -55,14 +57,20 @@ namespace ShootingGallery.Game
         private void RoundSetComplete()
         {
             activeRoundSetIndex++;
-
             if (activeRoundSetIndex >= sets.Length)
             {
                 ReleaseGalleryRound();
                 return;
             }
 
-            HandleStartRoundSet();
+            if (!shouldEndRound)
+            {
+                HandleStartRoundSet();
+            }
+            else
+            {
+                sets[activeRoundSetIndex].InitiateStopRoundSet();
+            }
         }
 
         /// <summary>
@@ -83,7 +91,13 @@ namespace ShootingGallery.Game
         /// </summary>
         public void InitiateStopRound()
         {
-            if (activeRoundSetIndex >= sets.Length) return;
+            if (activeRoundSetIndex >= sets.Length)
+            {
+                ReleaseGalleryRound();
+                return;
+            }
+
+            shouldEndRound = true;
             sets[activeRoundSetIndex].InitiateStopRoundSet();
         }
 

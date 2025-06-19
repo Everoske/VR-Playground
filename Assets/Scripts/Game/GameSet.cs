@@ -37,6 +37,7 @@ namespace ShootingGallery.Game
         private AccuracyTracker accuracyTracker;
         private float roundTimer = 0.0f; 
         private bool timerActive = false;
+        private bool shouldEndGame = false;
 
         private bool gameActive = false;
 
@@ -104,17 +105,17 @@ namespace ShootingGallery.Game
                 roundTimer = 0.0f;
                 timerActive = false;
                 roundUI.DeactivateTimerUI();
-                activeRoundIndex = rounds.Length;
-                return;
             }
-            
+
+            shouldEndGame = true;
             StopCurrentRound();
         }
 
         private void RoundComplete()
         {
+            Debug.Log("Round Complete");
             activeRoundIndex++;
-            if (activeRoundIndex >= rounds.Length)
+            if (activeRoundIndex >= rounds.Length || shouldEndGame)
             {
                 EndGame();
             }
@@ -172,6 +173,7 @@ namespace ShootingGallery.Game
             int finalScore = CalculateAccuracyBonus() + scoreTracker.CurrentScore;
             roundUI.SetScoreText(finalScore);
             gameActive = false;
+            shouldEndGame = false;
             Debug.Log($"Accuracy: {accuracyTracker.GetAccuracy() * 100}");
             Debug.Log($"Accuracy Bonus: {finalScore - scoreTracker.CurrentScore}");
             Debug.Log("GameSet Ended");
