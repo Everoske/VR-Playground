@@ -8,6 +8,9 @@ namespace ShootingGallery.Game
     // Represents a game set or a series of rounds using a particular weapon/s
     public class GameSet : MonoBehaviour
     {
+        [SerializeField]
+        private string gameSetName;
+
         // Weapons Used in Game
         // [SerializeField]
         // private XRWeapon[] usableWeapons;
@@ -47,6 +50,7 @@ namespace ShootingGallery.Game
             accuracyTracker = new AccuracyTracker();
             ScoreLocator.Provide(scoreTracker);
             AccuracyLocator.Provide(accuracyTracker);
+            Debug.Log($"{Application.persistentDataPath}");
         }
 
         private void Update()
