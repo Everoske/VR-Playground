@@ -2,11 +2,13 @@ using ShootingGallery.UI;
 using System.Linq;
 using System;
 using UnityEngine;
+using ShootingGallery.Interfaces;
+using ShootingGallery.Data;
 
 namespace ShootingGallery.Game
 {
     // Represents a game set or a series of rounds using a particular weapon/s
-    public class GameSet : MonoBehaviour
+    public class GameSet : MonoBehaviour, ISaveable
     {
         [SerializeField]
         private string gameSetName;
@@ -34,6 +36,7 @@ namespace ShootingGallery.Game
         [SerializeField]
         private float minAccuracyForBonus = 0.80f;
 
+        private int highScore;
         private int activeRoundIndex = 0;
         private int highestPossibleScore = -1;
         private ScoreTracker scoreTracker;
@@ -180,6 +183,11 @@ namespace ShootingGallery.Game
             Debug.Log($"Accuracy: {accuracyTracker.GetAccuracy() * 100}");
             Debug.Log($"Accuracy Bonus: {finalScore - scoreTracker.CurrentScore}");
             Debug.Log("GameSet Ended");
+
+            if (finalScore > highScore)
+            {
+                highScore = finalScore;
+            }
         }
 
         private void StartRoundTimer(string header, float time)
@@ -215,6 +223,16 @@ namespace ShootingGallery.Game
         private void SetupCurrentRound()
         {
             rounds[activeRoundIndex].AssignRoundSets();
+        }
+
+        public void LoadData(GameData data)
+        {
+            highScore = data.highScore;
+        }
+
+        public void SaveData(ref GameData data)
+        {
+            data.highScore = highScore;
         }
     }
 }

@@ -370,7 +370,6 @@ MonoBehaviour:
   - {fileID: 1932041300}
   - {fileID: 1738489391}
   roundSetTimer: 25
-  timeBeforeSet: 0
 --- !u!1 &44064124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1418,7 +1417,6 @@ MonoBehaviour:
   - {fileID: 1587799487}
   - {fileID: 56277333}
   roundSetTimer: 20
-  timeBeforeSet: 0
 --- !u!1 &166188811
 GameObject:
   m_ObjectHideFlags: 0
@@ -2237,7 +2235,6 @@ MonoBehaviour:
   - {fileID: 658540474}
   - {fileID: 256414612}
   roundSetTimer: 60
-  timeBeforeSet: 0
 --- !u!1 &184265157
 GameObject:
   m_ObjectHideFlags: 0
@@ -2296,7 +2293,6 @@ MonoBehaviour:
   - {fileID: 2012258767}
   - {fileID: 699630168}
   roundSetTimer: 20
-  timeBeforeSet: 0
 --- !u!1 &185848926
 GameObject:
   m_ObjectHideFlags: 0
@@ -4722,7 +4718,6 @@ MonoBehaviour:
   - {fileID: 1807044339}
   - {fileID: 455413851}
   roundSetTimer: 25
-  timeBeforeSet: 0
 --- !u!1 &454792292
 GameObject:
   m_ObjectHideFlags: 0
@@ -5208,7 +5203,6 @@ MonoBehaviour:
   - {fileID: 1897428055}
   - {fileID: 987382381}
   roundSetTimer: 20
-  timeBeforeSet: 0
 --- !u!1001 &476239545
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8000,7 +7994,6 @@ MonoBehaviour:
   - {fileID: 2012951833}
   - {fileID: 7508519}
   roundSetTimer: 20
-  timeBeforeSet: 0
 --- !u!1 &761235671
 GameObject:
   m_ObjectHideFlags: 0
@@ -11575,7 +11568,6 @@ MonoBehaviour:
   - {fileID: 1032574973}
   - {fileID: 98591869}
   roundSetTimer: 25
-  timeBeforeSet: 0
 --- !u!1 &1217245187
 GameObject:
   m_ObjectHideFlags: 0
@@ -12036,7 +12028,6 @@ MonoBehaviour:
   - {fileID: 1569608844}
   - {fileID: 1191200974}
   roundSetTimer: 20
-  timeBeforeSet: 0
 --- !u!1 &1282076378
 GameObject:
   m_ObjectHideFlags: 0
@@ -12626,7 +12617,6 @@ MonoBehaviour:
   - {fileID: 1676546427}
   - {fileID: 636699575}
   roundSetTimer: 25
-  timeBeforeSet: 0
 --- !u!1 &1328250623
 GameObject:
   m_ObjectHideFlags: 0
@@ -15475,7 +15465,6 @@ MonoBehaviour:
   - {fileID: 287124920}
   - {fileID: 1315339664}
   roundSetTimer: 25
-  timeBeforeSet: 0
 --- !u!1 &1607092576
 GameObject:
   m_ObjectHideFlags: 0
@@ -15641,6 +15630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8649e3c4ae6325e4a9fa6b426d85b5dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameSetName: 
   rounds:
   - {fileID: 1556440420}
   - {fileID: 1303437206}
@@ -17280,7 +17270,6 @@ MonoBehaviour:
   - {fileID: 367137921}
   - {fileID: 313084118}
   roundSetTimer: 20
-  timeBeforeSet: 0
 --- !u!1 &1822494678
 GameObject:
   m_ObjectHideFlags: 0
@@ -17441,7 +17430,6 @@ MonoBehaviour:
   - {fileID: 627871511}
   - {fileID: 44064126}
   roundSetTimer: 20
-  timeBeforeSet: 0
 --- !u!1 &1839687208
 GameObject:
   m_ObjectHideFlags: 0
@@ -18497,6 +18485,50 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1240869997}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1999958104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1999958106}
+  - component: {fileID: 1999958105}
+  m_Layer: 0
+  m_Name: DataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1999958105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999958104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67efd6f3c3054bf4cb95562aa0ad9384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1999958106
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1999958104}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2007929314
 GameObject:
@@ -20273,7 +20305,6 @@ MonoBehaviour:
   - {fileID: 1328250625}
   - {fileID: 1025339172}
   roundSetTimer: 20
-  timeBeforeSet: 0
 --- !u!1 &2103910119
 GameObject:
   m_ObjectHideFlags: 0
@@ -21314,3 +21345,4 @@ SceneRoots:
   - {fileID: 260942999}
   - {fileID: 1620472246}
   - {fileID: 1583219099}
+  - {fileID: 1999958106}
