@@ -55,6 +55,11 @@ namespace ShootingGallery.Data
             {
                 gameData = new GameData();
             }
+
+            foreach (ISaveable saveable in saveableObjects)
+            {
+                saveable.LoadData(gameData);
+            }
         }
 
         public void SaveGame()

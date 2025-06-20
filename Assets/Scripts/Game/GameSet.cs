@@ -45,7 +45,7 @@ namespace ShootingGallery.Game
         [SerializeField]
         private float minAccuracyForBonus = 0.80f;
 
-        private int highScore;
+        private int highScore = 0;
         private int activeRoundIndex = 0;
         private int highestPossibleScore = -1;
         private ScoreTracker scoreTracker;
