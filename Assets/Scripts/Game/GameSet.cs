@@ -13,6 +13,15 @@ namespace ShootingGallery.Game
         [SerializeField]
         private string gameSetName;
 
+        [SerializeField]
+        private string id;
+
+        [ContextMenu("Generate Guid")]
+        private void GenerateGuid()
+        {
+            id = System.Guid.NewGuid().ToString();
+        }
+
         // Weapons Used in Game
         // [SerializeField]
         // private XRWeapon[] usableWeapons;
@@ -227,12 +236,19 @@ namespace ShootingGallery.Game
 
         public void LoadData(GameData data)
         {
-            highScore = data.highScore;
+            if (data.highScoreData.ContainsKey(id))
+            {
+                highScore = data.highScoreData[id];
+            }
         }
 
         public void SaveData(ref GameData data)
         {
-            data.highScore = highScore;
+            if (data.highScoreData.ContainsKey(id))
+            {
+                data.highScoreData.Remove(id);
+            }
+            data.highScoreData.Add(id, highScore);
         }
     }
 }
