@@ -161,6 +161,8 @@ namespace ShootingGallery.Game
         // Do once at end of game
         private int CalculateAccuracyBonus()
         {
+            if (activeRoundIndex < rounds.Length) return 0; // Return 0 if game ended early
+
             if (accuracyTracker.GetAccuracy() >= minAccuracyForBonus)
             {
                 return (int) (accuracyTracker.GetAccuracy() * maxAccuracyBonus);
