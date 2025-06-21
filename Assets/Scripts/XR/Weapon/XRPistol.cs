@@ -34,7 +34,7 @@ namespace ShootingGallery.XR.Weapon
         private float maxShotVolume = 1.0f;
 
         [SerializeField]
-        private ParticleSystem muffleFlashPrefab;
+        private ParticleSystem muffleFlashPrefab; // Attach and add instead of instantiate?
         [SerializeField]
         private ParticleSystem impactSparksPrefab;
 
