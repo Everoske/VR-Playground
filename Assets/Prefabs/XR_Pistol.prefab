@@ -377,7 +377,7 @@ Transform:
   m_GameObject: {fileID: 1145157559316074292}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.025, z: 0.09}
+  m_LocalPosition: {x: 0, y: 0.0292, z: 0.117}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -669,8 +669,8 @@ MonoBehaviour:
   maxShotPitch: 1.2
   minShotVolume: 0.8
   maxShotVolume: 1
-  smokeParticles: {fileID: 0}
-  impactSparks: {fileID: 7182656665442025028, guid: 6f6a10c7f268cfa4694f251945481620, type: 3}
+  muffleFlashPrefab: {fileID: 4519572137585984875, guid: fd2bf0605728ba3498584f3205ae251b, type: 3}
+  impactSparksPrefab: {fileID: 7182656665442025028, guid: 6f6a10c7f268cfa4694f251945481620, type: 3}
   shootClip: {fileID: 8300000, guid: 23c833477135e134b87fd63e7a86e562, type: 3}
   emptyClip: {fileID: 8300000, guid: f43b86bc3edc16948be58d20efadfda2, type: 3}
   pulledBackClip: {fileID: 8300000, guid: 4b852596673522b44bd5c151f2f9c4c0, type: 3}

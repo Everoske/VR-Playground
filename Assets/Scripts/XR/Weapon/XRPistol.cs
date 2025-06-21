@@ -9,6 +9,7 @@ namespace ShootingGallery.XR.Weapon
 {
     public class XRPistol : XRGrabInteractable
     {
+        [Header("XR Pistol Settings")]
         [SerializeField]
         private InputAction rightReleaseMagAction;
         [SerializeField]
@@ -33,9 +34,9 @@ namespace ShootingGallery.XR.Weapon
         private float maxShotVolume = 1.0f;
 
         [SerializeField]
-        private ParticleSystem smokeParticles;
+        private ParticleSystem muffleFlashPrefab;
         [SerializeField]
-        private ParticleSystem impactSparks;
+        private ParticleSystem impactSparksPrefab;
 
         [SerializeField]
         private AudioClip shootClip;
@@ -59,6 +60,7 @@ namespace ShootingGallery.XR.Weapon
         private AudioSource audioSource;
         private bool animationPlaying = false;
         private bool roundInChamber = false;
+        private ParticleSystem muffleFlash;
 
         protected override void Awake()
         {
@@ -75,6 +77,8 @@ namespace ShootingGallery.XR.Weapon
             {
                 slider.LockSlideForAnimation();
             }
+
+            muffleFlash = Instantiate(muffleFlashPrefab, shootingOrigin.position, shootingOrigin.rotation, shootingOrigin);
         }
 
         protected override void OnEnable()
@@ -168,7 +172,7 @@ namespace ShootingGallery.XR.Weapon
             magWell.ConsumeRound();
             roundInChamber = magWell.HasLoadedMagazine();
             PlayAudioClip(shootClip);
-            // PlaySmokeEffect();
+            PlayMuffleFlash();
             AccuracyLocator.GetAccuracyTracker().IncrementShotsFired();
             RaycastHit hit;
 
@@ -196,14 +200,14 @@ namespace ShootingGallery.XR.Weapon
             audioSource.PlayOneShot(clip);
         }
 
-        private void PlaySmokeEffect()
+        private void PlayMuffleFlash()
         {
-            ParticleSystem smoke = Instantiate(smokeParticles, shootingOrigin.position, shootingOrigin.rotation);
+            muffleFlash.Play();
         }
 
         private void PlayImpactSparks(Vector3 impactPoint, Quaternion impactRotation)
         {
-            ParticleSystem sparks = Instantiate(impactSparks, impactPoint, impactRotation);
+            ParticleSystem sparks = Instantiate(impactSparksPrefab, impactPoint, impactRotation);
         }
 
         public void SetPistolAnimationEnd()
