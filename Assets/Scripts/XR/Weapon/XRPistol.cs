@@ -240,7 +240,6 @@ namespace ShootingGallery.XR.Weapon
         private void OnSlidePulledBack()
         {
             PlayAudioClip(pulledBackClip);
-            // TODO: Eject round when in chamber
 
             if (roundInChamber)
             {

@@ -9,9 +9,11 @@ namespace ShootingGallery.XR.Weapon
     public class XRPistolSlider : XRBaseInteractable
     {
         [SerializeField]
-        private Transform frontPoint;
+        private Transform frontPoint; // Front of pistol
         [SerializeField]
-        private Transform backPoint;
+        private Transform slideStopPoint; // Point where slide stops after being fired
+        [SerializeField]
+        private Transform backPoint; // Back of pistol (full pull back)
 
         [Tooltip("When active, slider follows the interactor directly")]
         [SerializeField]
@@ -32,11 +34,12 @@ namespace ShootingGallery.XR.Weapon
         public UnityAction onSnapForward;
 
         private XRDirectInteractor currentInteractor;
-        private float springBackForce = 0.0f;
-        private float displacementPercentage = 0.0f;
-        private bool canInvokePullBack = true;
-        private bool slideLocked = false;
-        private bool isEmpty = false;
+        private float springBackForce = 0.0f; // Force applied to slide toward its target position
+        private float displacementPercentage = 0.0f; // Used for spring back calculations and determining snap back
+        private bool canInvokePullBack = true; // Ensures onPullBack isn't invoked multiple times
+        private bool slideLocked = false; // Prevents the slide from moving during animation or when pistol is not held
+        private bool isEmpty = false; // Parent pistol is empty
+        private bool slideStopEngaged = false;
 
         private void Update()
         {
@@ -135,7 +138,7 @@ namespace ShootingGallery.XR.Weapon
             transform.position = ClampedTargetPosition(transform.position - springVelocity);
         }
 
-        private void CheckPullBack()
+        private void CheckPullBack() // Will need rework
         {
             if (transform.position == backPoint.position && canInvokePullBack)
             {
@@ -144,11 +147,11 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
-        private void CheckReturnedToFront()
+        private void CheckReturnedToFront() // Stays mostly the same
         {
             if (transform.position != frontPoint.position) return;
 
-            if (displacementPercentage > 1.0f - displacementThreshold)
+            if (displacementPercentage > 1.0f - displacementThreshold) // Will need rework
             {
                 onSnapForward?.Invoke();
             }
