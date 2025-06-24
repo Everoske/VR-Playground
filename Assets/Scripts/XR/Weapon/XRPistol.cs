@@ -71,7 +71,7 @@ namespace ShootingGallery.XR.Weapon
 
         private void Start()
         {
-            DeterminePistolState();
+            DeterminePistolState(false);
 
             if (lockSlideWhenNotHeld)
             {
@@ -214,22 +214,26 @@ namespace ShootingGallery.XR.Weapon
         {
             animationPlaying = false;
             slider.UnlockSlide();
-            DeterminePistolState();
+            DeterminePistolState(true);
         }
 
 
-        private void DeterminePistolState()
+        private void DeterminePistolState(bool pistolFired)
         {
             if (!roundInChamber && !magWell.HasLoadedMagazine())
             {
-                slider.SetEmptyState(true);
                 animator.SetBool("ShotReady", false);
+
+                if (pistolFired)
+                {
+                    slider.EngageSlideStop();
+                }
             }
         }
 
         private void MagazineAttached()
         {
-            slider.SetEmptyState(false);
+            //slider.SetEmptyState(false);
         }
 
         private void OnReleaseMagazinePressed(InputAction.CallbackContext ctx)
@@ -245,7 +249,7 @@ namespace ShootingGallery.XR.Weapon
             {
                 roundInChamber = false;
                 EjectCasing();
-                DeterminePistolState();
+                DeterminePistolState(false);
             }
         }
 

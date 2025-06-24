@@ -1,8 +1,9 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
-using UnityEngine.XR.Interaction.Toolkit;
 
 namespace ShootingGallery.XR.Weapon
 {
@@ -38,12 +39,11 @@ namespace ShootingGallery.XR.Weapon
         private float displacementPercentage = 0.0f; // Used for spring back calculations and determining snap back
         private bool canInvokePullBack = true; // Ensures onPullBack isn't invoked multiple times
         private bool slideLocked = false; // Prevents the slide from moving during animation or when pistol is not held
-        private bool isEmpty = false; // Parent pistol is empty
         private bool slideStopEngaged = false;
 
         private void Update()
         {
-            if (currentInteractor != null && !slideLocked && !isEmpty)
+            if (currentInteractor != null && !slideLocked)
             {
                 FollowActiveInteractor();
                 CheckPullBack();
@@ -64,6 +64,7 @@ namespace ShootingGallery.XR.Weapon
             {
                 currentInteractor = directInteractor;
                 ResetSpringBackForce();
+                DisengageSlideStop();
             }
         }
 
@@ -89,14 +90,19 @@ namespace ShootingGallery.XR.Weapon
             slideLocked = false;
         }
 
-        public void SetEmptyState(bool isEmpty)
+        public void EngageSlideStop()
         {
-            this.isEmpty = isEmpty;
+            slideStopEngaged = true;
         }
 
         public bool SliderIsIdle()
         {
             return currentInteractor == null && transform.position == frontPoint.position;
+        }
+
+        private void DisengageSlideStop()
+        {
+            slideStopEngaged = false;
         }
 
         private void FollowActiveInteractor()
@@ -111,12 +117,12 @@ namespace ShootingGallery.XR.Weapon
 
         private void HandleSlideBack()
         {
-            if (isEmpty)
+            if (slideStopEngaged)
             {
-                if (transform.position != backPoint.position)
+                if (transform.position != slideStopPoint.position)
                 {
-                    SpringToBack();
-                    CheckReturnedToBack();
+                    SpringToSlideStop();
+                    CheckReachedSlideStop();
                 }
             }
             else if (transform.position != frontPoint.position)
@@ -132,10 +138,11 @@ namespace ShootingGallery.XR.Weapon
             transform.position = ClampedTargetPosition(transform.position + springVelocity);
         }
 
-        private void SpringToBack()
+        private void SpringToSlideStop()
         {
-            Vector3 springVelocity = (frontPoint.position - backPoint.position).normalized * Time.deltaTime * springTension;
-            transform.position = ClampedTargetPosition(transform.position - springVelocity);
+            Vector3 springVelocity = (frontPoint.position - slideStopPoint.position).normalized * Time.deltaTime * springTension;
+            transform.position = ClampedTargetPosition(transform.position - springVelocity,
+                frontPoint.position, slideStopPoint.position);
         }
 
         private void CheckPullBack() // Will need rework
@@ -160,12 +167,11 @@ namespace ShootingGallery.XR.Weapon
             canInvokePullBack = true;
         }
 
-        private void CheckReturnedToBack()
+        private void CheckReachedSlideStop()
         {
-            if (transform.position != backPoint.position) return;
+            if (transform.position != slideStopPoint.position) return;
             ResetSpringBackForce();
             canInvokePullBack = true;
-            onPullBack?.Invoke();
         }
 
         private Vector3 ClampedTargetPosition(Vector3 targetPosition, Vector3 defaultPosition, Vector3 endPosition)
@@ -198,7 +204,6 @@ namespace ShootingGallery.XR.Weapon
 
         private void SetSpringBackForce()
         {
-            if (isEmpty) return;
             displacementPercentage = (transform.position - frontPoint.position).magnitude / (backPoint.position - frontPoint.position).magnitude;
             springBackForce = springTension * displacementPercentage;
         }
