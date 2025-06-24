@@ -34,7 +34,7 @@ namespace ShootingGallery.XR.Weapon
         private float maxShotVolume = 1.0f;
 
         [SerializeField]
-        private ParticleSystem muffleFlashPrefab; // Attach and add instead of instantiate?
+        private ParticleSystem muffleFlash;
         [SerializeField]
         private ParticleSystem impactSparksPrefab;
 
@@ -60,7 +60,6 @@ namespace ShootingGallery.XR.Weapon
         private AudioSource audioSource;
         private bool animationPlaying = false;
         private bool roundInChamber = false;
-        private ParticleSystem muffleFlash;
 
         protected override void Awake()
         {
@@ -77,8 +76,6 @@ namespace ShootingGallery.XR.Weapon
             {
                 slider.LockSlideForAnimation();
             }
-
-            muffleFlash = Instantiate(muffleFlashPrefab, shootingOrigin.position, shootingOrigin.rotation, shootingOrigin);
         }
 
         protected override void OnEnable()
@@ -233,7 +230,7 @@ namespace ShootingGallery.XR.Weapon
 
         private void MagazineAttached()
         {
-            //slider.SetEmptyState(false);
+            
         }
 
         private void OnReleaseMagazinePressed(InputAction.CallbackContext ctx)
