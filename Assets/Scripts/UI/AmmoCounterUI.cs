@@ -1,13 +1,16 @@
 using TMPro;
 using UnityEngine;
 
-public class AmmoCounterUI : MonoBehaviour
+namespace ShootingGallery.UI
 {
-    [SerializeField]
-    private TMP_Text ammoText;
-
-    public void SetAmmoCount(int count)
+    public class AmmoCounterUI : MonoBehaviour
     {
-        ammoText.text = count.ToString();
+        [SerializeField]
+        private TMP_Text ammoText;
+
+        public void SetAmmoCount(int count)
+        {
+            ammoText.text = count.ToString();
+        }
     }
 }

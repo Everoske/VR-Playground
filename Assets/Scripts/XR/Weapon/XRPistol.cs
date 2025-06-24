@@ -4,6 +4,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using ShootingGallery.Game;
+using ShootingGallery.UI;
 
 namespace ShootingGallery.XR.Weapon
 {
@@ -52,6 +53,12 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private XRMagazineWell magWell;
 
+        [SerializeField]
+        private AmmoCounterUI ammoCounterUI;
+        [SerializeField]
+        private bool showAmmoCounter;
+
+
         [Tooltip("Locks the slider when the pistol is not held")]
         [SerializeField]
         private bool lockSlideWhenNotHeld;
@@ -76,6 +83,8 @@ namespace ShootingGallery.XR.Weapon
             {
                 slider.LockSlideForAnimation();
             }
+
+            ammoCounterUI.gameObject.SetActive(false);
         }
 
         protected override void OnEnable()
@@ -84,6 +93,7 @@ namespace ShootingGallery.XR.Weapon
             slider.onSnapForward += OnSlideSnappedForward;
             slider.onPullBack += OnSlidePulledBack;
             magWell.onMagazineInsert += MagazineAttached;
+            magWell.onMagazineReleased += MagazineReleased;
         }
 
         protected override void OnDisable()
@@ -96,6 +106,7 @@ namespace ShootingGallery.XR.Weapon
             slider.onSnapForward -= OnSlideSnappedForward;
             slider.onPullBack -= OnSlidePulledBack;
             magWell.onMagazineInsert -= MagazineAttached;
+            magWell.onMagazineReleased -= MagazineReleased;
         }
 
         protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -124,6 +135,12 @@ namespace ShootingGallery.XR.Weapon
                 {
                     slider.UnlockSlide();
                 }
+
+                if (showAmmoCounter)
+                {
+                    ammoCounterUI.SetAmmoCount(magWell.GetAmmoInMag());
+                    ammoCounterUI.gameObject.SetActive(true);
+                }
             }
         }
 
@@ -139,6 +156,8 @@ namespace ShootingGallery.XR.Weapon
             {
                 slider.LockSlideForAnimation();
             }
+
+            ammoCounterUI.gameObject.SetActive(false);
         }
 
         protected override void OnActivated(ActivateEventArgs args)
@@ -178,6 +197,8 @@ namespace ShootingGallery.XR.Weapon
                 PlayImpactSparks(hit.point, hit.collider.transform.rotation);
                 DetermineTargetHit(hit.collider.gameObject);
             }
+
+            SetAmmoCountUI();
         }
 
         public void EjectCasing()
@@ -193,7 +214,6 @@ namespace ShootingGallery.XR.Weapon
             float volume = Random.Range(minShotVolume, maxShotVolume);
             audioSource.pitch = pitch;
             audioSource.volume = volume;
-
             audioSource.PlayOneShot(clip);
         }
 
@@ -230,7 +250,15 @@ namespace ShootingGallery.XR.Weapon
 
         private void MagazineAttached()
         {
-            
+            if (roundInChamber)
+            {
+                SetAmmoCountUI();
+            }
+        }
+
+        private void MagazineReleased()
+        {
+            SetAmmoCountUI();
         }
 
         private void OnReleaseMagazinePressed(InputAction.CallbackContext ctx)
@@ -259,6 +287,7 @@ namespace ShootingGallery.XR.Weapon
                 magWell.ConsumeRound();
                 roundInChamber = true;
                 animator.SetBool("ShotReady", true);
+                SetAmmoCountUI();
             }
         }
 
@@ -271,6 +300,13 @@ namespace ShootingGallery.XR.Weapon
                 hitTarget.HitTarget();
             }
             catch (System.Exception) { }
+        }
+
+        private void SetAmmoCountUI()
+        {
+            if (!showAmmoCounter) return;
+            ammoCounterUI.SetAmmoCount(roundInChamber ? 
+                magWell.GetAmmoInMag() + 1 : magWell.GetAmmoInMag());
         }
     }
 }
