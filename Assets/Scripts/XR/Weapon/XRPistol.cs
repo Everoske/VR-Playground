@@ -5,6 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using ShootingGallery.Game;
 using ShootingGallery.UI;
+using UnityEngine.XR.Interaction.Toolkit.Feedback;
 
 namespace ShootingGallery.XR.Weapon
 {
@@ -58,15 +59,27 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private bool showAmmoCounter;
 
-
         [Tooltip("Locks the slider when the pistol is not held")]
         [SerializeField]
         private bool lockSlideWhenNotHeld;
+
+        [Header("Haptic Feedback Settings")]
+        [SerializeField]
+        private ExternalHapticFeedbackPlayer hapticFeedbackPlayer;
+
+        [Range(0.0f, 1.0f)]
+        [SerializeField]
+        private float recoilAmplitude = 0.5f;
+        [SerializeField]
+        private float recoilDuration = 0.25f;
+        [SerializeField]
+        private float recoilFrequency = 0.0f;
 
         private Animator animator;
         private AudioSource audioSource;
         private bool animationPlaying = false;
         private bool roundInChamber = false;
+        private InteractorHandedness handedness = InteractorHandedness.None;
 
         protected override void Awake()
         {
@@ -131,6 +144,8 @@ namespace ShootingGallery.XR.Weapon
                         break;
                 }
 
+                handedness = interactor.handedness;
+
                 if (lockSlideWhenNotHeld)
                 {
                     slider.UnlockSlide();
@@ -158,6 +173,7 @@ namespace ShootingGallery.XR.Weapon
             }
 
             ammoCounterUI.gameObject.SetActive(false);
+            handedness = InteractorHandedness.None;
         }
 
         protected override void OnActivated(ActivateEventArgs args)
@@ -189,6 +205,7 @@ namespace ShootingGallery.XR.Weapon
             roundInChamber = magWell.HasLoadedMagazine();
             PlayAudioClip(shootClip);
             PlayMuffleFlash();
+            PlayHapticFeedback();
             AccuracyLocator.GetAccuracyTracker().IncrementShotsFired();
             RaycastHit hit;
 
@@ -307,6 +324,20 @@ namespace ShootingGallery.XR.Weapon
             if (!showAmmoCounter) return;
             ammoCounterUI.SetAmmoCount(roundInChamber ? 
                 magWell.GetAmmoInMag() + 1 : magWell.GetAmmoInMag());
+        }
+
+        private void PlayHapticFeedback()
+        {
+            if (hapticFeedbackPlayer == null) return;
+            switch (handedness)
+            {
+                case InteractorHandedness.Right:
+                    hapticFeedbackPlayer.SendRightHapticImpulse(recoilAmplitude, recoilDuration, recoilFrequency);
+                    break;
+                case InteractorHandedness.Left:
+                    hapticFeedbackPlayer.SendLeftHapticImpulse(recoilAmplitude, recoilDuration, recoilFrequency);
+                    break;
+            }
         }
     }
 }
