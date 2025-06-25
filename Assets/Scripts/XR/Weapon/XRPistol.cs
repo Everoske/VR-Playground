@@ -208,8 +208,8 @@ namespace ShootingGallery.XR.Weapon
         /// </summary>
         public void ShootPistol()
         {
-            magWell.ConsumeRound();
             roundInChamber = magWell.HasLoadedMagazine();
+            magWell.ConsumeRound();
             PlayAudioClip(shootClip);
             PlayMuffleFlash();
             PlayRecoilFeedback();
