@@ -7,14 +7,20 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace ShootingGallery.XR.Weapon
 {
+    /// <summary>
+    /// Represents the slider component of a semi-automatic pistol.
+    /// </summary>
     public class XRPistolSlider : XRBaseInteractable
     {
+        [Tooltip("Represents the default position for the slide.")]
         [SerializeField]
-        private Transform frontPoint; // Front of pistol
+        private Transform frontPoint;
+        [Tooltip("Represents the position where the slide locks after firing until empty.")]
         [SerializeField]
-        private Transform slideStopPoint; // Point where slide stops after being fired
+        private Transform slideStopPoint;
+        [Tooltip("Represents the farthest position the slide can be pulled back.")]
         [SerializeField]
-        private Transform backPoint; // Back of pistol (full pull back)
+        private Transform backPoint; 
 
         [Tooltip("When active, slider follows the interactor directly")]
         [SerializeField]
@@ -29,16 +35,14 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private float displacementThreshold = 0.011f;
 
-        // Event called when slide pulled all the way back
         public UnityAction onPullBack;
-        // Event called when slide snaps from back to front
         public UnityAction onSnapForward;
 
         private XRDirectInteractor currentInteractor;
-        private float springBackForce = 0.0f; // Force applied to slide toward its target position
-        private float displacementPercentage = 0.0f; // Used for spring back calculations and determining snap back
-        private bool canInvokePullBack = true; // Ensures onPullBack isn't invoked multiple times
-        private bool slideLocked = false; // Prevents the slide from moving during animation or when pistol is not held
+        private float springBackForce = 0.0f; 
+        private float displacementPercentage = 0.0f; 
+        private bool canInvokePullBack = true; 
+        private bool slideLocked = false; 
         private bool slideStopEngaged = false;
 
         private void Update()
@@ -80,31 +84,50 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
+        /// <summary>
+        /// Prevent slide from moving when an animation is playing.
+        /// </summary>
         public void LockSlideForAnimation()
         {
             slideLocked = true;
         }
 
+        /// <summary>
+        /// Allow slide to move following animation completion.
+        /// </summary>
         public void UnlockSlide()
         {
             slideLocked = false;
         }
 
+        /// <summary>
+        /// Engage slide stop.
+        /// </summary>
         public void EngageSlideStop()
         {
             slideStopEngaged = true;
         }
 
+        /// <summary>
+        /// Determine if slide is not being interacted with and in its default position.
+        /// </summary>
+        /// <returns></returns>
         public bool SliderIsIdle()
         {
             return currentInteractor == null && transform.position == frontPoint.position;
         }
 
+        /// <summary>
+        /// Disengage slide stop.
+        /// </summary>
         private void DisengageSlideStop()
         {
             slideStopEngaged = false;
         }
 
+        /// <summary>
+        /// Have the slide follow the player's hand movement. 
+        /// </summary>
         private void FollowActiveInteractor()
         {
             Vector3 distanceToInteractor = currentInteractor.transform.position - transform.position;
@@ -115,6 +138,10 @@ namespace ShootingGallery.XR.Weapon
             transform.position = ClampedTargetPosition(desiredPosition);
         }
 
+        /// <summary>
+        /// Handle sliding the pistol to its default position or the slide stop position if
+        /// the slide stop is engaged.
+        /// </summary>
         private void HandleSlideBack()
         {
             if (slideStopEngaged)
@@ -132,12 +159,18 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
+        /// <summary>
+        /// Move the slide back toward its default position.
+        /// </summary>
         private void SpringToFront()
         {
             Vector3 springVelocity = (frontPoint.position - backPoint.position).normalized * Time.deltaTime * springBackForce;
             transform.position = ClampedTargetPosition(transform.position + springVelocity);
         }
 
+        /// <summary>
+        /// Move the slide toward the slide stop position.
+        /// </summary>
         private void SpringToSlideStop()
         {
             Vector3 springVelocity = (frontPoint.position - slideStopPoint.position).normalized * Time.deltaTime * springTension;
@@ -145,7 +178,10 @@ namespace ShootingGallery.XR.Weapon
                 frontPoint.position, slideStopPoint.position);
         }
 
-        private void CheckPullBack() // Will need rework
+        /// <summary>
+        /// Determine if slide has been fully pulled back by player.
+        /// </summary>
+        private void CheckPullBack() 
         {
             if (transform.position == backPoint.position && canInvokePullBack)
             {
@@ -154,11 +190,15 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
-        private void CheckReturnedToFront() // Stays mostly the same
+        /// <summary>
+        /// Check if slide returned to its default position. Check if the slide 
+        /// was released far back enough to load a round into the pistol's chamber.
+        /// </summary>
+        private void CheckReturnedToFront() 
         {
             if (transform.position != frontPoint.position) return;
 
-            if (displacementPercentage > 1.0f - displacementThreshold) // Will need rework
+            if (displacementPercentage > 1.0f - displacementThreshold) 
             {
                 onSnapForward?.Invoke();
             }
@@ -167,6 +207,9 @@ namespace ShootingGallery.XR.Weapon
             canInvokePullBack = true;
         }
 
+        /// <summary>
+        /// Check if slide reached the slide stop position.
+        /// </summary>
         private void CheckReachedSlideStop()
         {
             if (transform.position != slideStopPoint.position) return;
@@ -174,6 +217,13 @@ namespace ShootingGallery.XR.Weapon
             canInvokePullBack = true;
         }
 
+        /// <summary>
+        /// Clamp the slide's movements between two 3D positions.
+        /// </summary>
+        /// <param name="targetPosition">Intended target position.</param>
+        /// <param name="defaultPosition">Starting position of track to follow.</param>
+        /// <param name="endPosition">Ending position of track to follow.</param>
+        /// <returns>Adjusted target position.</returns>
         private Vector3 ClampedTargetPosition(Vector3 targetPosition, Vector3 defaultPosition, Vector3 endPosition)
         {
             float x = Mathf.Clamp(
@@ -197,17 +247,29 @@ namespace ShootingGallery.XR.Weapon
             return new Vector3(x, y, z);
         }
 
+        /// <summary>
+        /// Clamp the slide's movements between the start point and back point positions.
+        /// </summary>
+        /// <param name="targetPosition">Intended target position.</param>
+        /// <returns>Adjusted target position.</returns>
         private Vector3 ClampedTargetPosition(Vector3 targetPosition)
         {
             return ClampedTargetPosition(targetPosition, frontPoint.position, backPoint.position);
         }
 
+        /// <summary>
+        /// Set the force applied to the slide when released based on how far it is pulled back
+        /// from its default position.
+        /// </summary>
         private void SetSpringBackForce()
         {
             displacementPercentage = (transform.position - frontPoint.position).magnitude / (backPoint.position - frontPoint.position).magnitude;
             springBackForce = springTension * displacementPercentage;
         }
 
+        /// <summary>
+        /// Reset the spring force and displacement values.
+        /// </summary>
         private void ResetSpringBackForce()
         {
             springBackForce = 0.0f;

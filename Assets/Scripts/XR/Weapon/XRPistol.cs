@@ -5,10 +5,12 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using ShootingGallery.Game;
 using ShootingGallery.UI;
-using UnityEngine.XR.Interaction.Toolkit.Feedback;
 
 namespace ShootingGallery.XR.Weapon
 {
+    /// <summary>
+    /// Represents a semi-automatic pistol the player hold, fire, and reload.
+    /// </summary>
     public class XRPistol : XRGrabInteractable
     {
         [Header("XR Pistol Settings")]
@@ -59,14 +61,13 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private bool showAmmoCounter;
 
-        [Tooltip("Locks the slider when the pistol is not held")]
+        [Tooltip("Locks the slider when the pistol is not held.")]
         [SerializeField]
         private bool lockSlideWhenNotHeld;
 
         [Header("Haptic Feedback Settings")]
         [SerializeField]
         private ExternalHapticFeedbackPlayer hapticFeedbackPlayer;
-
         [Range(0.0f, 1.0f)]
         [SerializeField]
         private float recoilAmplitude = 0.5f;
@@ -182,6 +183,9 @@ namespace ShootingGallery.XR.Weapon
             PullTrigger();
         }
 
+        /// <summary>
+        /// Play pistol firing animation if ready to fire. Otherwise, play empty sound effect.
+        /// </summary>
         public void PullTrigger()
         {
             if (animationPlaying) return;
@@ -198,14 +202,17 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
-        // TODO: Add haptic feedback on shoot
+        /// <summary>
+        /// Called from the pistol firing animation. Play firing effects, consume ammunition, check 
+        /// if anything hit, adjust accuracy, and set ammo counter UI.
+        /// </summary>
         public void ShootPistol()
         {
             magWell.ConsumeRound();
             roundInChamber = magWell.HasLoadedMagazine();
             PlayAudioClip(shootClip);
             PlayMuffleFlash();
-            PlayHapticFeedback();
+            PlayRecoilFeedback();
             AccuracyLocator.GetAccuracyTracker().IncrementShotsFired();
             RaycastHit hit;
 
@@ -218,11 +225,18 @@ namespace ShootingGallery.XR.Weapon
             SetAmmoCountUI();
         }
 
+        /// <summary>
+        /// Eject a casing object from the pistol when fired.
+        /// </summary>
         public void EjectCasing()
         {
             // TODO: Implement casing ejection
         }
 
+        /// <summary>
+        /// Play audio clip with a random pitch and volume.
+        /// </summary>
+        /// <param name="clip">Audio clip to play.</param>
         private void PlayAudioClip(AudioClip clip)
         {
             if (audioSource == null) return;
@@ -233,17 +247,28 @@ namespace ShootingGallery.XR.Weapon
             audioSource.volume = volume;
             audioSource.PlayOneShot(clip);
         }
-
+        
+        /// <summary>
+        /// Play muffle flash when the pistol is fired.
+        /// </summary>
         private void PlayMuffleFlash()
         {
             muffleFlash.Play();
         }
 
+        /// <summary>
+        /// Play impact sparks where the pistol hits.
+        /// </summary>
+        /// <param name="impactPoint">Point of impact.</param>
+        /// <param name="impactRotation">Impact rotation.</param>
         private void PlayImpactSparks(Vector3 impactPoint, Quaternion impactRotation)
         {
             ParticleSystem sparks = Instantiate(impactSparksPrefab, impactPoint, impactRotation);
         }
 
+        /// <summary>
+        /// Called from the pistol firing animation when it ends.
+        /// </summary>
         public void SetPistolAnimationEnd()
         {
             animationPlaying = false;
@@ -251,7 +276,11 @@ namespace ShootingGallery.XR.Weapon
             DeterminePistolState(true);
         }
 
-
+        /// <summary>
+        /// Determine whether the pistol can be fired and whether to
+        /// engage the slide stop for the pistol slide.
+        /// </summary>
+        /// <param name="pistolFired">Was the pistol just fired?</param>
         private void DeterminePistolState(bool pistolFired)
         {
             if (!roundInChamber && !magWell.HasLoadedMagazine())
@@ -265,6 +294,9 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
+        /// <summary>
+        /// Set the ammo counter UI when magazine is attached.
+        /// </summary>
         private void MagazineAttached()
         {
             if (roundInChamber)
@@ -273,16 +305,24 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
+        
         private void MagazineReleased()
         {
             SetAmmoCountUI();
         }
 
+        /// <summary>
+        /// Release magazine when the player presses the release button.
+        /// </summary>
+        /// <param name="ctx"></param>
         private void OnReleaseMagazinePressed(InputAction.CallbackContext ctx)
         {
             magWell.ReleaseMagazine();
         }
 
+        /// <summary>
+        /// Play pulled back audio. Eject a round if present in the pistol's chamber.
+        /// </summary>
         private void OnSlidePulledBack()
         {
             PlayAudioClip(pulledBackClip);
@@ -295,6 +335,10 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
+        /// <summary>
+        /// Play snapped forward audio. Reload pistol if no round in chamber
+        /// and with a loaded magazine inserted.
+        /// </summary>
         private void OnSlideSnappedForward()
         {
             PlayAudioClip(snappedForwardClip);
@@ -308,6 +352,10 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
+        /// <summary>
+        /// Determine if the player shot a shooting target.
+        /// </summary>
+        /// <param name="hitObject">Object hit by pistol.</param>
         private void DetermineTargetHit(GameObject hitObject)
         {
             if (hitObject.tag != "Target") return;
@@ -319,6 +367,9 @@ namespace ShootingGallery.XR.Weapon
             catch (System.Exception) { }
         }
 
+        /// <summary>
+        /// Update the pistol's UI ammo counter.
+        /// </summary>
         private void SetAmmoCountUI()
         {
             if (!showAmmoCounter) return;
@@ -326,7 +377,10 @@ namespace ShootingGallery.XR.Weapon
                 magWell.GetAmmoInMag() + 1 : magWell.GetAmmoInMag());
         }
 
-        private void PlayHapticFeedback()
+        /// <summary>
+        /// Play haptic feedback when the pistol is fired.
+        /// </summary>
+        private void PlayRecoilFeedback()
         {
             if (hapticFeedbackPlayer == null) return;
             switch (handedness)
