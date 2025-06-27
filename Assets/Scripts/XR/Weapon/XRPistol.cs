@@ -98,8 +98,7 @@ namespace ShootingGallery.XR.Weapon
                 slider.LockSlideForAnimation();
             }
 
-            ammoCounterUI.gameObject.SetActive(false);
-            showAmmoCounter = SettingsLocator.GetSettingsManager().GetShowAmmoCounter();
+            InitializeAmmoCounter();
         }
 
         protected override void OnEnable()
@@ -109,7 +108,6 @@ namespace ShootingGallery.XR.Weapon
             slider.onPullBack += OnSlidePulledBack;
             magWell.onMagazineInsert += MagazineAttached;
             magWell.onMagazineReleased += MagazineReleased;
-            SettingsLocator.GetSettingsManager().onShowAmmoCounterChanged += ShowAmmoCountChanged;
         }
 
         protected override void OnDisable()
@@ -408,6 +406,13 @@ namespace ShootingGallery.XR.Weapon
             {
                 ActivateAmmoCountUI();
             }
+        }
+
+        private void InitializeAmmoCounter()
+        {
+            ammoCounterUI.gameObject.SetActive(false);
+            showAmmoCounter = SettingsLocator.GetSettingsManager().GetShowAmmoCounter();
+            SettingsLocator.GetSettingsManager().onShowAmmoCounterChanged += ShowAmmoCountChanged;
         }
     }
 }
