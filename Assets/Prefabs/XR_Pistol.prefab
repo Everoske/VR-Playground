@@ -682,6 +682,10 @@ MonoBehaviour:
   ammoCounterUI: {fileID: 8520547543216520562}
   showAmmoCounter: 1
   lockSlideWhenNotHeld: 0
+  hapticFeedbackPlayer: {fileID: 0}
+  recoilAmplitude: 0.5
+  recoilDuration: 0.25
+  recoilFrequency: 0
 --- !u!82 &7461619935353026783
 AudioSource:
   m_ObjectHideFlags: 0
@@ -691,7 +695,7 @@ AudioSource:
   m_GameObject: {fileID: 1697712286077200705}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -8765371728577358195, guid: 8749b11f9051c5c4baeb9c1214ce21f0, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
