@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Events;
 
 namespace ShootingGallery.Settings
 {
@@ -11,7 +12,19 @@ namespace ShootingGallery.Settings
         private float masterVolume = 0.0f;
         private float musicVolume = 0.0f;
         private float sfxVolume = 0.0f;
-        bool showAmmoCounter = true;
+        private bool showAmmoCounter = true;
+
+        public UnityAction<bool> onShowAmmoCounterChanged;
+
+        public float GetMasterVolume() => masterVolume;
+        public float GetMusicVolume() => musicVolume;
+        public float GetSFXVolume() => sfxVolume;
+        public bool GetShowAmmoCounter() => showAmmoCounter;
+
+        private void Awake()
+        {
+            SettingsLocator.Provide(this);
+        }
 
         public void SetMasterVolume(float volume)
         {
@@ -34,12 +47,7 @@ namespace ShootingGallery.Settings
         public void ToggleAmmoCounters(bool show)
         {
             showAmmoCounter = show;
-            UpdateAmmoCounters();
-        }
-
-        private void UpdateAmmoCounters()
-        {
-            // TODO: Hide all ammo counters for every weapon in the game. Perhaps use an interface.
+            onShowAmmoCounterChanged?.Invoke(showAmmoCounter);
         }
     }
 }
