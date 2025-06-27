@@ -5,6 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using ShootingGallery.Game;
 using ShootingGallery.UI;
+using ShootingGallery.Settings;
 
 namespace ShootingGallery.XR.Weapon
 {
@@ -58,8 +59,6 @@ namespace ShootingGallery.XR.Weapon
 
         [SerializeField]
         private AmmoCounterUI ammoCounterUI;
-        [SerializeField]
-        private bool showAmmoCounter;
 
         [Tooltip("Locks the slider when the pistol is not held.")]
         [SerializeField]
@@ -80,6 +79,7 @@ namespace ShootingGallery.XR.Weapon
         private AudioSource audioSource;
         private bool animationPlaying = false;
         private bool roundInChamber = false;
+        private bool showAmmoCounter = false;
         private InteractorHandedness handedness = InteractorHandedness.None;
 
         protected override void Awake()
@@ -99,6 +99,7 @@ namespace ShootingGallery.XR.Weapon
             }
 
             ammoCounterUI.gameObject.SetActive(false);
+            showAmmoCounter = SettingsLocator.GetSettingsManager().GetShowAmmoCounter();
         }
 
         protected override void OnEnable()
@@ -108,6 +109,7 @@ namespace ShootingGallery.XR.Weapon
             slider.onPullBack += OnSlidePulledBack;
             magWell.onMagazineInsert += MagazineAttached;
             magWell.onMagazineReleased += MagazineReleased;
+            SettingsLocator.GetSettingsManager().onShowAmmoCounterChanged += ShowAmmoCountChanged;
         }
 
         protected override void OnDisable()
@@ -121,6 +123,7 @@ namespace ShootingGallery.XR.Weapon
             slider.onPullBack -= OnSlidePulledBack;
             magWell.onMagazineInsert -= MagazineAttached;
             magWell.onMagazineReleased -= MagazineReleased;
+            SettingsLocator.GetSettingsManager().onShowAmmoCounterChanged -= ShowAmmoCountChanged;
         }
 
         protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -152,11 +155,7 @@ namespace ShootingGallery.XR.Weapon
                     slider.UnlockSlide();
                 }
 
-                if (showAmmoCounter)
-                {
-                    ammoCounterUI.SetAmmoCount(magWell.GetAmmoInMag());
-                    ammoCounterUI.gameObject.SetActive(true);
-                }
+                ActivateAmmoCountUI();
             }
         }
 
@@ -368,16 +367,6 @@ namespace ShootingGallery.XR.Weapon
         }
 
         /// <summary>
-        /// Update the pistol's UI ammo counter.
-        /// </summary>
-        private void SetAmmoCountUI()
-        {
-            if (!showAmmoCounter) return;
-            ammoCounterUI.SetAmmoCount(roundInChamber ? 
-                magWell.GetAmmoInMag() + 1 : magWell.GetAmmoInMag());
-        }
-
-        /// <summary>
         /// Play haptic feedback when the pistol is fired.
         /// </summary>
         private void PlayRecoilFeedback()
@@ -391,6 +380,33 @@ namespace ShootingGallery.XR.Weapon
                 case InteractorHandedness.Left:
                     hapticFeedbackPlayer.SendLeftHapticImpulse(recoilAmplitude, recoilDuration, recoilFrequency);
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Update the pistol's UI ammo counter.
+        /// </summary>
+        private void SetAmmoCountUI()
+        {
+            ammoCounterUI.SetAmmoCount(roundInChamber ?
+                magWell.GetAmmoInMag() + 1 : 0);
+        }
+
+        private void ActivateAmmoCountUI()
+        {
+            if (!showAmmoCounter) return;
+
+            SetAmmoCountUI();
+            ammoCounterUI.gameObject.SetActive(true);
+        }
+
+        private void ShowAmmoCountChanged(bool show)
+        {
+            showAmmoCounter = show;
+
+            if (handedness != InteractorHandedness.None)
+            {
+                ActivateAmmoCountUI();
             }
         }
     }
