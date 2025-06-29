@@ -3891,6 +3891,72 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!1 &413328744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 413328745}
+  - component: {fileID: 413328746}
+  m_Layer: 0
+  m_Name: HandMenuOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &413328745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413328744}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1481385007}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &413328746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 413328744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3c4174e10cbee244b885719d2c44a9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleHandMenuButton:
+    m_Name: Toggle Hand Menu Button
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 0169daae-22fc-4ac2-a469-bd20f3669125
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: f9cdce05-d817-4e0a-8087-0329c9a1ca6f
+      m_Path: <XRController>{LeftHand}/{MenuButton}
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Toggle Hand Menu Button
+      m_Flags: 0
+    m_Flags: 0
+  leftHandParent: {fileID: 1284435815}
+  rightHandParent: {fileID: 1013936444}
+  offsetX: 0.18
+  offsetY: 0.02
+  offsetZ: 0
 --- !u!1 &413393656
 GameObject:
   m_ObjectHideFlags: 0
@@ -14882,7 +14948,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1481385007}
   m_Layer: 0
-  m_Name: UI
+  m_Name: ---------- UI ----------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14904,6 +14970,7 @@ Transform:
   - {fileID: 1683975495}
   - {fileID: 2038639810}
   - {fileID: 454792293}
+  - {fileID: 413328745}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1510491598
