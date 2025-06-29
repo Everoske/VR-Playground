@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using ShootingGallery.Game;
 using ShootingGallery.Interfaces;
+using ShootingGallery.Settings;
 using UnityEngine;
 
 namespace ShootingGallery.Data
@@ -42,6 +43,12 @@ namespace ShootingGallery.Data
                 {
                     saveables.Add(gameSet as ISaveable);
                 }
+            }
+
+            SettingsManager settingsManager = FindFirstObjectByType<SettingsManager>();
+            if (settingsManager is ISaveable)
+            {
+                saveables.Add(settingsManager as ISaveable);
             }
 
             return saveables;

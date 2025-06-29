@@ -393,7 +393,6 @@ namespace ShootingGallery.XR.Weapon
         private void ActivateAmmoCountUI()
         {
             if (!showAmmoCounter) return;
-
             SetAmmoCountUI();
             ammoCounterUI.gameObject.SetActive(true);
         }
