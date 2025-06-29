@@ -7,6 +7,9 @@ namespace ShootingGallery.UI.HandMenu
     public class HandMenuActivator : MonoBehaviour
     {
         [SerializeField]
+        private HandMenu handMenu;
+
+        [SerializeField]
         private InputAction toggleHandMenuButton;
         [SerializeField]
         private Transform leftHandParent;
@@ -84,20 +87,20 @@ namespace ShootingGallery.UI.HandMenu
         {
             if (activeHandRef == null) return;
 
-            // handMenu.transform.position = activeHandRef.transform.position;
-            // handMenu.transform.rotation = activeHandRef.transform.rotation;
+            handMenu.transform.position = activeHandRef.transform.position;
+            handMenu.transform.rotation = activeHandRef.transform.rotation;
         }
 
         private void ToggleShowMenu(InputAction.CallbackContext ctx)
         {
-            // if (handMenu.IsOpen)
-            // {
-            //      handMenu.OpenHandMenu();
-            // }
-            // else
-            // {
-            //      handMenu.CloseHandMenu();
-            // }
+            if (!handMenu.gameObject.activeInHierarchy)
+            {
+                handMenu.OpenHandMenu();
+            }
+            else
+            {
+                handMenu.CloseHandMenu();
+            }
         }
     }
 }

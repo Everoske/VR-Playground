@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3c4174e10cbee244b885719d2c44a9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  handMenu: {fileID: 7952157546495550385}
   toggleHandMenuButton:
     m_Name: Toggle Hand Menu Button
     m_Type: 0
@@ -164,6 +165,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76908ddc75fc62b4890ca6bbfc3459dd, type: 3}
+--- !u!114 &7952157546495550385 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3531398347844198638, guid: 76908ddc75fc62b4890ca6bbfc3459dd, type: 3}
+  m_PrefabInstance: {fileID: 6870717533484778335}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f777aaeccaec165469cb2f40d043a8e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8442547980701711875 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3058020673696972124, guid: 76908ddc75fc62b4890ca6bbfc3459dd, type: 3}

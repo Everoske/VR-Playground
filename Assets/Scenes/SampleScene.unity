@@ -9127,7 +9127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 971039118}
   m_Layer: 0
-  m_Name: Attach
+  m_Name: Right Attach
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16730,7 +16730,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1695718333}
   m_Layer: 0
-  m_Name: Attach
+  m_Name: Left Attach
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21103,11 +21103,11 @@ PrefabInstance:
     - target: {fileID: 4948713281843567741, guid: 126caa0ce6aa14f45a3b598bde6cdef8, type: 3}
       propertyPath: leftHandParent
       value: 
-      objectReference: {fileID: 1284435815}
+      objectReference: {fileID: 1695718333}
     - target: {fileID: 4948713281843567741, guid: 126caa0ce6aa14f45a3b598bde6cdef8, type: 3}
       propertyPath: rightHandParent
       value: 
-      objectReference: {fileID: 1013936444}
+      objectReference: {fileID: 971039118}
     - target: {fileID: 5502457846828851856, guid: 126caa0ce6aa14f45a3b598bde6cdef8, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
