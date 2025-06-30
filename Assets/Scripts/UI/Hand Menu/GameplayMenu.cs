@@ -2,6 +2,7 @@ using ShootingGallery.Settings;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace ShootingGallery.UI.HandMenu
 {
@@ -9,6 +10,12 @@ namespace ShootingGallery.UI.HandMenu
     {
         [SerializeField]
         private TMP_Dropdown showAmmoCountDropDown;
+        [SerializeField]
+        private TMP_Dropdown moveHandednessDropDown;
+        [SerializeField]
+        private TMP_Dropdown turnHandednessDropDown;
+        [SerializeField]
+        private TMP_Dropdown turnTypeDropDown;
 
         private void Start()
         {
@@ -28,6 +35,9 @@ namespace ShootingGallery.UI.HandMenu
         private void InitiateGameplayMenu()
         {
             SetAmmoCountDropDown();
+            SetMoveHandednessDropDown();
+            SetTurnHandednessDropDown();
+            SetTurnTypeDropDown();
         }
 
         private void SetAmmoCountDropDown()
@@ -39,6 +49,45 @@ namespace ShootingGallery.UI.HandMenu
             else
             {
                 showAmmoCountDropDown.value = 1;
+            }
+        }
+
+        private void SetMoveHandednessDropDown()
+        {
+            switch (SettingsLocator.GetSettingsManager().GetMoveHandedness())
+            {
+                case InteractorHandedness.Left:
+                    moveHandednessDropDown.value = 0;
+                    break;
+                case InteractorHandedness.Right:
+                    moveHandednessDropDown.value = 1;
+                    break;
+            }
+        }
+
+        private void SetTurnHandednessDropDown()
+        {
+            switch (SettingsLocator.GetSettingsManager().GetTurnHandedness())
+            {
+                case InteractorHandedness.Left:
+                    turnHandednessDropDown.value = 0;
+                    break;
+                case InteractorHandedness.Right:
+                    turnHandednessDropDown.value = 1;
+                    break;
+            }
+        }
+
+        private void SetTurnTypeDropDown()
+        {
+            switch (SettingsLocator.GetSettingsManager().GetTurnType())
+            {
+                case XR.TurnType.Continuous:
+                    turnTypeDropDown.value = 0;
+                    break;
+                case XR.TurnType.Snap:
+                    turnTypeDropDown.value = 1;
+                    break;
             }
         }
 
