@@ -23,13 +23,8 @@ namespace ShootingGallery.Data
         private void Awake()
         {
             instance = this;
-        }
-
-        private void Start()
-        {
             dataHandler = new DataFileHandler(Application.persistentDataPath, saveFileName);
             saveableObjects = FindAllSaveableObjects();
-
             LoadGame();
         }
 
