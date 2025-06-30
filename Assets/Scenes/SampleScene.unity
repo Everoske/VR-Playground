@@ -2526,6 +2526,39 @@ Transform:
   - {fileID: 1422740534}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &269080637
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 269080638}
+  m_Layer: 0
+  m_Name: '---------- XR ---------- '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &269080638
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 269080637}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1217245189}
+  - {fileID: 276706431740761454}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &274377495
 GameObject:
   m_ObjectHideFlags: 0
@@ -12244,12 +12277,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1217245187}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 269080638}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1224435868
 GameObject:
@@ -20632,7 +20665,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8726187751238733495}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -20640,7 +20673,7 @@ Transform:
   - {fileID: 510293413966326734}
   - {fileID: 1284435815}
   - {fileID: 1013936444}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 269080638}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &510293413966326734
 Transform:
@@ -21274,7 +21307,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3445515458856976639, guid: 126caa0ce6aa14f45a3b598bde6cdef8, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.14657184
+      value: 0.05540058
       objectReference: {fileID: 0}
     - target: {fileID: 3687236501215252109, guid: 126caa0ce6aa14f45a3b598bde6cdef8, type: 3}
       propertyPath: m_AnchorMax.x
@@ -21974,7 +22007,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8726187751238733495}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9f365cf844c03449bc8973eead2c3c1, type: 3}
   m_Name: 
@@ -22011,7 +22044,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_InputActionReference: {fileID: -8525429354371678379, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_InputActionReference: {fileID: 0}
     m_ObjectReferenceObject: {fileID: 0}
     m_ManualValue: {x: 0, y: 0}
 --- !u!114 &8222432766539520919
@@ -22041,9 +22074,11 @@ GameObject:
   - component: {fileID: 8222432766539520919}
   - component: {fileID: 1176718997043682979}
   - component: {fileID: 8135210572554433804}
+  - component: {fileID: 8726187751238733499}
   - component: {fileID: 8726187751238733496}
   - component: {fileID: 8726187751238733497}
   - component: {fileID: 8726187751238733498}
+  - component: {fileID: 8726187751238733500}
   m_Layer: 0
   m_Name: XR Origin (VR)
   m_TagString: Untagged
@@ -22081,7 +22116,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_InputActionReference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_InputActionReference: {fileID: 0}
     m_ObjectReferenceObject: {fileID: 0}
     m_ManualValue: {x: 0, y: 0}
   m_RightHandMoveInput:
@@ -22101,7 +22136,7 @@ MonoBehaviour:
   m_UseGravity: 1
   m_HeadTransform: {fileID: 6416380508613864379}
   m_LeftControllerTransform: {fileID: 1284435815}
-  m_RightControllerTransform: {fileID: 0}
+  m_RightControllerTransform: {fileID: 1013936444}
   m_LeftHandMovementDirection: 0
   m_RightHandMovementDirection: 0
 --- !u!143 &8726187751238733497
@@ -22143,6 +22178,72 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftHapticPlayer: {fileID: 1284435818}
   rightHapticPlayer: {fileID: 1013936447}
+--- !u!114 &8726187751238733499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8726187751238733495}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75b29b6c6428c984a8a73ffc2d58063b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Mediator: {fileID: 8222432766539520919}
+  m_TransformationPriority: 0
+  m_TurnSpeed: 60
+  m_EnableTurnLeftRight: 1
+  m_EnableTurnAround: 0
+  m_LeftHandTurnInput:
+    m_InputSourceMode: 2
+    m_InputAction:
+      m_Name: Left Hand Turn
+      m_Type: 0
+      m_ExpectedControlType: Vector2
+      m_Id: 42001b2f-54ba-4085-8f04-7630ff6b4b37
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_InputActionReference: {fileID: 0}
+    m_ObjectReferenceObject: {fileID: 0}
+    m_ManualValue: {x: 0, y: 0}
+  m_RightHandTurnInput:
+    m_InputSourceMode: 2
+    m_InputAction:
+      m_Name: Right Hand Turn
+      m_Type: 0
+      m_ExpectedControlType: Vector2
+      m_Id: 1da167d6-e9a5-4f6b-bdf3-8f94bcba70ca
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_InputActionReference: {fileID: 0}
+    m_ObjectReferenceObject: {fileID: 0}
+    m_ManualValue: {x: 0, y: 0}
+--- !u!114 &8726187751238733500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8726187751238733495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75cc946efaa3a094095d265ac33dc190, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  snapTurnProvider: {fileID: 8135210572554433804}
+  continuousTurnProvider: {fileID: 8726187751238733499}
+  moveProvider: {fileID: 8726187751238733496}
+  rightHandMoveInput: {fileID: -8198699208435500284, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  leftHandMoveInput: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  rightHandSnapTurnInput: {fileID: -8525429354371678379, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  leftHandSnapTurnInput: {fileID: -7374733323251553461, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  rightHandContinuousTurnInput: {fileID: -6493913391331992944, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  leftHandContinuousTurnInput: {fileID: 1010738217276881514, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -22150,8 +22251,7 @@ SceneRoots:
   - {fileID: 1999958106}
   - {fileID: 1536556279}
   - {fileID: 410087041}
-  - {fileID: 1217245189}
-  - {fileID: 276706431740761454}
+  - {fileID: 269080638}
   - {fileID: 700523634}
   - {fileID: 1520282359}
   - {fileID: 1117012403}
