@@ -82,13 +82,17 @@ namespace ShootingGallery.UI.HandMenu
 
             shouldFadeOut = true;
         }
-
         public void OpenMainMenu() => ChangeMenu(mainMenu);
         public void OpenSettingsMenu() => ChangeMenu(settingsMenu);
         public void OpenSoundMenu() => ChangeMenu(soundMenu);
         public void OpenGamePlayMenu() => ChangeMenu(gameplayMenu);
         public void OpenVideoMenu() => ChangeMenu(videoMenu);
         public void OpenQuitMenu() => ChangeMenu(quitMenu);
+
+        public void QuitGame()
+        {
+            Application.Quit();
+        }
 
         private void HandleFade()
         {
