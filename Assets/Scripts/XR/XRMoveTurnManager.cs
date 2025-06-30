@@ -30,13 +30,6 @@ namespace ShootingGallery.XR
         [SerializeField]
         private InputActionReference leftHandContinuousTurnInput;
 
-        private void Start()
-        {
-            SetMoveHandedness(InteractorHandedness.Left);
-            SetTurnType(TurnType.Snap);
-            SetTurnHandedness(InteractorHandedness.Right);
-        }
-
         public void SetMoveHandedness(InteractorHandedness handedness)
         {
             switch (handedness)

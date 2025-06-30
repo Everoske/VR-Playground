@@ -1,5 +1,7 @@
+using ShootingGallery.XR;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace ShootingGallery.Data
 {
@@ -11,6 +13,9 @@ namespace ShootingGallery.Data
         public float musicVolume;
         public float sfxVolume;
         public bool showAmmoCounter;
+        public TurnType turnType;
+        public InteractorHandedness turnHandedness;
+        public InteractorHandedness moveHandedness;
 
         public GameData()
         {

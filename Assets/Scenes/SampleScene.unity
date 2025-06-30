@@ -15802,6 +15802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: 8749b11f9051c5c4baeb9c1214ce21f0, type: 2}
+  moveTurnManager: {fileID: 8726187751238733500}
 --- !u!4 &1536556279
 Transform:
   m_ObjectHideFlags: 0
