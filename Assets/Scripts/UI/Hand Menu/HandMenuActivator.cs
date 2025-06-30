@@ -7,7 +7,7 @@ namespace ShootingGallery.UI.HandMenu
     public class HandMenuActivator : MonoBehaviour
     {
         [SerializeField]
-        private HandMenu handMenu;
+        private HandMenuController handMenu;
 
         [SerializeField]
         private InputAction toggleHandMenuButton;

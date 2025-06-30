@@ -3,13 +3,19 @@ using UnityEngine;
 namespace ShootingGallery.UI.HandMenu
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public class HandMenu : MonoBehaviour
+    public class HandMenuController : MonoBehaviour
     {
         [Header("Menu Containers")]
         [SerializeField]
         private GameObject mainMenu;
         [SerializeField]
         private GameObject settingsMenu;
+        [SerializeField]
+        private GameObject soundMenu;
+        [SerializeField]
+        private GameObject gameplayMenu;
+        [SerializeField]
+        private GameObject videoMenu;
         [SerializeField]
         private GameObject quitMenu;
 
@@ -22,6 +28,8 @@ namespace ShootingGallery.UI.HandMenu
         private float fadeCounter = 0.0f;
         private CanvasGroup alphaController;
 
+        private GameObject activeMenu;
+
         private void Awake()
         {
             alphaController = GetComponent<CanvasGroup>();  
@@ -30,7 +38,7 @@ namespace ShootingGallery.UI.HandMenu
         private void Start()
         {
             isOpen = false;
-            gameObject.SetActive(false);
+            SetInitialState();
         }
 
         private void Update()
@@ -75,6 +83,13 @@ namespace ShootingGallery.UI.HandMenu
             shouldFadeOut = true;
         }
 
+        public void OpenMainMenu() => ChangeMenu(mainMenu);
+        public void OpenSettingsMenu() => ChangeMenu(settingsMenu);
+        public void OpenSoundMenu() => ChangeMenu(soundMenu);
+        public void OpenGamePlayMenu() => ChangeMenu(gameplayMenu);
+        public void OpenVideoMenu() => ChangeMenu(videoMenu);
+        public void OpenQuitMenu() => ChangeMenu(quitMenu);
+
         private void HandleFade()
         {
             if (!shouldFadeIn && !shouldFadeOut) return;
@@ -114,6 +129,28 @@ namespace ShootingGallery.UI.HandMenu
             alphaController.alpha = 0.0f;
             shouldFadeOut = false;
             gameObject.SetActive(false);
+            OpenMainMenu();
+        }
+
+        private void ChangeMenu(GameObject target)
+        {
+            activeMenu.SetActive(false);
+            activeMenu = target;
+            activeMenu.SetActive(true);
+        }
+
+        private void SetInitialState()
+        {
+            gameObject.SetActive(false);
+
+            settingsMenu.SetActive(false);
+            soundMenu.SetActive(false);
+            gameplayMenu.SetActive(false);
+            videoMenu.SetActive(false);
+            quitMenu.SetActive(false);
+
+            mainMenu.SetActive(true);
+            activeMenu = mainMenu;
         }
     }
 }
