@@ -4,6 +4,10 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace ShootingGallery.UI.HandMenu
 {
+    /// <summary>
+    /// Allows the player to open the hand menu and moves the menu with the 
+    /// player's selected hand.
+    /// </summary>
     public class HandMenuActivator : MonoBehaviour
     {
         [SerializeField]
@@ -52,12 +56,19 @@ namespace ShootingGallery.UI.HandMenu
             toggleHandMenuButton.performed -= ToggleShowMenu;
         }
 
+        /// <summary>
+        /// Switch which hand the hand menu follows.
+        /// </summary>
+        /// <param name="handedness">Hand to follow.</param>
         public void SwitchActiveHand(InteractorHandedness handedness)
         {
             this.handedness = handedness;
             SetActiveHand();
         }
 
+        /// <summary>
+        /// Create hand references for the hand menu to follow and add them to each tracked hand object.
+        /// </summary>
         private void CreateHandReferences()
         {
             GameObject leftHandObject = new GameObject("Left Menu Ref");
@@ -71,6 +82,9 @@ namespace ShootingGallery.UI.HandMenu
             rightHandRef.SetLocalPositionAndRotation(rightHandRef.localPosition + new Vector3(-offsetX, offsetY, offsetZ), Quaternion.identity);
         }
 
+        /// <summary>
+        /// Set the active hand reference for the hand menu to follow.
+        /// </summary>
         private void SetActiveHand()
         {
             if (handedness == InteractorHandedness.Left)
@@ -83,6 +97,9 @@ namespace ShootingGallery.UI.HandMenu
             }
         }
 
+        /// <summary>
+        /// Move the hand menu with the active hand reference.
+        /// </summary>
         private void MoveMenu()
         {
             if (activeHandRef == null) return;
@@ -91,6 +108,10 @@ namespace ShootingGallery.UI.HandMenu
             handMenu.transform.rotation = activeHandRef.transform.rotation;
         }
 
+        /// <summary>
+        /// Show or hide the hand menu.
+        /// </summary>
+        /// <param name="ctx"></param>
         private void ToggleShowMenu(InputAction.CallbackContext ctx)
         {
             if (!handMenu.gameObject.activeInHierarchy)

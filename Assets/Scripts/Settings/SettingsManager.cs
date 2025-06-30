@@ -8,6 +8,9 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace ShootingGallery.Settings
 {
+    /// <summary>
+    /// Manages in-game settings including loading and saving settings.
+    /// </summary>
     public class SettingsManager : MonoBehaviour, ISaveable
     {
         [SerializeField]

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace ShootingGallery.Settings
 {
+    /// <summary>
+    /// Service locator for Settings Manager.
+    /// </summary>
     public sealed class SettingsLocator
     {
         private static SettingsManager settingsManager;

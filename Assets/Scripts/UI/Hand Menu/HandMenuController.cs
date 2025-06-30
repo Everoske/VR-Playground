@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace ShootingGallery.UI.HandMenu
 {
+    /// <summary>
+    /// Represents a Hand Menu the player can use to change game settings or quit the game.
+    /// </summary>
     [RequireComponent(typeof(CanvasGroup))]
     public class HandMenuController : MonoBehaviour
     {
@@ -46,6 +49,9 @@ namespace ShootingGallery.UI.HandMenu
             HandleFade();
         }
 
+        /// <summary>
+        /// Activate the hand menu and fade in smoothly.
+        /// </summary>
         public void OpenHandMenu()
         {
             if (isOpen) return;
@@ -65,6 +71,9 @@ namespace ShootingGallery.UI.HandMenu
             shouldFadeIn = true;
         }
 
+        /// <summary>
+        /// Initiate a smooth fade out process to close hand menu.
+        /// </summary>
         public void CloseHandMenu()
         {
             if (!isOpen) return;
@@ -94,6 +103,9 @@ namespace ShootingGallery.UI.HandMenu
             Application.Quit();
         }
 
+        /// <summary>
+        /// Handle fade in and fade out effects.
+        /// </summary>
         private void HandleFade()
         {
             if (!shouldFadeIn && !shouldFadeOut) return;
@@ -110,6 +122,9 @@ namespace ShootingGallery.UI.HandMenu
             }
         }
 
+        /// <summary>
+        /// Smoothly fade in the hand menu's canvas.
+        /// </summary>
         private void FadeIn()
         {
             if (fadeCounter < fadeTime)
@@ -122,6 +137,9 @@ namespace ShootingGallery.UI.HandMenu
             shouldFadeIn = false;
         }
 
+        /// <summary>
+        /// Smoothly fade out the hand menu's canvas and deactivate hand menu on completion.
+        /// </summary>
         private void FadeOut()
         {
             if (fadeCounter < fadeTime)
@@ -136,6 +154,10 @@ namespace ShootingGallery.UI.HandMenu
             OpenMainMenu();
         }
 
+        /// <summary>
+        /// Open the target menu and close the current menu.
+        /// </summary>
+        /// <param name="target">Menu to open.</param>
         private void ChangeMenu(GameObject target)
         {
             activeMenu.SetActive(false);
@@ -143,6 +165,9 @@ namespace ShootingGallery.UI.HandMenu
             activeMenu.SetActive(true);
         }
 
+        /// <summary>
+        /// Set initial state of hand menu on game start.
+        /// </summary>
         private void SetInitialState()
         {
             gameObject.SetActive(false);

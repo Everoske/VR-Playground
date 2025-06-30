@@ -5,6 +5,9 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace ShootingGallery.UI.HandMenu
 {
+    /// <summary>
+    /// Menu that allows player to set in-game settings.
+    /// </summary>
     public class GameplayMenu : MonoBehaviour
     {
         [SerializeField]
@@ -15,6 +18,8 @@ namespace ShootingGallery.UI.HandMenu
         private TMP_Dropdown turnHandednessDropDown;
         [SerializeField]
         private TMP_Dropdown turnTypeDropDown;
+
+        // TODO: Implement swapping which hand the hand menu follows
 
         private void Start()
         {
@@ -37,6 +42,9 @@ namespace ShootingGallery.UI.HandMenu
             turnTypeDropDown.onValueChanged.RemoveAllListeners();
         }
 
+        /// <summary>
+        /// Set initial values for the dropdown menus based on save data.
+        /// </summary>
         private void InitiateGameplayMenu()
         {
             SetAmmoCountDropDown();
@@ -45,6 +53,9 @@ namespace ShootingGallery.UI.HandMenu
             SetTurnTypeDropDown();
         }
 
+        /// <summary>
+        /// Set the show ammo count dropdown based on save data.
+        /// </summary>
         private void SetAmmoCountDropDown()
         {
             if (SettingsLocator.GetSettingsManager().GetShowAmmoCounter())
@@ -57,6 +68,9 @@ namespace ShootingGallery.UI.HandMenu
             }
         }
 
+        /// <summary>
+        /// Set the move handedness dropdown based on save data.
+        /// </summary>
         private void SetMoveHandednessDropDown()
         {
             switch (SettingsLocator.GetSettingsManager().GetMoveHandedness())
@@ -70,6 +84,9 @@ namespace ShootingGallery.UI.HandMenu
             }
         }
 
+        /// <summary>
+        /// Set the turn handedness dropdown based on save data.
+        /// </summary>
         private void SetTurnHandednessDropDown()
         {
             switch (SettingsLocator.GetSettingsManager().GetTurnHandedness())
@@ -83,6 +100,9 @@ namespace ShootingGallery.UI.HandMenu
             }
         }
 
+        /// <summary>
+        /// Set the turn type dropdown based on save data.
+        /// </summary>
         private void SetTurnTypeDropDown()
         {
             switch (SettingsLocator.GetSettingsManager().GetTurnType())
@@ -96,11 +116,19 @@ namespace ShootingGallery.UI.HandMenu
             }
         }
 
+        /// <summary>
+        /// Toggle showing ammo counters when the dropdown value changes.
+        /// </summary>
+        /// <param name="value">Index of dropdown menu.</param>
         private void ShowAmmoValueChanged(int value)
         {
             SettingsLocator.GetSettingsManager().ToggleAmmoCounters(value == 0);
         }
 
+        /// <summary>
+        /// Toggle move handedness when the dropdown value changes.
+        /// </summary>
+        /// <param name="value">Index of dropdown menu.</param>
         private void MoveHandednessChanged(int value)
         {
             InteractorHandedness handedness = value == 0 ? InteractorHandedness.Left : InteractorHandedness.Right;
@@ -108,6 +136,10 @@ namespace ShootingGallery.UI.HandMenu
             SetTurnHandednessDropDown();
         }
 
+        /// <summary>
+        /// Toggle turn handedness when the dropdown value changes.
+        /// </summary>
+        /// <param name="value">Index of dropdown menu.</param>
         private void TurnHandednessChanged(int value)
         {
             InteractorHandedness handedness = value == 0 ? InteractorHandedness.Left : InteractorHandedness.Right;
@@ -115,6 +147,10 @@ namespace ShootingGallery.UI.HandMenu
             SetMoveHandednessDropDown();
         }
 
+        /// <summary>
+        /// Toggle move type when the dropdown value changes.
+        /// </summary>
+        /// <param name="value">Index of dropdown menu.</param>
         private void TurnTypeChanged(int value)
         {
             XR.TurnType turnType = value == 0 ? XR.TurnType.Continuous : XR.TurnType.Snap;

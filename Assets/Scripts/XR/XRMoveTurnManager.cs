@@ -7,6 +7,9 @@ using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
 namespace ShootingGallery.XR
 {
+    /// <summary>
+    /// Toggle which hands are used to move and turn as well as which turn provider to use.
+    /// </summary>
     public class XRMoveTurnManager : MonoBehaviour
     {
         [SerializeField]
@@ -30,6 +33,10 @@ namespace ShootingGallery.XR
         [SerializeField]
         private InputActionReference leftHandContinuousTurnInput;
 
+        /// <summary>
+        /// Set which controller the player uses to move.
+        /// </summary>
+        /// <param name="handedness">Right or left controller.</param>
         public void SetMoveHandedness(InteractorHandedness handedness)
         {
             switch (handedness)
@@ -45,12 +52,20 @@ namespace ShootingGallery.XR
             }
         }
 
+        /// <summary>
+        /// Set which controller the player uses to turn.
+        /// </summary>
+        /// <param name="handedness">Right or left controller.</param>
         public void SetTurnHandedness(InteractorHandedness handedness)
         {
             SetSnapTurnHandedness(handedness);
             SetContinuousTurnHandedness(handedness);
         }
 
+        /// <summary>
+        /// Set what type of turn provider the player uses to turn.
+        /// </summary>
+        /// <param name="turnType">Continuous or snap turn provider.</param>
         public void SetTurnType(TurnType turnType)
         {
             switch (turnType)
@@ -66,6 +81,10 @@ namespace ShootingGallery.XR
             }
         }
 
+        /// <summary>
+        /// Set which controller is used for snap turning.
+        /// </summary>
+        /// <param name="handedness">Right or left controller.</param>
         private void SetSnapTurnHandedness(InteractorHandedness handedness)
         {
             switch (handedness)
@@ -81,6 +100,10 @@ namespace ShootingGallery.XR
             }
         }
 
+        /// <summary>
+        /// Set which controller is used for continuous turning.
+        /// </summary>
+        /// <param name="handedness">Right or left controller.</param>
         private void SetContinuousTurnHandedness(InteractorHandedness handedness)
         {
             switch (handedness)
