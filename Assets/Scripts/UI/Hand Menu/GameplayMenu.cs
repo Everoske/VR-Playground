@@ -1,7 +1,6 @@
 using ShootingGallery.Settings;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace ShootingGallery.UI.HandMenu
@@ -25,11 +24,17 @@ namespace ShootingGallery.UI.HandMenu
         private void OnEnable()
         {
             showAmmoCountDropDown.onValueChanged.AddListener(ShowAmmoValueChanged);
+            moveHandednessDropDown.onValueChanged.AddListener(MoveHandednessChanged);
+            turnHandednessDropDown.onValueChanged.AddListener(TurnHandednessChanged);
+            turnTypeDropDown.onValueChanged.AddListener(TurnTypeChanged);
         }
 
         private void OnDisable()
         {
             showAmmoCountDropDown.onValueChanged.RemoveAllListeners();
+            moveHandednessDropDown.onValueChanged.RemoveAllListeners();
+            turnHandednessDropDown.onValueChanged.RemoveAllListeners();
+            turnTypeDropDown.onValueChanged.RemoveAllListeners();
         }
 
         private void InitiateGameplayMenu()
@@ -94,6 +99,26 @@ namespace ShootingGallery.UI.HandMenu
         private void ShowAmmoValueChanged(int value)
         {
             SettingsLocator.GetSettingsManager().ToggleAmmoCounters(value == 0);
+        }
+
+        private void MoveHandednessChanged(int value)
+        {
+            InteractorHandedness handedness = value == 0 ? InteractorHandedness.Left : InteractorHandedness.Right;
+            SettingsLocator.GetSettingsManager().SetMoveHandedness(handedness);
+            SetTurnHandednessDropDown();
+        }
+
+        private void TurnHandednessChanged(int value)
+        {
+            InteractorHandedness handedness = value == 0 ? InteractorHandedness.Left : InteractorHandedness.Right;
+            SettingsLocator.GetSettingsManager().SetTurnHandedness(handedness);
+            SetMoveHandednessDropDown();
+        }
+
+        private void TurnTypeChanged(int value)
+        {
+            XR.TurnType turnType = value == 0 ? XR.TurnType.Continuous : XR.TurnType.Snap;
+            SettingsLocator.GetSettingsManager().SetTurnType(turnType);
         }
     }
 }
