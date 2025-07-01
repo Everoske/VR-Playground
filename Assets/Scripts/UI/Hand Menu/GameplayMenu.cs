@@ -18,8 +18,8 @@ namespace ShootingGallery.UI.HandMenu
         private TMP_Dropdown turnHandednessDropDown;
         [SerializeField]
         private TMP_Dropdown turnTypeDropDown;
-
-        // TODO: Implement swapping which hand the hand menu follows
+        [SerializeField]
+        private TMP_Dropdown menuHandednessDropDown;
 
         private void Start()
         {
@@ -32,6 +32,7 @@ namespace ShootingGallery.UI.HandMenu
             moveHandednessDropDown.onValueChanged.AddListener(MoveHandednessChanged);
             turnHandednessDropDown.onValueChanged.AddListener(TurnHandednessChanged);
             turnTypeDropDown.onValueChanged.AddListener(TurnTypeChanged);
+            menuHandednessDropDown.onValueChanged.AddListener(MenuHandednessChanged);
         }
 
         private void OnDisable()
@@ -40,6 +41,7 @@ namespace ShootingGallery.UI.HandMenu
             moveHandednessDropDown.onValueChanged.RemoveAllListeners();
             turnHandednessDropDown.onValueChanged.RemoveAllListeners();
             turnTypeDropDown.onValueChanged.RemoveAllListeners();
+            menuHandednessDropDown.onValueChanged.RemoveAllListeners();
         }
 
         /// <summary>
@@ -51,6 +53,7 @@ namespace ShootingGallery.UI.HandMenu
             SetMoveHandednessDropDown();
             SetTurnHandednessDropDown();
             SetTurnTypeDropDown();
+            SetMenuHandednessDropDown();
         }
 
         /// <summary>
@@ -117,6 +120,22 @@ namespace ShootingGallery.UI.HandMenu
         }
 
         /// <summary>
+        /// Set the menu handedness dropdown based on save data.
+        /// </summary>
+        private void SetMenuHandednessDropDown()
+        {
+            switch (SettingsLocator.GetSettingsManager().GetMenuHandedness())
+            {
+                case InteractorHandedness.Left:
+                    menuHandednessDropDown.value = 0;
+                    break;
+                case InteractorHandedness.Right:
+                    menuHandednessDropDown.value = 1;
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Toggle showing ammo counters when the dropdown value changes.
         /// </summary>
         /// <param name="value">Index of dropdown menu.</param>
@@ -155,6 +174,16 @@ namespace ShootingGallery.UI.HandMenu
         {
             XR.TurnType turnType = value == 0 ? XR.TurnType.Continuous : XR.TurnType.Snap;
             SettingsLocator.GetSettingsManager().SetTurnType(turnType);
+        }
+
+        /// <summary>
+        /// Toggle which hand the hand menu follows when the dropdown value changes.
+        /// </summary>
+        /// <param name="value">Index of dropdown menu.</param>
+        private void MenuHandednessChanged(int value)
+        {
+            InteractorHandedness handedness = value == 0 ? InteractorHandedness.Left : InteractorHandedness.Right;
+            SettingsLocator.GetSettingsManager().SetMenuHandedness(handedness);
         }
     }
 }

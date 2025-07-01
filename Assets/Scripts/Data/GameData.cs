@@ -16,6 +16,7 @@ namespace ShootingGallery.Data
         public TurnType turnType;
         public InteractorHandedness turnHandedness;
         public InteractorHandedness moveHandedness;
+        public InteractorHandedness menuHandedness;
 
         public GameData()
         {

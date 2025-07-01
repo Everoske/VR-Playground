@@ -1,3 +1,4 @@
+using ShootingGallery.Settings;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
@@ -36,7 +37,8 @@ namespace ShootingGallery.UI.HandMenu
         private void Start()
         {
             CreateHandReferences();
-            SwitchActiveHand(InteractorHandedness.Left);
+            SwitchActiveHand(SettingsLocator.GetSettingsManager().GetMenuHandedness());
+            SettingsLocator.GetSettingsManager().onChangeMenuHandedness += SwitchActiveHand;
         }
 
         private void Update()
@@ -54,6 +56,7 @@ namespace ShootingGallery.UI.HandMenu
         {
             toggleHandMenuButton.Disable();
             toggleHandMenuButton.performed -= ToggleShowMenu;
+            SettingsLocator.GetSettingsManager().onChangeMenuHandedness -= SwitchActiveHand;
         }
 
         /// <summary>

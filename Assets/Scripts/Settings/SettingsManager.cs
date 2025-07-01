@@ -25,8 +25,10 @@ namespace ShootingGallery.Settings
         private TurnType turnType = TurnType.Snap;
         private InteractorHandedness turnHandedness = InteractorHandedness.Right;
         private InteractorHandedness moveHandedness = InteractorHandedness.Left;
+        private InteractorHandedness menuHandedness = InteractorHandedness.Left;
 
         public UnityAction<bool> onShowAmmoCounterChanged;
+        public UnityAction<InteractorHandedness> onChangeMenuHandedness;
 
         public float GetMasterVolume() => masterVolume;
         public float GetMusicVolume() => musicVolume;
@@ -35,6 +37,8 @@ namespace ShootingGallery.Settings
         public TurnType GetTurnType() => turnType;
         public InteractorHandedness GetTurnHandedness() => turnHandedness;
         public InteractorHandedness GetMoveHandedness() => moveHandedness;
+
+        public InteractorHandedness GetMenuHandedness() => menuHandedness;  
 
         private void Awake()
         {
@@ -100,6 +104,12 @@ namespace ShootingGallery.Settings
             moveTurnManager.SetMoveHandedness(this.moveHandedness);
         }
 
+        public void SetMenuHandedness(InteractorHandedness handedness)
+        {
+            menuHandedness = handedness;
+            onChangeMenuHandedness?.Invoke(handedness);
+        }
+
         public void LoadData(GameData data)
         {
             SetMasterVolume(data.masterVolume);
@@ -108,6 +118,7 @@ namespace ShootingGallery.Settings
             ToggleAmmoCounters(data.showAmmoCounter);
             SetTurnType(data.turnType);
             SetHandedness(data.turnHandedness, data.moveHandedness);
+            SetMenuHandedness(data.menuHandedness);
         }
 
         public void SaveData(ref GameData data)
@@ -119,6 +130,7 @@ namespace ShootingGallery.Settings
             data.turnType = turnType;
             data.turnHandedness = turnHandedness;
             data.moveHandedness = moveHandedness;
+            data.menuHandedness = menuHandedness;
         }
     }
 }
