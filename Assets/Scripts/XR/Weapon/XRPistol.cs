@@ -24,6 +24,10 @@ namespace ShootingGallery.XR.Weapon
         private Transform shootingOrigin;
         [SerializeField]
         private Transform ejectOrigin;
+        [SerializeField]
+        private LayerMask shootingLayerMask;
+        [SerializeField]
+        private float maxShotDistance = 2000.0f;
 
         [SerializeField]
         [Range(0f, 3f)]
@@ -213,7 +217,7 @@ namespace ShootingGallery.XR.Weapon
             AccuracyLocator.GetAccuracyTracker().IncrementShotsFired();
             RaycastHit hit;
 
-            if (Physics.Raycast(shootingOrigin.position, shootingOrigin.forward, out hit))
+            if (Physics.Raycast(shootingOrigin.position, shootingOrigin.forward, out hit, maxShotDistance, shootingLayerMask, QueryTriggerInteraction.Ignore))
             {
                 PlayImpactSparks(hit.point, hit.collider.transform.rotation);
                 DetermineTargetHit(hit.collider.gameObject);

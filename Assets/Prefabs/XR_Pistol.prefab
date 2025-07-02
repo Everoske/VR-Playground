@@ -667,6 +667,10 @@ MonoBehaviour:
     m_Flags: 0
   shootingOrigin: {fileID: 1050042965066561283}
   ejectOrigin: {fileID: 6467118758880702116}
+  shootingLayerMask:
+    serializedVersion: 2
+    m_Bits: 536870913
+  maxShotDistance: 2000
   minShotPitch: 0.6
   maxShotPitch: 1.2
   minShotVolume: 0.8
@@ -680,7 +684,6 @@ MonoBehaviour:
   slider: {fileID: 6998289628335499577}
   magWell: {fileID: 571789017268140092}
   ammoCounterUI: {fileID: 8520547543216520562}
-  showAmmoCounter: 1
   lockSlideWhenNotHeld: 0
   hapticFeedbackPlayer: {fileID: 0}
   recoilAmplitude: 0.5
