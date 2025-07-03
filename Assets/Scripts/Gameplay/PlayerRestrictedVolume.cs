@@ -3,6 +3,10 @@ using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
 namespace ShootingGallery.Gameplay
 {
+    /// <summary>
+    /// Represents a restricted area that the player should not be allowed in. Teleports player to a 
+    /// non-restricted destination.
+    /// </summary>
     public class PlayerRestrictedVolume : MonoBehaviour
     {
         [SerializeField]
@@ -17,6 +21,9 @@ namespace ShootingGallery.Gameplay
             TeleportPlayer();
         }
 
+        /// <summary>
+        /// Teleport player to non-restricted area.
+        /// </summary>
         private void TeleportPlayer()
         {
             TeleportRequest request = new TeleportRequest();

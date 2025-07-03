@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace ShootingGallery.Gameplay
 {
+    /// <summary>
+    /// Trigger volume that represents and inaccessible area and detects XRWeapons and moves them to an accessible area.
+    /// </summary>
     public class WeaponRestrictedVolume : MonoBehaviour
     {
         [SerializeField]
@@ -15,6 +18,10 @@ namespace ShootingGallery.Gameplay
             FindXRWeaponInParent(1, other.gameObject);
         }
 
+        /// <summary>
+        /// Teleport XRWeapon to an accessible area to the player.
+        /// </summary>
+        /// <param name="weapon">Weapon to teleport.</param>
         private void TeleportWeapon(XRPistol weapon)
         {
             weapon.gameObject.SetActive(false);
@@ -29,6 +36,11 @@ namespace ShootingGallery.Gameplay
             weapon.gameObject.SetActive(true);
         }
 
+        /// <summary>
+        /// Recursive method for searching parents for an XRWeapon component.
+        /// </summary>
+        /// <param name="depth">Current iteration of search.</param>
+        /// <param name="current">GameObject to search for XRWeapon script.</param>
         private void FindXRWeaponInParent(int depth, GameObject current)
         {
             if (depth > maxParentsToCheck) return;
