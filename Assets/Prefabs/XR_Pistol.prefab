@@ -669,7 +669,7 @@ MonoBehaviour:
   ejectOrigin: {fileID: 6467118758880702116}
   shootingLayerMask:
     serializedVersion: 2
-    m_Bits: 536870913
+    m_Bits: 536871041
   maxShotDistance: 2000
   minShotPitch: 0.6
   maxShotPitch: 1.2
