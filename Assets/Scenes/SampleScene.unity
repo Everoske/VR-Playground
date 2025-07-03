@@ -10782,6 +10782,7 @@ MonoBehaviour:
   overlapLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  overlapRadius: 0.25
   fadeRenderer: {fileID: 1085886407}
 --- !u!1 &1087942767
 GameObject:
