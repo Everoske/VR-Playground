@@ -2329,14 +2329,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 260942998}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1546393653}
   - {fileID: 1422740534}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2049085757}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &269080637
 GameObject:
@@ -2545,7 +2545,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 288386240}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.607, y: 1, z: 3.35118}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2557,7 +2557,7 @@ Transform:
   - {fileID: 814375814}
   - {fileID: 1512348694}
   - {fileID: 426823789}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2049085757}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &288386243
 BoxCollider:
@@ -4037,12 +4037,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 455677228}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1481385007}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &455677232
 MonoBehaviour:
@@ -6906,7 +6906,7 @@ GameObject:
   - component: {fileID: 712785534}
   - component: {fileID: 712785536}
   - component: {fileID: 712785535}
-  m_Layer: 31
+  m_Layer: 0
   m_Name: WeaponRestrictedVolume1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6941,6 +6941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destination: {fileID: 2066262531}
+  maxParentsToCheck: 5
 --- !u!65 &712785536
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6954,7 +6955,7 @@ BoxCollider:
     m_Bits: 2147483648
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 3758096439
+    m_Bits: 1610612855
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -11658,6 +11659,7 @@ Transform:
   m_Children:
   - {fileID: 545247484}
   - {fileID: 1451395350}
+  - {fileID: 1520282359}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1191200972
@@ -14295,6 +14297,7 @@ Transform:
   - {fileID: 1683975495}
   - {fileID: 454792293}
   - {fileID: 413328745}
+  - {fileID: 455677231}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1510491598
@@ -14724,12 +14727,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520282355}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.5, y: 0.25363, z: 0.28801}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1183970038}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1520282360
 MonoBehaviour:
@@ -15356,14 +15359,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1559382759}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1763590086}
   - {fileID: 205608616}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2049085757}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1569608842
 GameObject:
@@ -15444,7 +15447,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1583219098}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -15455,7 +15458,7 @@ Transform:
   - {fileID: 938537069}
   - {fileID: 1514461327}
   - {fileID: 1065056345}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2049085757}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1587799485
 GameObject:
@@ -15709,7 +15712,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1620472245}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -15718,7 +15721,7 @@ Transform:
   - {fileID: 1303437205}
   - {fileID: 1427283395}
   - {fileID: 1377712035}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2049085757}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1620472247
 MonoBehaviour:
@@ -18971,6 +18974,42 @@ MonoBehaviour:
   distanceBetweenTargets: 2
   changePositionSpeed: 5
   stationarySetTime: 10
+--- !u!1 &2049085756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2049085757}
+  m_Layer: 0
+  m_Name: -------- Gameplay --------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2049085757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2049085756}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 260942999}
+  - {fileID: 1620472246}
+  - {fileID: 1583219099}
+  - {fileID: 1559382760}
+  - {fileID: 288386242}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2052995084
 GameObject:
   m_ObjectHideFlags: 0
@@ -21516,16 +21555,10 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 269080638}
   - {fileID: 700523634}
-  - {fileID: 1520282359}
   - {fileID: 1117012403}
   - {fileID: 1763613748}
   - {fileID: 1481385007}
-  - {fileID: 455677231}
   - {fileID: 1183970038}
   - {fileID: 696707186668260206}
-  - {fileID: 288386242}
   - {fileID: 476239545}
-  - {fileID: 260942999}
-  - {fileID: 1620472246}
-  - {fileID: 1583219099}
-  - {fileID: 1559382760}
+  - {fileID: 2049085757}
