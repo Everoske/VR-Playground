@@ -3,6 +3,7 @@ Shader "Unlit/DemoShader"
     Properties
     {
         _BaseColor("Base Color", COLOR) = (0, 0, 0, 1)
+        _Alpha("Alpha", Range(0, 1)) = 1.0
     }
     SubShader
     {
@@ -12,6 +13,7 @@ Shader "Unlit/DemoShader"
         Pass
         {
             Cull Off
+            Blend SrcAlpha OneMinusSrcAlpha
             ZTest Always
             ZWrite Off
 
@@ -20,6 +22,7 @@ Shader "Unlit/DemoShader"
             #pragma fragment frag
 
             float4 _BaseColor;
+            float _Alpha;
 
             #include "UnityCG.cginc"
 
@@ -55,7 +58,9 @@ Shader "Unlit/DemoShader"
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
-                return _BaseColor;
+                fixed4 color = _BaseColor;
+                color.a = _Alpha;
+                return color;
             }
             ENDCG
         }
