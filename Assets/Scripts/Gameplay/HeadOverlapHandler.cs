@@ -53,7 +53,7 @@ namespace ShootingGallery.Gameplay
 
             for (int i = 0; i < numColliders; i++)
             {
-                Vector3 closestPoint = hitColliders[i].ClosestPoint(transform.position);
+                Vector3 closestPoint = hitColliders[i].ClosestPointOnBounds(transform.position);
                 float colliderDistance = Vector3.Distance(transform.position, closestPoint);
                 if (colliderDistance < closestDistance)
                 {
