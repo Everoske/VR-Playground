@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using ShootingGallery.Game;
-using ShootingGallery.Settings;
 using UnityEngine;
 
 namespace ShootingGallery.Data
@@ -31,18 +29,14 @@ namespace ShootingGallery.Data
         {
             List<ISaveable> saveables = new List<ISaveable>();
 
-            foreach (GameSet gameSet in FindObjectsByType<GameSet>(FindObjectsSortMode.None))
+            // TODO: Since only two objects are really saveable in this project. Consider alternatives
+            // that might be more efficient such as including a Serialize Field List of Saveable game objects
+            foreach (MonoBehaviour sceneObject in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None))
             {
-                if (gameSet is ISaveable)
+                if (sceneObject is ISaveable)
                 {
-                    saveables.Add(gameSet as ISaveable);
+                    saveables.Add(sceneObject as ISaveable);
                 }
-            }
-
-            SettingsManager settingsManager = FindFirstObjectByType<SettingsManager>();
-            if (settingsManager is ISaveable)
-            {
-                saveables.Add(settingsManager as ISaveable);
             }
 
             return saveables;
