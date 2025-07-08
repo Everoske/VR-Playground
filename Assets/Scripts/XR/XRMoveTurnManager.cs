@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
-using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Movement;
 
 using ShootingGallery.Settings;
 using ShootingGallery.Enums;
@@ -19,7 +19,7 @@ namespace ShootingGallery.XR
         [SerializeField]
         private ContinuousTurnProvider continuousTurnProvider;
         [SerializeField]
-        private DynamicMoveProvider moveProvider;
+        private ContinuousMoveProvider moveProvider;
 
         [Header("Input Action References:")]
         [SerializeField]

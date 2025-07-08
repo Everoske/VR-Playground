@@ -1,0 +1,21 @@
+{
+    "name": "ShootingGallery.UI.HandMenu",
+    "rootNamespace": "",
+    "references": [
+        "GUID:7a648d6b156b45246bd574f7a5070646",
+        "GUID:3737616cd6319a44cb191845eeff7721",
+        "GUID:fe685ec1767f73d42b749ea8045bfe43",
+        "GUID:07e0043b70910724d9dc0b6ff0d5ca4f",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

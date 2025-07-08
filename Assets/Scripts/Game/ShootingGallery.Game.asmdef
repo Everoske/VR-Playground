@@ -1,0 +1,18 @@
+{
+    "name": "ShootingGallery.Game",
+    "rootNamespace": "",
+    "references": [
+        "GUID:bfc9b4e3339643a4caa5c58b930c13e7",
+        "GUID:07e0043b70910724d9dc0b6ff0d5ca4f",
+        "GUID:7a648d6b156b45246bd574f7a5070646"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

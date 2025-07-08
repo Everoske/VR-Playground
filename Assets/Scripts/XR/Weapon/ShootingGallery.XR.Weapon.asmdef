@@ -1,0 +1,21 @@
+{
+    "name": "ShootingGallery.XR.Weapon",
+    "rootNamespace": "",
+    "references": [
+        "GUID:40de48299f0c02b4189bc7887cceb3ae",
+        "GUID:fe685ec1767f73d42b749ea8045bfe43",
+        "GUID:bfc9b4e3339643a4caa5c58b930c13e7",
+        "GUID:20f60542f4efe3648a5ca09b5820e24b",
+        "GUID:3737616cd6319a44cb191845eeff7721",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
