@@ -55,7 +55,7 @@ namespace ShootingGallery.Game
         {
             if (!isTargetActive) return;
 
-            targetHitNotify.OnTargetHit(targetType);
+            targetHitNotify?.OnTargetHit(targetType);
             meshRenderer.material = inactiveMaterial;
             isTargetActive = false;
         }
