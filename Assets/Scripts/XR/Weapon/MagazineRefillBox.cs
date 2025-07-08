@@ -1,9 +1,7 @@
-using ShootingGallery.XR.Weapon;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace ShootingGallery.Game
+namespace ShootingGallery.XR.Weapon
 {
     public class MagazineRefillBox : MonoBehaviour
     {
