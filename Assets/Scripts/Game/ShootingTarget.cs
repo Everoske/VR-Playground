@@ -1,4 +1,3 @@
-using ShootingGallery.Interfaces;
 using UnityEngine;
 using UnityEngine.Events;
 

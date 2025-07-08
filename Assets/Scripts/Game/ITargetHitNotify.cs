@@ -1,6 +1,6 @@
 ﻿using ShootingGallery.Game;
 
-namespace ShootingGallery.Interfaces
+namespace ShootingGallery.Game
 {
     public interface ITargetHitNotify
     {

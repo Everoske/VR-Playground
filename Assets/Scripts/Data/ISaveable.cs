@@ -1,7 +1,7 @@
 using ShootingGallery.Data;
 using UnityEngine;
 
-namespace ShootingGallery.Interfaces
+namespace ShootingGallery.Data
 {
     public interface ISaveable
     {

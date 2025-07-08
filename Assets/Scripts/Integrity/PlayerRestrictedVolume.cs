@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
-namespace ShootingGallery.Gameplay
+namespace ShootingGallery.Integrity
 {
     /// <summary>
     /// Represents a restricted area that the player should not be allowed in. Teleports player to a 

@@ -2,7 +2,6 @@ using ShootingGallery.UI;
 using System.Linq;
 using System;
 using UnityEngine;
-using ShootingGallery.Interfaces;
 using ShootingGallery.Data;
 
 namespace ShootingGallery.Game

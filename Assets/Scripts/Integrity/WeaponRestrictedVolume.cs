@@ -1,7 +1,7 @@
 using ShootingGallery.XR.Weapon;
 using UnityEngine;
 
-namespace ShootingGallery.Gameplay
+namespace ShootingGallery.Integrity
 {
     /// <summary>
     /// Trigger volume that represents and inaccessible area and detects XRWeapons and moves them to an accessible area.

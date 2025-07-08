@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using ShootingGallery.Game;
-using ShootingGallery.Interfaces;
 using ShootingGallery.Settings;
 using UnityEngine;
 

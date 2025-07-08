@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace ShootingGallery.Gameplay
+namespace ShootingGallery.Integrity
 {
     public class HeadOverlapHandler : MonoBehaviour
     {

@@ -1,5 +1,4 @@
 using ShootingGallery.Data;
-using ShootingGallery.Interfaces;
 using ShootingGallery.XR;
 using UnityEngine;
 using UnityEngine.Audio;

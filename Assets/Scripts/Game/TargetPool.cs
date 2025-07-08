@@ -1,4 +1,3 @@
-using ShootingGallery.Interfaces;
 using UnityEngine;
 
 namespace ShootingGallery.Game
