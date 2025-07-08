@@ -38,7 +38,7 @@ namespace ShootingGallery.UI.HandMenu
         {
             CreateHandReferences();
             SwitchActiveHand(SettingsLocator.GetSettingsManager().GetMenuHandedness());
-            SettingsLocator.GetSettingsManager().onChangeMenuHandedness += SwitchActiveHand;
+            SettingsLocator.GetSettingsManager().onHandMenuHandednessChanged += SwitchActiveHand;
         }
 
         private void Update()
@@ -56,7 +56,7 @@ namespace ShootingGallery.UI.HandMenu
         {
             toggleHandMenuButton.Disable();
             toggleHandMenuButton.performed -= ToggleShowMenu;
-            SettingsLocator.GetSettingsManager().onChangeMenuHandedness -= SwitchActiveHand;
+            SettingsLocator.GetSettingsManager().onHandMenuHandednessChanged -= SwitchActiveHand;
         }
 
         /// <summary>

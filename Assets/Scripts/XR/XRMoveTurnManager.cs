@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.XR.Hands;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Turning;
 using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
+
+using ShootingGallery.Settings;
+using ShootingGallery.Enums;
 
 namespace ShootingGallery.XR
 {
@@ -32,6 +34,26 @@ namespace ShootingGallery.XR
         private InputActionReference rightHandContinuousTurnInput;
         [SerializeField]
         private InputActionReference leftHandContinuousTurnInput;
+
+        private void Start()
+        {
+            SetTurnType(SettingsLocator.GetSettingsManager().GetTurnType());
+            SetTurnHandedness(SettingsLocator.GetSettingsManager().GetTurnHandedness());
+            SetMoveHandedness(SettingsLocator.GetSettingsManager().GetMoveHandedness());
+
+            // Subscribe to events
+            SettingsLocator.GetSettingsManager().onTurnTypeChanged += SetTurnType;
+            SettingsLocator.GetSettingsManager().onTurnHandednessChanged += SetTurnHandedness;
+            SettingsLocator.GetSettingsManager().onMoveHandednessChanged += SetMoveHandedness;
+        }
+
+        private void OnDisable()
+        {
+            // Unsubscribe from events
+            SettingsLocator.GetSettingsManager().onTurnTypeChanged -= SetTurnType;
+            SettingsLocator.GetSettingsManager().onTurnHandednessChanged -= SetTurnHandedness;
+            SettingsLocator.GetSettingsManager().onMoveHandednessChanged -= SetMoveHandedness;
+        }
 
         /// <summary>
         /// Set which controller the player uses to move.
@@ -118,11 +140,5 @@ namespace ShootingGallery.XR
                     break;
             }
         }
-    }
-
-    public enum TurnType
-    {
-        Snap,
-        Continuous
     }
 }

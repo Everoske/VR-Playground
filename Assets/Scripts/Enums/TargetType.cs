@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShootingGallery.Game
+namespace ShootingGallery.Enums
 {
     public enum TargetType
     {
         Normal,
         Decoy
     }
-
 }

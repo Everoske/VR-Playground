@@ -1,4 +1,5 @@
 using ShootingGallery.Settings;
+using ShootingGallery.Enums;
 using TMPro;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
@@ -110,10 +111,10 @@ namespace ShootingGallery.UI.HandMenu
         {
             switch (SettingsLocator.GetSettingsManager().GetTurnType())
             {
-                case XR.TurnType.Continuous:
+                case TurnType.Continuous:
                     turnTypeDropDown.value = 0;
                     break;
-                case XR.TurnType.Snap:
+                case TurnType.Snap:
                     turnTypeDropDown.value = 1;
                     break;
             }
@@ -172,7 +173,7 @@ namespace ShootingGallery.UI.HandMenu
         /// <param name="value">Index of dropdown menu.</param>
         private void TurnTypeChanged(int value)
         {
-            XR.TurnType turnType = value == 0 ? XR.TurnType.Continuous : XR.TurnType.Snap;
+            TurnType turnType = value == 0 ? TurnType.Continuous : TurnType.Snap;
             SettingsLocator.GetSettingsManager().SetTurnType(turnType);
         }
 

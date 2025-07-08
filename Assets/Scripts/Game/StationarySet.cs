@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
+using ShootingGallery.Enums;
+
 namespace ShootingGallery.Game
 {
     /// <summary>

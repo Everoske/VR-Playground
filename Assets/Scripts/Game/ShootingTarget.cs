@@ -1,5 +1,6 @@
 using UnityEngine;
-using UnityEngine.Events;
+
+using ShootingGallery.Enums;
 
 namespace ShootingGallery.Game
 {
@@ -15,7 +16,6 @@ namespace ShootingGallery.Game
         [SerializeField]
         private Vector3 rotationAxes = new Vector3(-90.0f, 0.0f, 0.0f);
 
-        // TODO: Implement smooth rotation
         [SerializeField]
         private float rotationSpeed = 0.15f; 
 

@@ -1,5 +1,7 @@
 using UnityEngine;
 
+using ShootingGallery.Enums;
+
 namespace ShootingGallery.Game
 {
     // Contains object pools for targets and decoys

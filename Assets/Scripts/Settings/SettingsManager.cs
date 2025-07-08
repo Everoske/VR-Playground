@@ -1,5 +1,5 @@
 using ShootingGallery.Data;
-using ShootingGallery.XR;
+using ShootingGallery.Enums;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Events;
@@ -14,8 +14,6 @@ namespace ShootingGallery.Settings
     {
         [SerializeField]
         private AudioMixer audioMixer;
-        [SerializeField]
-        private XRMoveTurnManager moveTurnManager;
 
         private float masterVolume = 0.0f;
         private float musicVolume = 0.0f;
@@ -27,7 +25,10 @@ namespace ShootingGallery.Settings
         private InteractorHandedness menuHandedness = InteractorHandedness.Left;
 
         public UnityAction<bool> onShowAmmoCounterChanged;
-        public UnityAction<InteractorHandedness> onChangeMenuHandedness;
+        public UnityAction<InteractorHandedness> onHandMenuHandednessChanged;
+        public UnityAction<InteractorHandedness> onTurnHandednessChanged;
+        public UnityAction<InteractorHandedness> onMoveHandednessChanged;
+        public UnityAction<TurnType> onTurnTypeChanged;
 
         public float GetMasterVolume() => masterVolume;
         public float GetMusicVolume() => musicVolume;
@@ -71,7 +72,7 @@ namespace ShootingGallery.Settings
         public void SetTurnType(TurnType turnType)
         {
             this.turnType = turnType;
-            moveTurnManager.SetTurnType(turnType);
+            onTurnTypeChanged?.Invoke(turnType);
         }
 
         public void SetTurnHandedness(InteractorHandedness handedness)
@@ -80,8 +81,8 @@ namespace ShootingGallery.Settings
             turnHandedness = handedness;
             moveHandedness = handedness == InteractorHandedness.Right ? InteractorHandedness.Left : InteractorHandedness.Right;
 
-            moveTurnManager.SetTurnHandedness(turnHandedness);
-            moveTurnManager.SetMoveHandedness(moveHandedness);
+            onTurnHandednessChanged?.Invoke(turnHandedness);
+            onMoveHandednessChanged?.Invoke(moveHandedness);
         }
 
         public void SetMoveHandedness(InteractorHandedness handedness)
@@ -90,8 +91,8 @@ namespace ShootingGallery.Settings
             moveHandedness = handedness;
             turnHandedness = handedness == InteractorHandedness.Right ? InteractorHandedness.Left : InteractorHandedness.Right;
 
-            moveTurnManager.SetMoveHandedness(moveHandedness);
-            moveTurnManager.SetTurnHandedness(turnHandedness);
+            onMoveHandednessChanged?.Invoke(moveHandedness);
+            onTurnHandednessChanged?.Invoke(turnHandedness);
         }
 
         public void SetHandedness(InteractorHandedness turnHandedness, InteractorHandedness moveHandedness)
@@ -99,14 +100,14 @@ namespace ShootingGallery.Settings
             this.turnHandedness = turnHandedness;
             this.moveHandedness = moveHandedness;
 
-            moveTurnManager.SetTurnHandedness(this.turnHandedness);
-            moveTurnManager.SetMoveHandedness(this.moveHandedness);
+            onTurnHandednessChanged?.Invoke(turnHandedness);
+            onMoveHandednessChanged?.Invoke(moveHandedness);
         }
 
         public void SetMenuHandedness(InteractorHandedness handedness)
         {
             menuHandedness = handedness;
-            onChangeMenuHandedness?.Invoke(handedness);
+            onHandMenuHandednessChanged?.Invoke(handedness);
         }
 
         public void LoadData(GameData data)

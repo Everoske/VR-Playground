@@ -1,6 +1,4 @@
-using ShootingGallery.XR;
-using System.Collections.Generic;
-using UnityEngine;
+using ShootingGallery.Enums;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace ShootingGallery.Data

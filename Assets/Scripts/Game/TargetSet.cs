@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+
+using ShootingGallery.Enums;
 
 namespace ShootingGallery.Game
 {
@@ -281,14 +281,5 @@ namespace ShootingGallery.Game
             ScoreLocator.GetScoreTracker().AddToScore(points);
             onTargetHit?.Invoke();
         }
-    }
-
-    public enum TargetSetState
-    {
-        Inactive, 
-        Ready,
-        Active,
-        Terminating,
-        Stopped
     }
 }

@@ -1,4 +1,4 @@
-﻿using ShootingGallery.Game;
+﻿using ShootingGallery.Enums;
 
 namespace ShootingGallery.Game
 {
