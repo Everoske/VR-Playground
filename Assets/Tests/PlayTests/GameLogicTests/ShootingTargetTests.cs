@@ -4,8 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
-public class ShootingTargetTest
+public class ShootingTargetTests
 {
+    private readonly string scenePath = "Assets/Scenes/TestingScene.unity";
+
+    [OneTimeSetUp]
+    public void LoadScene()
+    {
+        SceneManager.LoadScene(scenePath);
+    }
 
     private IEnumerator WaitForSceneLoad()
     {
