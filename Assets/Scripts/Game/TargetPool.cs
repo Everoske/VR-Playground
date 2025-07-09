@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using ShootingGallery.Enums;
+using System;
 
 namespace ShootingGallery.Game
 {
@@ -23,6 +24,9 @@ namespace ShootingGallery.Game
 
         private int allocatedTargets = 0;
         private int allocatedDecoys = 0;
+
+        public int AllocatedTargets => allocatedTargets;
+        public int AllocatedDecoys => allocatedDecoys;
 
         private void Start()
         {
@@ -61,7 +65,7 @@ namespace ShootingGallery.Game
                 pool[i] = null;
             }
 
-            for (int i = pool.Length - 1; i < temp.Length; i++)
+            for (int i = pool.Length; i < temp.Length; i++)
             {
                 temp[i] = Instantiate(
                     poolPrefab,
@@ -95,12 +99,46 @@ namespace ShootingGallery.Game
 
         public void DeallocateShootingTarget(ShootingTarget shootingTarget)
         {
+            if (!ShootingTargetBelongsToPool(shootingTarget)) return;
+            if (NoneOfTypeAllocated(shootingTarget.TargetType)) return;
+
             shootingTarget.transform.parent = transform;
             shootingTarget.transform.position = new Vector3(0.0f, -1000.0f, 0.0f);
             shootingTarget.ResetTarget();
             shootingTarget.gameObject.SetActive(false);
 
             DecrementNumberAllocated(shootingTarget.TargetType);
+        }
+
+        private bool ShootingTargetBelongsToPool(ShootingTarget shootingTarget)
+        {
+            return shootingTarget != null && shootingTarget.PoolParent == transform;
+        }
+
+        private bool NoneOfTypeAllocated(TargetType targetType)
+        {
+            switch (targetType)
+            {
+                case TargetType.Normal:
+                    return allocatedTargets == 0;
+                case TargetType.Decoy:
+                    return allocatedDecoys == 0;
+            }
+
+            return true;
+        }
+
+        private bool NoTargetsAllocated(TargetType targetType)
+        {
+            switch (targetType)
+            {
+                case TargetType.Normal:
+                    return allocatedTargets == 0;
+                case TargetType.Decoy:
+                    return allocatedDecoys == 0;
+            }
+
+            return true;
         }
 
         private ShootingTarget AllocateShootingTarget(ITargetHitNotify hitNotify, ref ShootingTarget[] pool,

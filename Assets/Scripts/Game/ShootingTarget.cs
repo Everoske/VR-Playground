@@ -25,6 +25,7 @@ namespace ShootingGallery.Game
         private TargetType targetType;
         private ITargetHitNotify targetHitNotify;
         private float rotateTimer = 0.0f;
+        private Transform poolParent = null;
 
         public TargetType TargetType
         {
@@ -38,9 +39,12 @@ namespace ShootingGallery.Game
             set => targetHitNotify = value;
         }
 
+        public Transform PoolParent => poolParent;
+
         private void Awake()
         {
             meshRenderer = GetComponentInChildren<MeshRenderer>();
+            poolParent = transform.parent;
         }
 
         private void Update()
@@ -48,7 +52,6 @@ namespace ShootingGallery.Game
             if (isTargetActive) return;
             if (rotateTimer > rotationSpeed) return;
             RotateTarget();
-
         }
 
         public void HitTarget()
