@@ -24,6 +24,7 @@ namespace ShootingGallery.Game
 
         private TargetType targetType;
         private ITargetHitNotify targetHitNotify;
+        private float rotateTimer = 0.0f;
 
         public TargetType TargetType
         {
@@ -45,10 +46,9 @@ namespace ShootingGallery.Game
         private void Update()
         {
             if (isTargetActive) return;
+            if (rotateTimer > rotationSpeed) return;
+            RotateTarget();
 
-            Quaternion currentRotation = transform.rotation;
-            Quaternion targetRotation = Quaternion.Euler(rotationAxes.x, rotationAxes.y, rotationAxes.z);
-            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime / rotationSpeed);
         }
 
         public void HitTarget()
@@ -58,6 +58,7 @@ namespace ShootingGallery.Game
             targetHitNotify?.OnTargetHit(targetType);
             meshRenderer.material = inactiveMaterial;
             isTargetActive = false;
+            rotateTimer = 0.0f;
         }
 
         public void ResetTarget()
@@ -68,6 +69,14 @@ namespace ShootingGallery.Game
             targetHitNotify = null;
             meshRenderer.material = activeMaterial;
             transform.rotation = Quaternion.identity;
+        }
+
+        private void RotateTarget()
+        {
+            Quaternion currentRotation = transform.rotation;
+            Quaternion targetRotation = Quaternion.Euler(rotationAxes.x, rotationAxes.y, rotationAxes.z);
+            rotateTimer += Time.deltaTime;
+            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotateTimer / rotationSpeed);
         }
     }
 }
