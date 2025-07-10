@@ -44,6 +44,9 @@ namespace ShootingGallery.Game
         public UnityAction onTargetHit;
         public UnityAction<bool> onTargetSetComplete;
 
+        public int TotalTargets => totalTargets;
+        public int TotalDecoys => totalDecoys;
+
         public bool IsDecoyOnly()
         {
             return totalTargets <= 0 && totalDecoys > 0;
