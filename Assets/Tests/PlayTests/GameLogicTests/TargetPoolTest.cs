@@ -176,7 +176,7 @@ public class TargetPoolTest
     }
 
     [UnityTest]
-    public IEnumerator VerifyTargetPoolDeallocatesItsOwnTargets()
+    public IEnumerator VerifyTargetPoolDoesNotDeallocateTargetsNotOwned()
     {
         yield return WaitForSceneLoad();
         var gameObject = GameObject.Find("Target Pool");
@@ -189,7 +189,20 @@ public class TargetPoolTest
         targetPool.DeallocateShootingTarget(newTarget);
         Assert.AreEqual(1, targetPool.AllocatedTargets, "Target Pool should not deallocate targets not belonging to it");
     }
-    
+
+    [UnityTest]
+    public IEnumerator VerifyTargetPoolDisablesTargetsOnDeallocation()
+    {
+        yield return WaitForSceneLoad();
+        var gameObject = GameObject.Find("Target Pool");
+        TargetPool targetPool = gameObject.GetComponent<TargetPool>();
+        yield return null;
+
+        ShootingTarget target = targetPool.AllocateTarget(null);
+        target.gameObject.SetActive(true);
+        targetPool.DeallocateShootingTarget(target);
+        Assert.IsFalse(target.gameObject.activeInHierarchy);
+    }
 
     private IEnumerator WaitForSceneLoad()
     {

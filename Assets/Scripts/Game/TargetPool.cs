@@ -128,19 +128,6 @@ namespace ShootingGallery.Game
             return true;
         }
 
-        private bool NoTargetsAllocated(TargetType targetType)
-        {
-            switch (targetType)
-            {
-                case TargetType.Normal:
-                    return allocatedTargets == 0;
-                case TargetType.Decoy:
-                    return allocatedDecoys == 0;
-            }
-
-            return true;
-        }
-
         private ShootingTarget AllocateShootingTarget(ITargetHitNotify hitNotify, ref ShootingTarget[] pool,
             ref ShootingTarget targetPrefab, TargetType type, ref int numberAllocated)
         {
