@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShootingGallery.Game
 {
+    // TODO: Null Service Pattern
     public sealed class ScoreLocator
     {
         private static ScoreTracker scoreTracker;

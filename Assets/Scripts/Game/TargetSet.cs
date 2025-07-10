@@ -190,6 +190,7 @@ namespace ShootingGallery.Game
             onTargetSetComplete?.Invoke(IsDecoyOnly());
         }
 
+        // TODO: Null Service Pattern
         private void UpdateAccuracy()
         {
             if (AccuracyLocator.GetAccuracyTracker() != null)
@@ -198,6 +199,7 @@ namespace ShootingGallery.Game
             }
         }
 
+        // TODO: Null Service Pattern
         private void UpdateScore(int points)
         {
             if (ScoreLocator.GetScoreTracker() != null)
