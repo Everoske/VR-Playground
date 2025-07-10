@@ -29,6 +29,12 @@ namespace ShootingGallery.Game
             return endPoint.position;
         }
 
+        public Vector3 GetCenterPoint()
+        {
+            return startPoint.position +
+                (Vector3.Distance(startPoint.position, endPoint.position) / 2 * GetRackDirection());
+        }
+
         public Vector3 GetRackDirection()
         {
             return (endPoint.position - startPoint.position).normalized;

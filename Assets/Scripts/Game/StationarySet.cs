@@ -24,8 +24,7 @@ namespace ShootingGallery.Game
         protected override void Start()
         {
             base.Start();
-            centerPoint = targetRack.GetStartPoint() + 
-                ((Vector3.Distance(targetRack.GetStartPoint(), targetRack.GetEndPoint()) / 2) * direction);
+            centerPoint = targetRack.GetCenterPoint();
             DetermineLeadTargetPosition();
         }
 

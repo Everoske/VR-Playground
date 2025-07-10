@@ -190,6 +190,22 @@ namespace ShootingGallery.Game
             onTargetSetComplete?.Invoke(IsDecoyOnly());
         }
 
+        private void UpdateAccuracy()
+        {
+            if (AccuracyLocator.GetAccuracyTracker() != null)
+            {
+                AccuracyLocator.GetAccuracyTracker().IncrementTargetsHit();
+            }
+        }
+
+        private void UpdateScore(int points)
+        {
+            if (ScoreLocator.GetScoreTracker() != null)
+            {
+                ScoreLocator.GetScoreTracker().AddToScore(points);
+            }
+        }
+
         /// <summary>
         /// Initiates the stop sequence.
         /// </summary>
@@ -273,7 +289,7 @@ namespace ShootingGallery.Game
             {
                 targetsHit++;
                 points = targetPoints;
-                AccuracyLocator.GetAccuracyTracker().IncrementTargetsHit();
+                UpdateAccuracy();
                 CheckAllTargetsHit();
             }
             else
@@ -281,7 +297,7 @@ namespace ShootingGallery.Game
                 points = decoyPoints;
             }
 
-            ScoreLocator.GetScoreTracker().AddToScore(points);
+            UpdateScore(points);
             onTargetHit?.Invoke();
         }
     }
