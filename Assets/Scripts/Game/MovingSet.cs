@@ -27,6 +27,8 @@ namespace ShootingGallery.Game
         private Vector3 currentEndPoint;
         private Vector3 currentDirection;
 
+        public int CurrentPass => currentPass;
+
         protected override void Start()
         {
             base.Start();
