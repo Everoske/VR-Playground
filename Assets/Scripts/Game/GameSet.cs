@@ -47,21 +47,11 @@ namespace ShootingGallery.Game
         private int highScore = 0;
         private int activeRoundIndex = 0;
         private int highestPossibleScore = -1;
-        private ScoreTracker scoreTracker;
-        private AccuracyTracker accuracyTracker;
         private float roundTimer = 0.0f; 
         private bool timerActive = false;
         private bool shouldEndGame = false;
 
         private bool gameActive = false;
-
-        private void Awake()
-        {
-            scoreTracker = new ScoreTracker();
-            accuracyTracker = new AccuracyTracker();
-            ScoreLocator.Provide(scoreTracker);
-            AccuracyLocator.Provide(accuracyTracker);
-        }
 
         private void Update()
         {
@@ -80,7 +70,7 @@ namespace ShootingGallery.Game
                 round.onRoundReleased += RoundComplete;
             }
 
-            scoreTracker.onUpdateScore += ScoreUpdated;
+            ScoreLocator.GetScoreTracker().onUpdateScore += ScoreUpdated;
         }
 
         private void OnDisable()
@@ -90,7 +80,7 @@ namespace ShootingGallery.Game
                 round.onRoundReleased -= RoundComplete;
             }
 
-            scoreTracker.onUpdateScore -= ScoreUpdated;
+            ScoreLocator.GetScoreTracker().onUpdateScore -= ScoreUpdated;
         }
 
         public void StartGameSet() // Allow something that manages game sets to control whether a game set can start
@@ -103,8 +93,8 @@ namespace ShootingGallery.Game
             }
 
             Debug.Log("Starting Game Set");
-            scoreTracker.ResetScore();
-            accuracyTracker.ResetAccuracyTracker();
+            ScoreLocator.GetScoreTracker().ResetScore();
+            AccuracyLocator.GetAccuracyTracker().ResetAccuracyTracker();
             activeRoundIndex = 0;
             gameActive = true;
             StartRoundTimer("Starting Game in:", timeBeforeStart);
@@ -162,9 +152,9 @@ namespace ShootingGallery.Game
         {
             if (activeRoundIndex < rounds.Length) return 0; // Return 0 if game ended early
 
-            if (accuracyTracker.GetAccuracy() >= minAccuracyForBonus)
+            if (AccuracyLocator.GetAccuracyTracker().GetAccuracy() >= minAccuracyForBonus)
             {
-                return (int) (accuracyTracker.GetAccuracy() * maxAccuracyBonus);
+                return (int)(AccuracyLocator.GetAccuracyTracker().GetAccuracy() * maxAccuracyBonus);
             }
 
             return 0;
@@ -186,12 +176,12 @@ namespace ShootingGallery.Game
         {
             // Inform class controlling GameSets that game is over
             // Calculate final score/perhaps send to above class
-            int finalScore = CalculateAccuracyBonus() + scoreTracker.CurrentScore;
+            int finalScore = CalculateAccuracyBonus() + ScoreLocator.GetScoreTracker().CurrentScore;
             roundUI.SetScoreText(finalScore);
             gameActive = false;
             shouldEndGame = false;
-            Debug.Log($"Accuracy: {accuracyTracker.GetAccuracy() * 100}");
-            Debug.Log($"Accuracy Bonus: {finalScore - scoreTracker.CurrentScore}");
+            Debug.Log($"Accuracy: {AccuracyLocator.GetAccuracyTracker().GetAccuracy() * 100}");
+            Debug.Log($"Accuracy Bonus: {finalScore - ScoreLocator.GetScoreTracker().CurrentScore}");
             Debug.Log("GameSet Ended");
 
             if (finalScore > highScore)
