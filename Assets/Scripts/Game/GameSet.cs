@@ -53,6 +53,14 @@ namespace ShootingGallery.Game
 
         private bool gameActive = false;
 
+        public bool GameSetActive => gameActive;
+        public int HighestPossibleScore => highestPossibleScore;
+
+        private void Start()
+        {
+            ScoreLocator.GetScoreTracker().onUpdateScore += ScoreUpdated;
+        }
+
         private void Update()
         {
             if (highestPossibleScore < 0)
@@ -69,8 +77,6 @@ namespace ShootingGallery.Game
             {
                 round.onRoundReleased += RoundComplete;
             }
-
-            ScoreLocator.GetScoreTracker().onUpdateScore += ScoreUpdated;
         }
 
         private void OnDisable()
@@ -177,6 +183,7 @@ namespace ShootingGallery.Game
             // Inform class controlling GameSets that game is over
             // Calculate final score/perhaps send to above class
             int finalScore = CalculateAccuracyBonus() + ScoreLocator.GetScoreTracker().CurrentScore;
+            ScoreLocator.GetScoreTracker().CurrentScore = finalScore;
             roundUI.SetScoreText(finalScore);
             gameActive = false;
             shouldEndGame = false;

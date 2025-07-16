@@ -51,7 +51,7 @@ public class GalleryRoundTests
     }
 
     [UnityTest]
-    public IEnumerator VerifyGalleryRoundClosesWhenAutomaticallyWhenNoRoundSets()
+    public IEnumerator VerifyGalleryRoundClosesWhenNoRoundSets()
     {
         yield return WaitForSceneLoad();
         var roundObject = GameObject.Find("Gallery Round 2");
