@@ -768,7 +768,7 @@ GameObject:
   m_Component:
   - component: {fileID: 204225377}
   m_Layer: 31
-  m_Name: SlideStopPoint
+  m_Name: SlideStopPoint 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11260,7 +11260,7 @@ GameObject:
   - component: {fileID: 2092151669}
   - component: {fileID: 2092151668}
   m_Layer: 31
-  m_Name: XR Slider
+  m_Name: XR Slider 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

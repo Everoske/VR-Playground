@@ -86,7 +86,10 @@ namespace ShootingGallery.Game
                 round.onRoundReleased -= RoundComplete;
             }
 
-            ScoreLocator.GetScoreTracker().onUpdateScore -= ScoreUpdated;
+            if (ScoreLocator.GetScoreTracker() != null)
+            {
+                ScoreLocator.GetScoreTracker().onUpdateScore -= ScoreUpdated;
+            }
         }
 
         public void StartGameSet() // Allow something that manages game sets to control whether a game set can start

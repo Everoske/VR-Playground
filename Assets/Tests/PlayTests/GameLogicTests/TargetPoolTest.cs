@@ -181,8 +181,8 @@ public class TargetPoolTest
         yield return WaitForSceneLoad();
         var gameObject = GameObject.Find("Target Pool");
         TargetPool targetPool = gameObject.GetComponent<TargetPool>();
-        ShootingTarget newTarget = new ShootingTarget();
-        newTarget.TargetType = TargetType.Normal;
+        var targetObject = GameObject.Find("Shooting Target");
+        ShootingTarget newTarget = targetObject.GetComponent<ShootingTarget>();
         yield return null;
 
         targetPool.AllocateTarget(null);
