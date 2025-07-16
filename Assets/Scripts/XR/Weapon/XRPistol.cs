@@ -79,6 +79,9 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private float recoilFrequency = 0.0f;
 
+        [SerializeField]
+        private bool startWithRoundInChamber = false;
+
         private Animator animator;
         private AudioSource audioSource;
         private bool animationPlaying = false;
@@ -91,6 +94,8 @@ namespace ShootingGallery.XR.Weapon
             base.Awake();
             animator = GetComponent<Animator>();
             audioSource = GetComponent<AudioSource>();
+            roundInChamber = startWithRoundInChamber;
+            animator.SetBool("ShotReady", roundInChamber);
         }
 
         private void Start()

@@ -6,7 +6,7 @@
         "UnityEditor.TestRunner",
         "ShootingGallery.XR",
         "ShootingGallery.XR.Weapon",
-        "ShootingGallery.Enums"
+        "Unity.XR.Interaction.Toolkit"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
