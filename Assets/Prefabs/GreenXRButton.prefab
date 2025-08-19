@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3778296703193264195}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GreenXRButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 2519362026444304012}
   - component: {fileID: 640092152936641201}
   - component: {fileID: 7007051196833726229}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -214,6 +214,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GreenButton
       objectReference: {fileID: 0}
+    - target: {fileID: 3434902460051013765, guid: d9c26a38e40909a4d85c22a17f7c638d, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 8308657623341434426, guid: d9c26a38e40909a4d85c22a17f7c638d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -315,6 +319,10 @@ PrefabInstance:
     - target: {fileID: 5023686687255708189, guid: af8ad88d9e5f9404fafa5ec1fe4f5c7d, type: 3}
       propertyPath: m_Name
       value: ButtonBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 5023686687255708189, guid: af8ad88d9e5f9404fafa5ec1fe4f5c7d, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

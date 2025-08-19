@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3778296703193264195}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RedXRButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 2519362026444304012}
   - component: {fileID: 640092152936641201}
   - component: {fileID: 7007051196833726229}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,6 +254,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RedButton
       objectReference: {fileID: 0}
+    - target: {fileID: 6684065971975904708, guid: 3efe6421e6ec4db478049cb3b97f29dd, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -315,6 +319,10 @@ PrefabInstance:
     - target: {fileID: 5023686687255708189, guid: af8ad88d9e5f9404fafa5ec1fe4f5c7d, type: 3}
       propertyPath: m_Name
       value: ButtonBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 5023686687255708189, guid: af8ad88d9e5f9404fafa5ec1fe4f5c7d, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
