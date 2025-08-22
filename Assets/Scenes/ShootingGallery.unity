@@ -229,7 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetSets:
   - {fileID: 1059065566}
-  roundSetTimer: 10
+  roundSetTimer: 60
 --- !u!1 &50408950
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,7 +1226,7 @@ Transform:
   m_GameObject: {fileID: 705326599}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -27, y: 0, z: 0}
+  m_LocalPosition: {x: -15, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1823,7 +1823,7 @@ Transform:
   m_GameObject: {fileID: 1050954177}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27, y: 0, z: 0}
+  m_LocalPosition: {x: 15, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3786,6 +3786,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 280316453}
     m_Modifications:
+    - target: {fileID: 1681837221709642935, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681837221709642935, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681837221709642935, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1623206784}
+    - target: {fileID: 1681837221709642935, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681837221709642935, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartGameSet
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681837221709642935, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShootingGallery.Game.GameSet, ShootingGallery.Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 1681837221709642935, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3786032886503276534, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
       propertyPath: m_Name
       value: GalleryStandFull

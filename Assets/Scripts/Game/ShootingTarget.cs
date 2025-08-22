@@ -16,8 +16,12 @@ namespace ShootingGallery.Game
         [SerializeField]
         private Vector3 rotationAxes = new Vector3(-90.0f, 0.0f, 0.0f);
 
+        [Tooltip("Amount of time to rotate after being hit.")]
         [SerializeField]
-        private float rotationSpeed = 0.15f; 
+        private float rotationTime = 1.0f;
+
+        [SerializeField]
+        private GameObject targetMesh;
 
         private MeshRenderer meshRenderer;
         private bool isTargetActive = true;
@@ -43,14 +47,14 @@ namespace ShootingGallery.Game
 
         private void Awake()
         {
-            meshRenderer = GetComponentInChildren<MeshRenderer>();
+            meshRenderer = targetMesh.GetComponent<MeshRenderer>();
             poolParent = transform.parent;
         }
 
         private void Update()
         {
             if (isTargetActive) return;
-            if (rotateTimer > rotationSpeed) return;
+            if (rotateTimer > rotationTime) return;
             RotateTarget();
         }
 
@@ -71,15 +75,15 @@ namespace ShootingGallery.Game
             isTargetActive = true;
             targetHitNotify = null;
             meshRenderer.material = activeMaterial;
-            transform.rotation = Quaternion.identity;
+            targetMesh.transform.rotation = Quaternion.identity;
         }
 
         private void RotateTarget()
         {
-            Quaternion currentRotation = transform.rotation;
+            Quaternion currentRotation = targetMesh.transform.rotation;
             Quaternion targetRotation = Quaternion.Euler(rotationAxes.x, rotationAxes.y, rotationAxes.z);
             rotateTimer += Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotateTimer / rotationSpeed);
+            targetMesh.transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotateTimer / rotationTime);
         }
     }
 }

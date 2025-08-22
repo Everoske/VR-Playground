@@ -48,8 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeMaterial: {fileID: 2100000, guid: ac62f9459e707f441a8e9e4702abb20d, type: 2}
   inactiveMaterial: {fileID: 2100000, guid: ac62f9459e707f441a8e9e4702abb20d, type: 2}
-  rotationAxes: {x: -90, y: 0, z: 0}
-  rotationSpeed: 0.15
+  rotationAxes: {x: 90, y: 0, z: 0}
+  rotationTime: 1
+  targetMesh: {fileID: 565155100987893052}
 --- !u!1001 &439931229704668675
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -172,11 +173,20 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 29
       objectReference: {fileID: 0}
+    - target: {fileID: 8775290243261497379, guid: 18c1fafdd7572764ca221152db567dd8, type: 3}
+      propertyPath: m_TagString
+      value: Target
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18c1fafdd7572764ca221152db567dd8, type: 3}
+--- !u!1 &565155100987893052 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8775290243261497379, guid: 18c1fafdd7572764ca221152db567dd8, type: 3}
+  m_PrefabInstance: {fileID: 9088196335658575135}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6667088060785683699 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2493168102428068332, guid: 18c1fafdd7572764ca221152db567dd8, type: 3}
