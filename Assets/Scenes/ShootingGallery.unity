@@ -2462,63 +2462,6 @@ Transform:
   - {fileID: 1623206783}
   m_Father: {fileID: 186084683}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1320904390
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1697712286077200705, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
-      propertyPath: m_Name
-      value: XR_Pistol
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166885845967594021, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.343
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166885845967594021, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.226
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166885845967594021, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -10.511086
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166885845967594021, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166885845967594021, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166885845967594021, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166885845967594021, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166885845967594021, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166885845967594021, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2166885845967594021, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
 --- !u!1 &1356386706
 GameObject:
   m_ObjectHideFlags: 0
@@ -3373,6 +3316,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameSetName: Pistol Easy
   id: 
+  weaponSmallPrefab: {fileID: 1697712286077200705, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
+  weaponLargePrefab: {fileID: 0}
   rounds:
   - {fileID: 1288947120}
   timeBeforeStart: 5
@@ -3775,6 +3720,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f366e3d11caebf469750bb7c6160777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameSets: []
+  gunDrawer: {fileID: 0}
 --- !u!1 &2048807203
 GameObject:
   m_ObjectHideFlags: 0
@@ -4015,6 +3962,5 @@ SceneRoots:
   - {fileID: 1810654757}
   - {fileID: 186084683}
   - {fileID: 2048807204}
-  - {fileID: 1320904390}
   - {fileID: 417663658}
   - {fileID: 1292372934}

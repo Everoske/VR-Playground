@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace ShootingGallery.Game
 {
@@ -18,21 +19,26 @@ namespace ShootingGallery.Game
 
         private const string animatorOpenRef = "Open";
 
+        private List<GameObject> instancedWeapons = new List<GameObject>();
+
         private void Awake()
         {
             animator = GetComponent<Animator>();
         }
 
 
-        public void SpawnGuns()
+        public void SpawnGuns(GameObject smallGunPrefab, GameObject largeGunPrefab)
         {
-            // Receive guns to spawn from GameSetManager
+            if (smallGunPrefab != null)
+            {
+                SpawnSmallGun(smallGunPrefab);
+            }
 
-            // Spawn them at a random unused location based on available spawns
+            if (largeGunPrefab != null)
+            {
+                SpawnLargeGun(largeGunPrefab);
+            }
 
-            // Add guns to internal array/list for tracking
-
-            // Once guns have spawned, open drawer
             OpenDrawer();
         }
 
@@ -60,6 +66,23 @@ namespace ShootingGallery.Game
         private void CloseDrawer()
         {
             animator.SetBool(animatorOpenRef, false);
+        }
+
+        private void SpawnSmallGun(GameObject smallGunPrefab)
+        {
+            SpawnGun(smallGunPrefab, smallGunSpawns);
+        }
+
+        private void SpawnLargeGun(GameObject largeGunPrefab)
+        {
+            SpawnGun(largeGunPrefab, largeGunSpawns);
+        }
+
+        private void SpawnGun(GameObject gunPrefab, Transform[] possibleSpawns)
+        {
+            int randomIndex = Random.Range(0, possibleSpawns.Length);
+            GameObject instancedGun = Instantiate(gunPrefab, possibleSpawns[randomIndex].position, possibleSpawns[randomIndex].rotation);
+            instancedWeapons.Add(instancedGun);
         }
     }
 }

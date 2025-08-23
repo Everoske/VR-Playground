@@ -21,9 +21,10 @@ namespace ShootingGallery.Game
             id = System.Guid.NewGuid().ToString();
         }
 
-        // Weapons Used in Game
-        // [SerializeField]
-        // private XRWeapon[] usableWeapons;
+        [SerializeField]
+        private GameObject weaponSmallPrefab;
+        [SerializeField] 
+        private GameObject weaponLargePrefab;
 
         [SerializeField]
         private GalleryRound[] rounds;
@@ -55,6 +56,9 @@ namespace ShootingGallery.Game
 
         public bool GameSetActive => gameActive;
         public int HighestPossibleScore => highestPossibleScore;
+
+        public GameObject GetWeaponSmallPrefab() => weaponSmallPrefab;
+        public GameObject GetWeaponLargePrefab() => weaponLargePrefab;
 
         private void Start()
         {
@@ -101,9 +105,6 @@ namespace ShootingGallery.Game
                 return;
             }
 
-            Debug.Log("Starting Game Set");
-            ScoreLocator.GetScoreTracker().ResetScore();
-            AccuracyLocator.GetAccuracyTracker().ResetAccuracyTracker();
             activeRoundIndex = 0;
             gameActive = true;
             StartRoundTimer("Starting Game in:", timeBeforeStart);
