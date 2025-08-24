@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 namespace ShootingGallery.Game
 {
@@ -20,6 +21,8 @@ namespace ShootingGallery.Game
         private const string animatorOpenRef = "Open";
 
         private List<GameObject> instancedWeapons = new List<GameObject>();
+
+        public UnityAction onDrawerClose;
 
         private void Awake()
         {
@@ -50,12 +53,6 @@ namespace ShootingGallery.Game
 
             // Close gun drawer
             CloseDrawer();
-        }
-
-        public void OnDrawerClosed()
-        {
-            // Once drawer closes, despawn each gun
-            // Allow new guns to be spawned
         }
 
         private void OpenDrawer()

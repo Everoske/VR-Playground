@@ -7,10 +7,10 @@ namespace ShootingGallery.Game
     public class ShootingTarget : MonoBehaviour
     {
         [SerializeField]
-        private Material activeMaterial;
+        private Material activeMaterial; // REMOVE
 
         [SerializeField]
-        private Material inactiveMaterial;
+        private Material inactiveMaterial; // REMOVE
 
         [Tooltip("Represents which axes to rotate a target once it has been shot using Euler angles.")]
         [SerializeField]
@@ -55,30 +55,39 @@ namespace ShootingGallery.Game
         {
             if (isTargetActive) return;
             if (rotateTimer > rotationTime) return;
-            RotateTarget();
+            RotateTargetMesh();
         }
 
+        /// <summary>
+        /// Deactivate target and start rotating the hit mesh to show it is no longer active.
+        /// </summary>
         public void HitTarget()
         {
             if (!isTargetActive) return;
 
             targetHitNotify?.OnTargetHit(targetType);
-            meshRenderer.material = inactiveMaterial;
+            meshRenderer.material = inactiveMaterial; // REMOVE
             isTargetActive = false;
             rotateTimer = 0.0f;
         }
 
+        /// <summary>
+        /// Reset the mesh of target.
+        /// </summary>
         public void ResetTarget()
         {
             if (isTargetActive) return;
 
             isTargetActive = true;
             targetHitNotify = null;
-            meshRenderer.material = activeMaterial;
+            meshRenderer.material = activeMaterial; // REMOVE
             targetMesh.transform.rotation = Quaternion.identity;
         }
 
-        private void RotateTarget()
+        /// <summary>
+        /// Rotate the hittable mesh part of the target after it has been hit successfully.
+        /// </summary>
+        private void RotateTargetMesh()
         {
             Quaternion currentRotation = targetMesh.transform.rotation;
             Quaternion targetRotation = Quaternion.Euler(rotationAxes.x, rotationAxes.y, rotationAxes.z);

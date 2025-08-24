@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace ShootingGallery.UI
 {
+    /// <summary>
+    /// Class used for displaying information about rounds during an
+    /// active GameSet.
+    /// </summary>
     public class RoundUI : MonoBehaviour
     {
         [SerializeField]

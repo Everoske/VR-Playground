@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using UnityEngine;
 using ShootingGallery.Data;
+using UnityEngine.Events;
 
 namespace ShootingGallery.Game
 {
@@ -11,6 +12,9 @@ namespace ShootingGallery.Game
     {
         [SerializeField]
         private string gameSetName;
+
+        [SerializeField]
+        private string difficulty;
 
         [SerializeField]
         private string id;
@@ -36,9 +40,6 @@ namespace ShootingGallery.Game
         private float timeBetweenRounds = 5.0f;
 
         [SerializeField]
-        private RoundUI roundUI;
-
-        [SerializeField]
         private int maxAccuracyBonus = 1000;
 
         [Range(0, 1)]
@@ -54,16 +55,22 @@ namespace ShootingGallery.Game
 
         private bool gameActive = false;
 
+        private RoundUI roundUI;
+
         public bool GameSetActive => gameActive;
         public int HighestPossibleScore => highestPossibleScore;
+
+        public RoundUI RoundUI
+        {
+            get => roundUI;
+            set => roundUI = value;
+        }
 
         public GameObject GetWeaponSmallPrefab() => weaponSmallPrefab;
         public GameObject GetWeaponLargePrefab() => weaponLargePrefab;
 
-        private void Start()
-        {
-            ScoreLocator.GetScoreTracker().onUpdateScore += ScoreUpdated;
-        }
+        public UnityAction<int> onGameSetEnd;
+        public UnityAction<int> onHighScoreChanged;
 
         private void Update()
         {
@@ -89,14 +96,9 @@ namespace ShootingGallery.Game
             {
                 round.onRoundReleased -= RoundComplete;
             }
-
-            if (ScoreLocator.GetScoreTracker() != null)
-            {
-                ScoreLocator.GetScoreTracker().onUpdateScore -= ScoreUpdated;
-            }
         }
 
-        public void StartGameSet() // Allow something that manages game sets to control whether a game set can start
+        public void StartGameSet()
         {
             if (gameActive) return;
             if (rounds == null || rounds.Length == 0)
@@ -137,11 +139,6 @@ namespace ShootingGallery.Game
             {
                 StartRoundTimer("Time until next round:", timeBetweenRounds);
             }
-        }
-
-        private void ScoreUpdated(int score)
-        {
-            roundUI.SetScoreText(score);
         }
 
         // Calculate highest score in game set
@@ -185,19 +182,17 @@ namespace ShootingGallery.Game
         private void EndGame()
         {
             // Inform class controlling GameSets that game is over
-            // Calculate final score/perhaps send to above class
             int finalScore = CalculateAccuracyBonus() + ScoreLocator.GetScoreTracker().CurrentScore;
             ScoreLocator.GetScoreTracker().CurrentScore = finalScore;
-            roundUI.SetScoreText(finalScore);
+            onGameSetEnd?.Invoke(finalScore);
+
             gameActive = false;
             shouldEndGame = false;
-            Debug.Log($"Accuracy: {AccuracyLocator.GetAccuracyTracker().GetAccuracy() * 100}");
-            Debug.Log($"Accuracy Bonus: {finalScore - ScoreLocator.GetScoreTracker().CurrentScore}");
-            Debug.Log("GameSet Ended");
 
             if (finalScore > highScore)
             {
                 highScore = finalScore;
+                onHighScoreChanged?.Invoke(highScore);
             }
         }
 
