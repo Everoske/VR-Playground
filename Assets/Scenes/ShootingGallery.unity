@@ -1571,6 +1571,7 @@ GameObject:
   m_Component:
   - component: {fileID: 504471851}
   - component: {fileID: 504471852}
+  - component: {fileID: 504471853}
   m_Layer: 0
   m_Name: Game Set UI
   m_TagString: Untagged
@@ -1612,11 +1613,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c594776ad026f214fb8202bf7fcd52c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scoreText: {fileID: 50408952}
   roundText: {fileID: 1294683109}
+  scoreText: {fileID: 50408952}
+  accuracyText: {fileID: 45883609}
   timerUI: {fileID: 477419336}
   timerHeaderText: {fileID: 750672938}
   timerText: {fileID: 1447042066}
+  finalScoreUI: {fileID: 1843842859}
+  finalScoreText: {fileID: 72187657}
+--- !u!114 &504471853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504471850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52943ea96ca25a42bd7ec73c7a98ec3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setSelectionUI: {fileID: 424566627}
+  selectedSetNameText: {fileID: 1972529046}
+  setInfoNameText: {fileID: 1153210397}
+  numberRoundsText: {fileID: 793861885}
+  difficultyText: {fileID: 1212171120}
+  weapon1Text: {fileID: 530534999}
+  weapon2Text: {fileID: 1530862673}
+  highestPossibleText: {fileID: 1417988621}
+  bestScoreText: {fileID: 1480342211}
+  selectButton: {fileID: 1676703123}
+  rightButton: {fileID: 1761622127}
+  leftButton: {fileID: 140543927}
 --- !u!1 &524677106
 GameObject:
   m_ObjectHideFlags: 0

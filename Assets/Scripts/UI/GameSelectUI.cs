@@ -43,19 +43,24 @@ namespace ShootingGallery.UI
             setSelectionUI.SetActive(false);
         }
 
-        public void SetSelectedSetName(string name)
+        public void SetSelectedSetNameText(string name)
         {
             selectedSetNameText.text = name;
         }
 
-        public void SetInfoName(string name)
+        public void SetInfoNameText(string name)
         {
             setInfoNameText.text = name;
         }
 
-        public void SetNumberRounds(int numberRounds)
+        public void SetNumberRoundsText(int numberRounds)
         {
             numberRoundsText.text = numberRounds.ToString();
+        }
+
+        public void SetDifficultyText(string difficulty)
+        {
+            difficultyText.text = difficulty;
         }
 
         public void SetWeapon1Text(string weapon1)

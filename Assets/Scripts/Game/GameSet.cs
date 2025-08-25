@@ -26,6 +26,11 @@ namespace ShootingGallery.Game
         }
 
         [SerializeField]
+        private string weaponSmallName;
+        [SerializeField]
+        private string weaponLargeName;
+
+        [SerializeField]
         private GameObject weaponSmallPrefab;
         [SerializeField] 
         private GameObject weaponLargePrefab;
@@ -65,6 +70,14 @@ namespace ShootingGallery.Game
             get => roundUI;
             set => roundUI = value;
         }
+
+        public string GetGameSetName() => gameSetName;
+        public int GetNumberRounds() => rounds.Length;
+        public string GetDifficulty() => difficulty;
+        public string GetWeaponSmallName() => weaponSmallName;
+        public string GetWeaponLargeName() => weaponLargeName;
+        public int GetHighScore() => highScore;
+        public int GetHighestPossibleScore() => highestPossibleScore;
 
         public GameObject GetWeaponSmallPrefab() => weaponSmallPrefab;
         public GameObject GetWeaponLargePrefab() => weaponLargePrefab;

@@ -12,6 +12,8 @@ namespace ShootingGallery.Game
         private GunDrawer gunDrawer;
 
         [SerializeField]
+        private GameSelectUI gameSelectUI;
+        [SerializeField]
         private RoundUI roundUI;
 
         private ScoreTracker scoreTracker;
@@ -66,6 +68,7 @@ namespace ShootingGallery.Game
         {
             if (setIndex >= gameSets.Length) return;
             selectedSet = setIndex;
+            gameSelectUI.SetSelectedSetNameText(gameSets[selectedSet].GetGameSetName());
             // Despawn guns first, close gun drawer
             // Wait for gun drawer to close then spawn new guns
         }
@@ -114,6 +117,19 @@ namespace ShootingGallery.Game
             // Check if there is a selected game set
             // If not, return
             // If yes, spawn guns of selected game set
+        }
+
+        private void DisplayGameSetInfo(int index)
+        {
+            if (index >= gameSets.Length) return;
+
+            gameSelectUI.SetInfoNameText(gameSets[index].GetGameSetName());
+            gameSelectUI.SetNumberRoundsText(gameSets[index].GetNumberRounds());
+            gameSelectUI.SetDifficultyText(gameSets[index].GetDifficulty());
+            gameSelectUI.SetWeapon1Text(gameSets[index].GetWeaponSmallName());
+            gameSelectUI.SetWeapon2Text(gameSets[index].GetWeaponLargeName());
+            gameSelectUI.SetHighestPossibleText(gameSets[index].GetHighestPossibleScore());
+            gameSelectUI.SetBestScoreText(gameSets[index].GetHighScore());
         }
 
         private void ScoreUpdated(int score)
