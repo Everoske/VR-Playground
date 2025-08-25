@@ -45,7 +45,7 @@ namespace ShootingGallery.Game
             OpenDrawer();
         }
 
-        public void DespawnGuns()
+        public void InitiateRemoveActiveWeapons()
         {
             // Assign a new tag to all guns so they cannot be used by the player
 
@@ -53,6 +53,17 @@ namespace ShootingGallery.Game
 
             // Close gun drawer
             CloseDrawer();
+        }
+
+        public void CloseAnimationCompleted()
+        {
+            foreach (GameObject weapon in instancedWeapons)
+            {
+                Destroy(weapon);
+            }
+
+            instancedWeapons.Clear();
+            onDrawerClose?.Invoke();
         }
 
         private void OpenDrawer()
