@@ -65,12 +65,12 @@ namespace ShootingGallery.UI
 
         public void SetWeapon1Text(string weapon1)
         {
-            weapon1Text.text = weapon1;
+            weapon2Text.text = string.IsNullOrEmpty(weapon1) ? "" : $"- {weapon1}";
         }
 
         public void SetWeapon2Text(string weapon2)
         {
-            weapon2Text.text = weapon2;
+            weapon2Text.text = string.IsNullOrEmpty(weapon2) ? "" : $"- {weapon2}";
         }
 
         public void SetHighestPossibleText(int highestPossible)

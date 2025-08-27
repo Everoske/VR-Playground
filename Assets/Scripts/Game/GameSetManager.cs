@@ -19,7 +19,8 @@ namespace ShootingGallery.Game
         private ScoreTracker scoreTracker;
         private AccuracyTracker accuracyTracker;
 
-        private int selectedSet = 0;
+        private int setViewIndex = -1;
+        private int selectedSet = -1;
 
         private void Awake()
         {
@@ -31,17 +32,20 @@ namespace ShootingGallery.Game
 
         private void Start()
         {
-            // TODO: REMOVE - FOR TESTING ONLY
-            SpawnCurrentSetWeapons();
-
-            // END TODO
-
             foreach (GameSet gameSet in gameSets)
             {
                 gameSet.RoundUI = roundUI;
             }
 
-            // Display the default (0) GameSet on Start
+            if (gameSets.Length > 0)
+            {
+                setViewIndex = 0;
+                DisplayGameSetInfo(setViewIndex);
+            }
+            else
+            {
+                throw new System.Exception("Error: GameSetManager: No GameSets Provided.");
+            }
         }
 
         private void OnEnable()
@@ -49,8 +53,10 @@ namespace ShootingGallery.Game
             foreach (GameSet gameSet in gameSets)
             {
                 gameSet.onGameSetEnd += OnGameSetEnd;
+                gameSet.onHighScoreChanged += OnHighScoreChanged;
             }
 
+            gunDrawer.onDrawerClose += OnDrawerClose;
             scoreTracker.onUpdateScore += ScoreUpdated;
         }
 
@@ -59,66 +65,122 @@ namespace ShootingGallery.Game
             foreach (GameSet gameSet in gameSets)
             {
                 gameSet.onGameSetEnd -= OnGameSetEnd;
+                gameSet.onHighScoreChanged -= OnHighScoreChanged;
             }
 
+            gunDrawer.onDrawerClose -= OnDrawerClose;
             scoreTracker.onUpdateScore -= ScoreUpdated;
         }
 
-        public void SelectGameSet(int setIndex)
+        /// <summary>
+        /// Select the currently viewed game set 
+        /// or deselect if already selected.
+        /// </summary>
+        public void SelectGameSet()
         {
-            if (setIndex >= gameSets.Length) return;
-            selectedSet = setIndex;
+            if (IsGameInProgress()) return;
+
+            if (selectedSet == setViewIndex)
+            {
+                selectedSet = -1; 
+                gameSelectUI.SetSelectedSetNameText("No Game Selected");
+                gunDrawer.InitiateRemoveActiveWeapons();
+                return;
+            }
+
+            int previousSet = selectedSet;
+            selectedSet = setViewIndex;
             gameSelectUI.SetSelectedSetNameText(gameSets[selectedSet].GetGameSetName());
-            // Despawn guns first, close gun drawer
-            // Wait for gun drawer to close then spawn new guns
+
+            if (gunDrawer.IsDrawerClosing()) return; 
+
+            if (previousSet >= 0)
+            {
+                if (!DoSetsHaveSameWeapons(previousSet, selectedSet))
+                {
+                    gunDrawer.InitiateRemoveActiveWeapons();
+                }
+            }
+            else
+            {
+                SpawnCurrentSetWeapons();
+            }
         }
 
+        /// <summary>
+        /// Spawn weapons of currently selected set.
+        /// </summary>
         public void SpawnCurrentSetWeapons()
         {
-            if (SetCurrentlyActive()) return;
-
             gunDrawer.SpawnGuns(gameSets[selectedSet].GetWeaponSmallPrefab(), gameSets[selectedSet].GetWeaponLargePrefab());
         }
 
+        /// <summary>
+        /// Start selected game set.
+        /// </summary>
         public void StartSelectedSet()
         {
-            if (SetCurrentlyActive()) return;
+            if (IsGameInProgress()) return;
 
             Debug.Log("Starting Selected Game Set");
             ScoreLocator.GetScoreTracker().ResetScore();
             AccuracyLocator.GetAccuracyTracker().ResetAccuracyTracker();
+            gameSelectUI.HideGameSelectionUI();
             gameSets[selectedSet].StartGameSet();
         }
 
-        public void StopActiveSet()
+        /// <summary>
+        /// Stop the active game set early. 
+        /// </summary>
+        public void StopSelectedSet()
         {
-            if (!SetCurrentlyActive()) return;
-
+            if (!IsGameInProgress()) return;
             gameSets[selectedSet].InitiateStopGameSet();
         }
 
-        private bool SetCurrentlyActive()
+        /// <summary>
+        /// Check if selected game set is being played.
+        /// </summary>
+        /// <returns></returns>
+        private bool IsGameInProgress()
         {
             return gameSets[selectedSet].GameSetActive;
         }
 
+        /// <summary>
+        /// Show final score section when game set ends.
+        /// </summary>
+        /// <param name="finalScore"></param>
         private void OnGameSetEnd(int finalScore)
         {
             roundUI.SetScoreText(finalScore);
+            gameSelectUI.ShowGameSelectionUI();
         }
 
+        /// <summary>
+        /// Update Game Selection UI when player gets a new high score.
+        /// </summary>
+        /// <param name="highScore"></param>
         private void OnHighScoreChanged(int highScore)
         {
-            // Update the high score for the selected set in the UI
+            gameSelectUI.SetBestScoreText(highScore);
         }
 
+        /// <summary>
+        /// Spawn currently selected game set's guns after
+        /// removing the guns of the previous set. 
+        /// </summary>
         private void OnDrawerClose()
         {
-            // Check if there is a selected game set
-            // If not, return
-            // If yes, spawn guns of selected game set
+            if (selectedSet < 0) return;
+            SpawnCurrentSetWeapons();
         }
 
+        /// <summary>
+        /// Display the game set info for the currently
+        /// viewed game set in the set selection UI.
+        /// </summary>
+        /// <param name="index"></param>
         private void DisplayGameSetInfo(int index)
         {
             if (index >= gameSets.Length) return;
@@ -132,9 +194,29 @@ namespace ShootingGallery.Game
             gameSelectUI.SetBestScoreText(gameSets[index].GetHighScore());
         }
 
+        /// <summary>
+        /// Update score UI when score updated.
+        /// </summary>
+        /// <param name="score"></param>
         private void ScoreUpdated(int score)
         {
             roundUI.SetScoreText(score);
+        }
+
+        /// <summary>
+        /// Check if currently viewed game set and the
+        /// one already selected have the same weapons.
+        /// </summary>
+        /// <returns></returns>
+        private bool DoSetsHaveSameWeapons(int previousSet, int currentSet)
+        {
+            if (previousSet == currentSet) return true;
+            if (gameSets[previousSet].GetWeaponSmallPrefab() !=
+                gameSets[currentSet].GetWeaponSmallPrefab()) return false;
+            if (gameSets[previousSet].GetWeaponLargePrefab() !=
+                gameSets[currentSet].GetWeaponLargePrefab()) return false;
+
+            return true;
         }
     }
 }

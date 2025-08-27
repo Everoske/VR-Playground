@@ -3430,7 +3430,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 45}
-  m_SizeDelta: {x: 40, y: 10}
+  m_SizeDelta: {x: 100, y: 10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1153210397
 MonoBehaviour:
@@ -4266,6 +4266,17 @@ Transform:
   - {fileID: 1060952395}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1362998077 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3237488441760050289, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+  m_PrefabInstance: {fileID: 1239184458811129614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 824a0053be7d1724da887ecfa0c5f8df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1363601423
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5708,6 +5719,8 @@ MonoBehaviour:
   gameSetName: Pistol Easy
   difficulty: Easy
   id: 
+  weaponSmallName: Pistol
+  weaponLargeName: 
   weaponSmallPrefab: {fileID: 1697712286077200705, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
   weaponLargePrefab: {fileID: 0}
   rounds:
@@ -6713,17 +6726,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 844906439931309235, guid: b51da9de58fd0f2448ba046ddf58a057, type: 3}
   m_PrefabInstance: {fileID: 1837766776}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1843154966 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5761394040613830034, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
-  m_PrefabInstance: {fileID: 1239184458811129614}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 824a0053be7d1724da887ecfa0c5f8df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1843842859
 GameObject:
   m_ObjectHideFlags: 0
@@ -7220,7 +7222,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameSets:
   - {fileID: 1623206784}
-  gunDrawer: {fileID: 1843154966}
+  gunDrawer: {fileID: 1362998077}
+  gameSelectUI: {fileID: 504471853}
   roundUI: {fileID: 504471852}
 --- !u!1 &2048807203
 GameObject:
@@ -7441,6 +7444,62 @@ PrefabInstance:
     - target: {fileID: 6445782279662614458, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7230855504344097393, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7230855504344097393, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7230855504344097393, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2039714554}
+    - target: {fileID: 7230855504344097393, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7230855504344097393, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectGameSet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7230855504344097393, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShootingGallery.Game.GameSetManager, ShootingGallery.Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 7230855504344097393, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461531045603543339, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461531045603543339, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461531045603543339, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2039714554}
+    - target: {fileID: 8461531045603543339, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461531045603543339, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StopSelectedSet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461531045603543339, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShootingGallery.Game.GameSetManager, ShootingGallery.Game
+      objectReference: {fileID: 0}
+    - target: {fileID: 8461531045603543339, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+      propertyPath: m_SelectEntered.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

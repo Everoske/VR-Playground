@@ -77,7 +77,16 @@ namespace ShootingGallery.Game
         public string GetWeaponSmallName() => weaponSmallName;
         public string GetWeaponLargeName() => weaponLargeName;
         public int GetHighScore() => highScore;
-        public int GetHighestPossibleScore() => highestPossibleScore;
+
+        public int GetHighestPossibleScore()
+        {
+            if (highestPossibleScore < 0)
+            {
+                CalculateHighestScore();
+            }
+
+            return highestPossibleScore;
+        }
 
         public GameObject GetWeaponSmallPrefab() => weaponSmallPrefab;
         public GameObject GetWeaponLargePrefab() => weaponLargePrefab;
@@ -87,11 +96,6 @@ namespace ShootingGallery.Game
 
         private void Update()
         {
-            if (highestPossibleScore < 0)
-            {
-                CalculateHighestScore();
-            }
-
             ProcessTimer();
         }
 
