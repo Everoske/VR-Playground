@@ -128,6 +128,7 @@ namespace ShootingGallery.Game
             else
             {
                 SpawnCurrentSetWeapons();
+                SpawnAmmoVolumes();
             }
         }
 

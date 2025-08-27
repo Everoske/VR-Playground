@@ -3777,6 +3777,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1212171118}
   m_CullTransparentMesh: 1
+--- !u!114 &1216273810 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1148235866999698469, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+  m_PrefabInstance: {fileID: 1239184458811129614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cff58f140ad78746b52fba25be45a08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1236824337
 GameObject:
   m_ObjectHideFlags: 0
@@ -5782,6 +5793,17 @@ MonoBehaviour:
   targetPrefab: {fileID: 582796952005540067, guid: 001e462a239230e46bd9867590fefef4, type: 3}
   decoyPrefab: {fileID: 582796952005540067, guid: 001e462a239230e46bd9867590fefef4, type: 3}
   initialPoolSize: 25
+--- !u!114 &1612762100 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1033572626408290661, guid: 9e8e8a15e0be3e04f993a7c72d913dc4, type: 3}
+  m_PrefabInstance: {fileID: 1239184458811129614}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cff58f140ad78746b52fba25be45a08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1623206782
 GameObject:
   m_ObjectHideFlags: 0
@@ -5834,6 +5856,8 @@ MonoBehaviour:
   weaponLargeName: 
   weaponSmallPrefab: {fileID: 1697712286077200705, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
   weaponLargePrefab: {fileID: 0}
+  ammoVolumePrefabs:
+  - {fileID: 3849371947301582391, guid: 22c220c0c869e784ea359d6341a1ed0d, type: 3}
   rounds:
   - {fileID: 1288947120}
   timeBeforeStart: 5
@@ -7212,6 +7236,8 @@ MonoBehaviour:
   weaponLargeName: 
   weaponSmallPrefab: {fileID: 1697712286077200705, guid: 33d68c63c55059e4fba928b1d89ed5e6, type: 3}
   weaponLargePrefab: {fileID: 0}
+  ammoVolumePrefabs:
+  - {fileID: 3849371947301582391, guid: 22c220c0c869e784ea359d6341a1ed0d, type: 3}
   rounds:
   - {fileID: 783554020}
   timeBeforeStart: 5
@@ -7553,6 +7579,9 @@ MonoBehaviour:
   - {fileID: 1623206784}
   - {fileID: 1936681905}
   gunDrawer: {fileID: 1362998077}
+  ammoDrawers:
+  - {fileID: 1612762100}
+  - {fileID: 1216273810}
   gameSelectUI: {fileID: 504471853}
   roundUI: {fileID: 504471852}
   changeSelectionTimer: 0.5
