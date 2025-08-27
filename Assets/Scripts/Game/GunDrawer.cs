@@ -91,6 +91,15 @@ namespace ShootingGallery.Game
         }
 
         /// <summary>
+        /// Check if drawer is closed.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsDrawerClosed()
+        {
+            return !isTranslating && drawerSlide.position == closedPosition.position;
+        }
+
+        /// <summary>
         /// Begin moving drawer slide to the open position.
         /// </summary>
         private void OpenDrawer()

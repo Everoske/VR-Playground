@@ -11,6 +11,8 @@ namespace ShootingGallery.Game
         private GameSet[] gameSets;
         [SerializeField]
         private GunDrawer gunDrawer;
+        [SerializeField]
+        private AmmoDrawer[] ammoDrawers;
 
         [SerializeField]
         private GameSelectUI gameSelectUI;
@@ -64,6 +66,12 @@ namespace ShootingGallery.Game
             }
 
             gunDrawer.onDrawerClose += OnDrawerClose;
+            
+            foreach (AmmoDrawer aDrawer in ammoDrawers)
+            {
+                aDrawer.onDrawerClosed += OnDrawerClose;
+            }
+            
             scoreTracker.onUpdateScore += OnScoreUpdated;
             accuracyTracker.onShotFired += OnShotFired;
         }
@@ -77,6 +85,12 @@ namespace ShootingGallery.Game
             }
 
             gunDrawer.onDrawerClose -= OnDrawerClose;
+
+            foreach (AmmoDrawer aDrawer in ammoDrawers)
+            {
+                aDrawer.onDrawerClosed -= OnDrawerClose;
+            }
+
             scoreTracker.onUpdateScore -= OnScoreUpdated;
             accuracyTracker.onShotFired -= OnShotFired;
         }
@@ -108,7 +122,7 @@ namespace ShootingGallery.Game
             {
                 if (!DoSetsHaveSameWeapons(previousSet, selectedSet))
                 {
-                    gunDrawer.InitiateRemoveActiveWeapons();
+                    CloseDrawers();
                 }
             }
             else
@@ -146,22 +160,14 @@ namespace ShootingGallery.Game
         /// </summary>
         private void DeselectGameSet()
         {
-            if (gunDrawer.IsDrawerClosing()) return;
+            if (AreAnyDrawersClosing()) return;
 
             selectedSet = -1;
             gameSelectUI.SetSelectedSetNameText("No Game Selected");
             gameSelectUI.SetSelectButtonText("Select");
             scoreTracker.ResetScore();
-            gunDrawer.InitiateRemoveActiveWeapons();
+            CloseDrawers();
             StartCoroutine(DisableSelectionTemporarily());
-        }
-
-        /// <summary>
-        /// Spawn weapons of currently selected set.
-        /// </summary>
-        public void SpawnCurrentSetWeapons()
-        {
-            gunDrawer.SpawnGuns(gameSets[selectedSet].GetWeaponSmallPrefab(), gameSets[selectedSet].GetWeaponLargePrefab());
         }
 
         /// <summary>
@@ -187,6 +193,31 @@ namespace ShootingGallery.Game
         {
             if (!IsGameInProgress()) return;
             gameSets[selectedSet].InitiateStopGameSet();
+        }
+
+        /// <summary>
+        /// Spawn weapons of currently selected set.
+        /// </summary>
+        private void SpawnCurrentSetWeapons()
+        {
+            gunDrawer.SpawnGuns(gameSets[selectedSet].GetWeaponSmallPrefab(), gameSets[selectedSet].GetWeaponLargePrefab());
+        }
+
+        /// <summary>
+        /// Spawn ammo volumes in respective ammo drawers.
+        /// </summary>
+        private void SpawnAmmoVolumes()
+        {
+            GameObject[] currentAmmoVolumes = gameSets[selectedSet].GetAmmoVolumePrefabs();
+            if (currentAmmoVolumes == null || currentAmmoVolumes.Length == 0) return;
+
+            for (int i = 0; i < ammoDrawers.Length; i++)
+            {
+                if (i < currentAmmoVolumes.Length)
+                {
+                    ammoDrawers[i].SpawnAmmoVolume(currentAmmoVolumes[i]);
+                }
+            }
         }
 
         /// <summary>
@@ -228,7 +259,10 @@ namespace ShootingGallery.Game
         private void OnDrawerClose()
         {
             if (selectedSet < 0) return;
+            if (!AreAllDrawersClosed()) return;
+
             SpawnCurrentSetWeapons();
+            SpawnAmmoVolumes();
         }
 
         /// <summary>
@@ -315,6 +349,57 @@ namespace ShootingGallery.Game
         {
             yield return new WaitForSeconds(0.1f);
             roundUI.SetAccuracyText(accuracyTracker.GetAccuracy() * 100.0f);
+        }
+
+        /// <summary>
+        /// Check if the gun drawer or any of the
+        /// ammo drawers are currently closing.
+        /// </summary>
+        /// <returns></returns>
+        private bool AreAnyDrawersClosing()
+        {
+            if (gunDrawer.IsDrawerClosing()) return true;
+
+            foreach (AmmoDrawer aDrawer in ammoDrawers)
+            {
+                if (aDrawer.IsDrawerClosing()) return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Check if all drawers are closed.
+        /// </summary>
+        /// <returns></returns>
+        private bool AreAllDrawersClosed()
+        {
+            if (!gunDrawer.IsDrawerClosed()) return false;
+            foreach (AmmoDrawer aDrawer in ammoDrawers)
+            {
+                if (!aDrawer.IsDrawerClosed()) return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Close ammo drawers and despawn ammo volumes.
+        /// </summary>
+        private void InitiateRemoveAmmoVolumes()
+        {
+            foreach (AmmoDrawer aDrawer in ammoDrawers)
+            {
+                aDrawer.InitiateRemoveAmmoVolume();
+            }
+        }
+
+        /// <summary>
+        /// Close all drawers.
+        /// </summary>
+        private void CloseDrawers()
+        {
+            gunDrawer.InitiateRemoveActiveWeapons();
+            InitiateRemoveAmmoVolumes();
         }
     }
 }

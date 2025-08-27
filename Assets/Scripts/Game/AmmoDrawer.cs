@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ShootingGallery.Game
 {
@@ -25,11 +26,11 @@ namespace ShootingGallery.Game
 
         private GameObject ammoVolume;
 
+        public UnityAction onDrawerClosed;
+
         private void Start()
         {
             drawerSlide.position = closedPosition.position;
-            // TODO: REMOVE
-            OpenDrawer();
         }
 
         private void Update()
@@ -41,15 +42,40 @@ namespace ShootingGallery.Game
             }
         }
 
+        /// <summary>
+        /// Spawn given ammo volume prefab.
+        /// </summary>
+        /// <param name="volumePrefab"></param>
         public void SpawnAmmoVolume(GameObject volumePrefab)
         {
             ammoVolume = Instantiate(volumePrefab, ammoVolumePosition.position, ammoVolumePosition.rotation);
             OpenDrawer();
         }
 
+        /// <summary>
+        /// Begin closing drawer to then despawn ammo volume. 
+        /// </summary>
         public void InitiateRemoveAmmoVolume()
         {
             CloseDrawer();
+        }
+
+        /// <summary>
+        /// Check if drawer is in process of closing.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsDrawerClosing()
+        {
+            return isTranslating && slideTargetPosition == closedPosition.position;
+        }
+
+        /// <summary>
+        /// Check if drawer is closed.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsDrawerClosed()
+        {
+            return !isTranslating && drawerSlide.position == closedPosition.position;
         }
 
         /// <summary>
@@ -99,10 +125,14 @@ namespace ShootingGallery.Game
 
             if (drawerSlide.position == closedPosition.position)
             {
-                DespawnAmmoVolume();    
+                DespawnAmmoVolume();
+                onDrawerClosed?.Invoke();
             }
         }
 
+        /// <summary>
+        /// Despawn current ammo volume.
+        /// </summary>
         private void DespawnAmmoVolume()
         {
             Destroy(ammoVolume);

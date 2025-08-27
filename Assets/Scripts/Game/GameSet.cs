@@ -36,6 +36,9 @@ namespace ShootingGallery.Game
         private GameObject weaponLargePrefab;
 
         [SerializeField]
+        private GameObject[] ammoVolumePrefabs;
+
+        [SerializeField]
         private GalleryRound[] rounds;
 
         [SerializeField]
@@ -76,6 +79,8 @@ namespace ShootingGallery.Game
         public string GetDifficulty() => difficulty;
         public string GetWeaponSmallName() => weaponSmallName;
         public string GetWeaponLargeName() => weaponLargeName;
+
+        public GameObject[] GetAmmoVolumePrefabs() => ammoVolumePrefabs;
         public int GetHighScore() => highScore;
 
         public int GetHighestPossibleScore()
