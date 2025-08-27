@@ -1,4 +1,5 @@
 using ShootingGallery.UI;
+using System.Collections;
 using UnityEngine;
 
 namespace ShootingGallery.Game
@@ -16,11 +17,16 @@ namespace ShootingGallery.Game
         [SerializeField]
         private RoundUI roundUI;
 
+        [SerializeField]
+        private float changeSelectionTimer = 1.0f;
+
         private ScoreTracker scoreTracker;
         private AccuracyTracker accuracyTracker;
 
         private int setViewIndex = -1;
         private int selectedSet = -1;
+
+        private bool canChangeSelection = true;
 
         private void Awake()
         {
@@ -80,6 +86,7 @@ namespace ShootingGallery.Game
         public void SelectGameSet()
         {
             if (IsGameInProgress()) return;
+            if (!canChangeSelection) return;
 
             if (selectedSet == setViewIndex)
             {
@@ -90,7 +97,8 @@ namespace ShootingGallery.Game
             int previousSet = selectedSet;
             selectedSet = setViewIndex;
             gameSelectUI.SetSelectedSetNameText(gameSets[selectedSet].GetGameSetName());
-            gameSelectUI.SetSelectButtonText("Deselect");
+            gameSelectUI.SetSelectButtonText("Remove");
+            StartCoroutine(DisableSelectionTemporarily());
 
             if (gunDrawer.IsDrawerClosing()) return; 
 
@@ -142,6 +150,7 @@ namespace ShootingGallery.Game
             gameSelectUI.SetSelectedSetNameText("No Game Selected");
             gameSelectUI.SetSelectButtonText("Select");
             gunDrawer.InitiateRemoveActiveWeapons();
+            StartCoroutine(DisableSelectionTemporarily());
         }
 
         /// <summary>
@@ -265,6 +274,15 @@ namespace ShootingGallery.Game
                 gameSets[currentSet].GetWeaponLargePrefab()) return false;
 
             return true;
+        }
+
+        private IEnumerator DisableSelectionTemporarily()
+        {
+            gameSelectUI.ToggleSelectButtonInteraction(false);
+            canChangeSelection = false;
+            yield return new WaitForSeconds(changeSelectionTimer);
+            gameSelectUI.ToggleSelectButtonInteraction(true);
+            canChangeSelection = true;
         }
     }
 }
