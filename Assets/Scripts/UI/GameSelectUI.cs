@@ -29,6 +29,8 @@ namespace ShootingGallery.UI
         [SerializeField]
         private Button selectButton;
         [SerializeField]
+        private TMP_Text selectButtonText;
+        [SerializeField]
         private Button rightButton;
         [SerializeField]
         private Button leftButton;
@@ -81,6 +83,11 @@ namespace ShootingGallery.UI
         public void SetBestScoreText(int bestScore)
         {
             bestScoreText.text = bestScore.ToString();
+        }
+
+        public void SetSelectButtonText(string selectText)
+        {
+            selectButtonText.text = selectText;
         }
 
         public void ToggleSelectButtonInteraction(bool interactable)

@@ -1643,6 +1643,7 @@ MonoBehaviour:
   highestPossibleText: {fileID: 1417988621}
   bestScoreText: {fileID: 1480342211}
   selectButton: {fileID: 1676703123}
+  selectButtonText: {fileID: 1864436465}
   rightButton: {fileID: 1761622127}
   leftButton: {fileID: 140543927}
 --- !u!1 &524677106

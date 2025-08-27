@@ -41,6 +41,7 @@ namespace ShootingGallery.Game
             {
                 setViewIndex = 0;
                 DisplayGameSetInfo(setViewIndex);
+                ToggleNavigationUI();
             }
             else
             {
@@ -82,15 +83,14 @@ namespace ShootingGallery.Game
 
             if (selectedSet == setViewIndex)
             {
-                selectedSet = -1; 
-                gameSelectUI.SetSelectedSetNameText("No Game Selected");
-                gunDrawer.InitiateRemoveActiveWeapons();
+                DeselectGameSet();
                 return;
             }
 
             int previousSet = selectedSet;
             selectedSet = setViewIndex;
             gameSelectUI.SetSelectedSetNameText(gameSets[selectedSet].GetGameSetName());
+            gameSelectUI.SetSelectButtonText("Deselect");
 
             if (gunDrawer.IsDrawerClosing()) return; 
 
@@ -105,6 +105,43 @@ namespace ShootingGallery.Game
             {
                 SpawnCurrentSetWeapons();
             }
+        }
+
+        /// <summary>
+        /// View the next game set.
+        /// </summary>
+        public void ViewNextGameSet()
+        {
+            if (IsGameInProgress()) return;
+            if (setViewIndex + 1 >= gameSets.Length) return;
+            setViewIndex++;
+            DisplayGameSetInfo(setViewIndex);
+            ToggleNavigationUI();
+        }
+
+        /// <summary>
+        /// View the previous game set.
+        /// </summary>
+        public void ViewPreviousGameSet()
+        {
+            if (IsGameInProgress()) return;
+            if (setViewIndex == 0) return;
+            setViewIndex--;
+            DisplayGameSetInfo(setViewIndex);
+            ToggleNavigationUI();
+        }
+
+        /// <summary>
+        /// Deselect currently selected game set.
+        /// </summary>
+        private void DeselectGameSet()
+        {
+            if (gunDrawer.IsDrawerClosing()) return;
+
+            selectedSet = -1;
+            gameSelectUI.SetSelectedSetNameText("No Game Selected");
+            gameSelectUI.SetSelectButtonText("Select");
+            gunDrawer.InitiateRemoveActiveWeapons();
         }
 
         /// <summary>
@@ -144,6 +181,7 @@ namespace ShootingGallery.Game
         /// <returns></returns>
         private bool IsGameInProgress()
         {
+            if (selectedSet < 0) return false;
             return gameSets[selectedSet].GameSetActive;
         }
 
@@ -192,6 +230,16 @@ namespace ShootingGallery.Game
             gameSelectUI.SetWeapon2Text(gameSets[index].GetWeaponLargeName());
             gameSelectUI.SetHighestPossibleText(gameSets[index].GetHighestPossibleScore());
             gameSelectUI.SetBestScoreText(gameSets[index].GetHighScore());
+        }
+
+        /// <summary>
+        /// Set navigation UI to reflect view index.
+        /// </summary>
+        private void ToggleNavigationUI()
+        {
+            gameSelectUI.ToggleLeftButtonInteraction(setViewIndex > 0);
+            gameSelectUI.ToggleRightButtonInteraction(setViewIndex < gameSets.Length - 1);
+            gameSelectUI.SetSelectButtonText(setViewIndex == selectedSet ? "Deselect" : "Select");
         }
 
         /// <summary>
