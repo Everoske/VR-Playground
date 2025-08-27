@@ -64,7 +64,8 @@ namespace ShootingGallery.Game
             }
 
             gunDrawer.onDrawerClose += OnDrawerClose;
-            scoreTracker.onUpdateScore += ScoreUpdated;
+            scoreTracker.onUpdateScore += OnScoreUpdated;
+            accuracyTracker.onShotFired += OnShotFired;
         }
 
         private void OnDisable()
@@ -76,7 +77,8 @@ namespace ShootingGallery.Game
             }
 
             gunDrawer.onDrawerClose -= OnDrawerClose;
-            scoreTracker.onUpdateScore -= ScoreUpdated;
+            scoreTracker.onUpdateScore -= OnScoreUpdated;
+            accuracyTracker.onShotFired -= OnShotFired;
         }
 
         /// <summary>
@@ -149,6 +151,7 @@ namespace ShootingGallery.Game
             selectedSet = -1;
             gameSelectUI.SetSelectedSetNameText("No Game Selected");
             gameSelectUI.SetSelectButtonText("Select");
+            scoreTracker.ResetScore();
             gunDrawer.InitiateRemoveActiveWeapons();
             StartCoroutine(DisableSelectionTemporarily());
         }
@@ -168,10 +171,12 @@ namespace ShootingGallery.Game
         {
             if (IsGameInProgress()) return;
 
-            Debug.Log("Starting Selected Game Set");
-            ScoreLocator.GetScoreTracker().ResetScore();
-            AccuracyLocator.GetAccuracyTracker().ResetAccuracyTracker();
+            scoreTracker.ResetScore();
+            accuracyTracker.ResetAccuracyTracker();
+            accuracyTracker.UnpauseTracking();
+            roundUI.SetAccuracyText(0.0f);
             gameSelectUI.HideGameSelectionUI();
+            roundUI.HideFinalScoreUI();
             gameSets[selectedSet].StartGameSet();
         }
 
@@ -200,7 +205,10 @@ namespace ShootingGallery.Game
         /// <param name="finalScore"></param>
         private void OnGameSetEnd(int finalScore)
         {
+            accuracyTracker.PauseTracking();
             roundUI.SetScoreText(finalScore);
+            roundUI.SetFinalScoreText(finalScore);
+            roundUI.ShowFinalScoreUI();
             gameSelectUI.ShowGameSelectionUI();
         }
 
@@ -221,6 +229,24 @@ namespace ShootingGallery.Game
         {
             if (selectedSet < 0) return;
             SpawnCurrentSetWeapons();
+        }
+
+        /// <summary>
+        /// Update score UI when score updated.
+        /// </summary>
+        /// <param name="score"></param>
+        private void OnScoreUpdated(int score)
+        {
+            roundUI.SetScoreText(score);
+        }
+
+        /// <summary>
+        /// Update accuracy UI when shot fired.
+        /// </summary>
+        private void OnShotFired()
+        {
+            StopCoroutine(UpdateAccuracyUI());
+            StartCoroutine(UpdateAccuracyUI());
         }
 
         /// <summary>
@@ -252,15 +278,6 @@ namespace ShootingGallery.Game
         }
 
         /// <summary>
-        /// Update score UI when score updated.
-        /// </summary>
-        /// <param name="score"></param>
-        private void ScoreUpdated(int score)
-        {
-            roundUI.SetScoreText(score);
-        }
-
-        /// <summary>
         /// Check if currently viewed game set and the
         /// one already selected have the same weapons.
         /// </summary>
@@ -276,6 +293,11 @@ namespace ShootingGallery.Game
             return true;
         }
 
+        /// <summary>
+        /// Temporarily disable selection for a short
+        /// period of time and then re-enable it.
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator DisableSelectionTemporarily()
         {
             gameSelectUI.ToggleSelectButtonInteraction(false);
@@ -283,6 +305,16 @@ namespace ShootingGallery.Game
             yield return new WaitForSeconds(changeSelectionTimer);
             gameSelectUI.ToggleSelectButtonInteraction(true);
             canChangeSelection = true;
+        }
+
+        /// <summary>
+        /// Update accuracy UI after a short period of time.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator UpdateAccuracyUI()
+        {
+            yield return new WaitForSeconds(0.1f);
+            roundUI.SetAccuracyText(accuracyTracker.GetAccuracy() * 100.0f);
         }
     }
 }

@@ -7555,6 +7555,7 @@ MonoBehaviour:
   gunDrawer: {fileID: 1362998077}
   gameSelectUI: {fileID: 504471853}
   roundUI: {fileID: 504471852}
+  changeSelectionTimer: 0.5
 --- !u!1 &2048807203
 GameObject:
   m_ObjectHideFlags: 0

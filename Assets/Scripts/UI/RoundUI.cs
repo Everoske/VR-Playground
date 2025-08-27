@@ -68,7 +68,7 @@ namespace ShootingGallery.UI
 
         public void SetAccuracyText(float accuracy)
         {
-            accuracyText.text = accuracy.ToString();
+            accuracyText.text = $"{accuracy:0.0}";
         }
 
         public void SetFinalScoreText(int score)

@@ -21,6 +21,7 @@ namespace ShootingGallery.Game
         public void ResetScore()
         {
             currentScore = 0;
+            onUpdateScore?.Invoke(currentScore);
         }
 
         public void AddToScore(int score)

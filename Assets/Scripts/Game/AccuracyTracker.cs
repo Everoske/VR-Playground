@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ShootingGallery.Game
 {
@@ -6,6 +7,9 @@ namespace ShootingGallery.Game
     {
         private int shotsFired = 0;
         private int targetsHit = 0;
+        private bool trackingPaused = true;
+
+        public UnityAction onShotFired;
 
         public void ResetAccuracyTracker()
         {
@@ -15,11 +19,14 @@ namespace ShootingGallery.Game
 
         public void IncrementShotsFired()
         {
+            if (trackingPaused) return;
             shotsFired++;
+            onShotFired?.Invoke();
         }
 
         public void IncrementTargetsHit()
         {
+            if (trackingPaused) return;
             targetsHit++;
         }
 
@@ -27,6 +34,16 @@ namespace ShootingGallery.Game
         {
             if (shotsFired == 0) return 0.0f;
             return ((float) targetsHit / (float) shotsFired);
+        }
+
+        public void PauseTracking()
+        {
+            trackingPaused = true;
+        }
+
+        public void UnpauseTracking()
+        {
+            trackingPaused = false;
         }
     }
 }
