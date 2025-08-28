@@ -20,6 +20,8 @@ namespace ShootingGallery.UI.HandMenu
         [SerializeField]
         private GameObject videoMenu;
         [SerializeField]
+        private GameObject creditsMenu;
+        [SerializeField]
         private GameObject quitMenu;
 
         [SerializeField]
@@ -96,6 +98,7 @@ namespace ShootingGallery.UI.HandMenu
         public void OpenSoundMenu() => ChangeMenu(soundMenu);
         public void OpenGamePlayMenu() => ChangeMenu(gameplayMenu);
         public void OpenVideoMenu() => ChangeMenu(videoMenu);
+        public void OpenCreditsMenu() => ChangeMenu(creditsMenu);
         public void OpenQuitMenu() => ChangeMenu(quitMenu);
 
         public void QuitGame()
