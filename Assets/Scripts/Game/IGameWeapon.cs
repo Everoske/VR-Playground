@@ -4,7 +4,8 @@ namespace ShootingGallery.Game
 {
     public interface IGameWeapon
     {
-        void HandleOutOfBounds();
-        void DetachFromPlayer();
+        void ReturnToSpawn();
+        void SetSpawnPosition(Transform spawnPoint);
+        void DisableAndTerminateInteraction();
     }
 }

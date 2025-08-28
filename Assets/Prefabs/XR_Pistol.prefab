@@ -450,6 +450,7 @@ GameObject:
   - component: {fileID: 458556237673070035}
   - component: {fileID: 7461619935353026783}
   - component: {fileID: 5904421389388688496}
+  - component: {fileID: 2206482677833303739}
   m_Layer: 31
   m_Name: XR_Pistol
   m_TagString: Untagged
@@ -689,6 +690,7 @@ MonoBehaviour:
   recoilAmplitude: 0.5
   recoilDuration: 0.25
   recoilFrequency: 0
+  startWithRoundInChamber: 0
 --- !u!82 &7461619935353026783
 AudioSource:
   m_ObjectHideFlags: 0
@@ -808,6 +810,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2206482677833303739
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1697712286077200705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6697f277bf2a9e741991ba27aea08dcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1730964546008691233
 GameObject:
   m_ObjectHideFlags: 0

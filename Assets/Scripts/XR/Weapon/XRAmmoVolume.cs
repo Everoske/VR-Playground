@@ -3,7 +3,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
-namespace ShootingGallery.XR
+namespace ShootingGallery.XR.Weapon
 {
     /// <summary>
     /// An interactable volume that infinitely spawns magazines.

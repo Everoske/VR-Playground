@@ -1,5 +1,6 @@
 using ShootingGallery.XR.Weapon;
 using UnityEngine;
+using static Codice.Client.Common.EventTracking.TrackFeatureUseEvent.Features.DesktopGUI.Filters;
 
 namespace ShootingGallery.Integrity
 {
@@ -9,50 +10,29 @@ namespace ShootingGallery.Integrity
     public class WeaponRestrictedVolume : MonoBehaviour
     {
         [SerializeField]
-        private Transform destination;
-        [SerializeField]
         private int maxParentsToCheck = 5;
 
         private void OnTriggerEnter(Collider other)
         {
-            FindXRWeaponInParent(1, other.gameObject);
+            FindGameWeaponInParent(1, other.gameObject);
         }
 
         /// <summary>
-        /// Teleport XRWeapon to an accessible area to the player.
-        /// </summary>
-        /// <param name="weapon">Weapon to teleport.</param>
-        private void TeleportWeapon(XRPistol weapon)
-        {
-            weapon.gameObject.SetActive(false);
-            weapon.gameObject.transform.position = destination.position;
-            
-            if (weapon.gameObject.TryGetComponent<Rigidbody>(out Rigidbody weaponRB))
-            {
-                weaponRB.angularVelocity = Vector3.zero;
-                weaponRB.linearVelocity = Vector3.zero;
-            }
-
-            weapon.gameObject.SetActive(true);
-        }
-
-        /// <summary>
-        /// Recursive method for searching parents for an XRWeapon component.
+        /// Recursive method for searching parents for a GameWeapon component.
         /// </summary>
         /// <param name="depth">Current iteration of search.</param>
         /// <param name="current">GameObject to search for XRWeapon script.</param>
-        private void FindXRWeaponInParent(int depth, GameObject current)
+        private void FindGameWeaponInParent(int depth, GameObject current)
         {
             if (depth > maxParentsToCheck) return;
 
-            if (current.TryGetComponent<XRPistol>(out XRPistol weapon))
+            if (current.TryGetComponent<GameWeapon>(out GameWeapon weapon))
             {
-                TeleportWeapon(weapon);
-                return;
+                weapon.ReturnToSpawn();
             }
 
             if (current.transform.parent == null) return;
-            FindXRWeaponInParent(depth + 1, current.transform.parent.gameObject);
+            FindGameWeaponInParent(depth + 1, current.transform.parent.gameObject);
         }
     }
 }

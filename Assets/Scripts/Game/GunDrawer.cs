@@ -73,11 +73,15 @@ namespace ShootingGallery.Game
         /// </summary>
         public void InitiateRemoveActiveWeapons()
         {
-            // Assign a new tag to all guns so they cannot be used by the player
+            foreach (GameObject instancedGun in instancedWeapons)
+            {
+                if (instancedGun.TryGetComponent<IGameWeapon>(out IGameWeapon gameWeapon))
+                {
+                    gameWeapon.DisableAndTerminateInteraction();
+                    gameWeapon.ReturnToSpawn();
+                }
+            }
 
-            // Move guns back into gun drawer
-
-            // Close gun drawer
             CloseDrawer();
         }
 
@@ -146,6 +150,12 @@ namespace ShootingGallery.Game
         {
             int randomIndex = Random.Range(0, possibleSpawns.Length);
             GameObject instancedGun = Instantiate(gunPrefab, possibleSpawns[randomIndex].position, possibleSpawns[randomIndex].rotation);
+            
+            if (instancedGun.TryGetComponent<IGameWeapon>(out IGameWeapon gameWeapon))
+            {
+                gameWeapon.SetSpawnPosition(possibleSpawns[randomIndex]);
+            }
+
             instancedWeapons.Add(instancedGun);
         }
 
