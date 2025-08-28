@@ -2,7 +2,7 @@ using ShootingGallery.Game;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
-using static Codice.Client.Common.Connection.AskCredentialsToUser;
+using System.Collections;
 
 namespace ShootingGallery.XR.Weapon
 {
@@ -52,6 +52,32 @@ namespace ShootingGallery.XR.Weapon
             weaponInteractable.interactionLayers = InteractionLayerMask.GetMask("Nothing");
             weaponInteractable.throwOnDetach = false;
             weaponRB.isKinematic = true;
+
+            foreach (XRBaseInteractable interactable in GetComponentsInChildren<XRBaseInteractable>())
+            {
+                interactable.interactionLayers = InteractionLayerMask.GetMask("Nothing");
+                if (interactable as XRGrabInteractable)
+                {
+                    ((XRGrabInteractable) interactable).throwOnDetach = false;
+                }
+
+                if (interactable.TryGetComponent<Rigidbody>(out Rigidbody interactableRB))
+                {
+                    interactableRB.isKinematic = true;
+                }
+            }
+
+            StartCoroutine(ReturnOnNextFrame());
+        }
+
+        /// <summary>
+        /// Return weapon to spawn point on next frame.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator ReturnOnNextFrame()
+        {
+            yield return null;
+            ReturnToSpawn();
         }
     }
 }
