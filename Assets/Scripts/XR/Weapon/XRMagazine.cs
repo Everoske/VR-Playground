@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using System.Collections;
 
 namespace ShootingGallery.XR.Weapon
 {
@@ -14,6 +15,9 @@ namespace ShootingGallery.XR.Weapon
         private uint maxAmmoCount = 17;
         [SerializeField]
         private int startingAmmo = 17;
+
+        [SerializeField]
+        private float emptyDespawnTime = 5.0f;
 
         private XRDirectInteractor currentInteractor;
         private InteractionLayerMask defaultInteractionLayers;
@@ -135,6 +139,10 @@ namespace ShootingGallery.XR.Weapon
         public void ResetParent()
         {
             transform.parent = originalParent;
+            if (!IsHeld() && currentAmmo <= 0)
+            {
+                StartCoroutine(DespawnMagazine());
+            }
         }
 
         /// <summary>
@@ -162,6 +170,19 @@ namespace ShootingGallery.XR.Weapon
         public bool IsUsed()
         {
             return IsHeld() || transform.parent != originalParent;
+        }
+
+        /// <summary>
+        /// Despawn empty magazine after a set period of time.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator DespawnMagazine()
+        {
+            yield return new WaitForSeconds(emptyDespawnTime);
+            if (!IsUsed())
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
