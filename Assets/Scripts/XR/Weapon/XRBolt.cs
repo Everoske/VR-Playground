@@ -15,8 +15,6 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private Transform attachTransform;
 
-        private XRDirectInteractor currentInteractor;
-
         [SerializeField]
         private Transform defaultPoint;
         [SerializeField]
@@ -24,11 +22,8 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private Transform rotationOrigin;
 
-        // TODO: REMOVE
-        [SerializeField]
-        private Transform debugTestInteractor;
-
         private Vector2 localAttachOrigin;
+        private XRDirectInteractor currentInteractor;
 
         private void Start()
         {
@@ -98,36 +93,6 @@ namespace ShootingGallery.XR.Weapon
         {
             if (!BoltPulledUp()) return;
             Vector3 distanceToInteractor = currentInteractor.attachTransform.position - transform.position;
-            Vector3 desiredPosition = Vector3.Project(distanceToInteractor,
-                (outPoint.position - defaultPoint.position).normalized);
-
-            desiredPosition = transform.position + desiredPosition;
-            transform.position = ClampedTargetPosition(desiredPosition, defaultPoint.position, outPoint.position);
-        }
-
-        // TODO: REMOVE
-        private void TestRotateWithInteractor()
-        {
-            if (debugTestInteractor == null) return;
-            if (transform.position != rotationOrigin.position) return;
-
-            Vector3 interactorRelative = rotationOrigin.InverseTransformPoint(debugTestInteractor.position);
-
-            Vector2 interactorPosZY = new Vector2(
-                interactorRelative.z,
-                interactorRelative.y
-                );
-
-            float desiredAngle = Vector2.SignedAngle(interactorPosZY, localAttachOrigin);
-            desiredAngle = Mathf.Clamp(desiredAngle, pulledUpRotation, 0.0f);
-            transform.localRotation = Quaternion.Euler(new Vector3(desiredAngle, 0.0f, 0.0f));
-        }
-
-        // TODO: REMOVE
-        private void TestMoveBolt()
-        {
-            if (!BoltPulledUp()) return;
-            Vector3 distanceToInteractor = debugTestInteractor.transform.position - transform.position;
             Vector3 desiredPosition = Vector3.Project(distanceToInteractor,
                 (outPoint.position - defaultPoint.position).normalized);
 
