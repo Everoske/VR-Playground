@@ -41,6 +41,9 @@ namespace ShootingGallery.XR.Weapon
             bolt.onBoltObstruct += OnBoltObstruct;
             bolt.onBoltPushedIn += OnBoltPushedIn;
             bolt.onBoltClosed += OnBoltClosed;
+
+            chamber.onLoadSequenceStart += OnAmmoLoadStart;
+            chamber.onLoadSequenceEnd += OnAmmoLoadEnd;
         }
 
         protected override void OnDisable()
@@ -52,8 +55,10 @@ namespace ShootingGallery.XR.Weapon
             bolt.onBoltObstruct -= OnBoltObstruct;
             bolt.onBoltPushedIn -= OnBoltPushedIn;
             bolt.onBoltClosed -= OnBoltClosed;
-        }
 
+            chamber.onLoadSequenceStart -= OnAmmoLoadStart;
+            chamber.onLoadSequenceEnd -= OnAmmoLoadEnd;
+        }
 
         protected override void OnSelectEntered(SelectEnterEventArgs args)
         {

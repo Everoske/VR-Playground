@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ShootingGallery.XR.Weapon
 {
@@ -39,6 +40,9 @@ namespace ShootingGallery.XR.Weapon
         private bool loadingRound = false;
         private bool chamberClosed = true;
 
+        public UnityAction onLoadSequenceStart;
+        public UnityAction onLoadSequenceEnd;
+
         private void Awake()
         {
             chamberAnimator = GetComponent<Animator>();
@@ -66,6 +70,7 @@ namespace ShootingGallery.XR.Weapon
                 if (newYPosition == targetYPosition)
                 {
                     loadingRound = false;
+                    onLoadSequenceEnd?.Invoke();
                 }
             }
         }
@@ -112,6 +117,8 @@ namespace ShootingGallery.XR.Weapon
             targetYPosition = newPositionY;
             displacementTimer = 0.0f;
             roundsInChamber--;
+
+            onLoadSequenceStart?.Invoke();
         }
 
         /// <summary>
@@ -131,6 +138,8 @@ namespace ShootingGallery.XR.Weapon
         private void InsertRifleRound(XRRifleRound rifleRound)
         {
             loadingRound = true;
+            onLoadSequenceStart?.Invoke();
+
             rifleRound.DetachAndDestroySelf();
             loadBulletMesh.SetActive(true);
 
