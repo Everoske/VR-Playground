@@ -117,8 +117,6 @@ namespace ShootingGallery.XR.Weapon
             targetYPosition = newPositionY;
             displacementTimer = 0.0f;
             roundsInChamber--;
-
-            onLoadSequenceStart?.Invoke();
         }
 
         /// <summary>

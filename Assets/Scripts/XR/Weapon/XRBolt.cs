@@ -34,6 +34,7 @@ namespace ShootingGallery.XR.Weapon
         private XRDirectInteractor currentInteractor;
 
         private bool lockBolt = true;
+        private bool lockBoltMovement = true;
 
         public UnityAction onBoltPulledUp;
         public UnityAction onBoltPulledBack;
@@ -90,6 +91,7 @@ namespace ShootingGallery.XR.Weapon
         public void SetLockBolt(bool lockBolt)
         {
             this.lockBolt = lockBolt;
+            lockBoltMovement = lockBolt;
 
             if (lockBolt)
             {
@@ -99,6 +101,11 @@ namespace ShootingGallery.XR.Weapon
             {
                 interactionLayers = defaultInteractionLayerMask;
             }
+        }
+
+        public void SetLockBoltMovement(bool lockBoltMovement)
+        {
+            this.lockBoltMovement = lockBoltMovement;
         }
 
         /// <summary>
@@ -145,6 +152,7 @@ namespace ShootingGallery.XR.Weapon
         private void MoveWithInteractor()
         {
             if (!IsBoltPulledUp()) return;
+            if (lockBoltMovement) return;
 
             bool wasBoltPulledBackLastFrame = IsBoltPulledBack();
             bool wasBoltObstructingLastFrame = IsBoltObstructing();
@@ -198,7 +206,7 @@ namespace ShootingGallery.XR.Weapon
             float percentDistance = Vector3.Distance(transform.position, outPoint.position) / 
                 Vector3.Distance(defaultPoint.position, outPoint.position);
 
-            return percentDistance < obstructPercentage;
+            return percentDistance >= obstructPercentage;
         }
 
         /// <summary>
