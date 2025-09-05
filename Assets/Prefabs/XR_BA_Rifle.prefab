@@ -170,7 +170,7 @@ MonoBehaviour:
   loadBulletMesh: {fileID: 7036366128905471062}
   bulletSpacing: 0.006
   initialDisplacement: 0.0015
-  displacementDuration: 1
+  displacementDuration: 0.25
 --- !u!1 &980429181879500289
 GameObject:
   m_ObjectHideFlags: 0

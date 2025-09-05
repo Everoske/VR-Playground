@@ -21,7 +21,7 @@ namespace ShootingGallery.XR.Weapon
         private float initialDisplacement = 0.0015f;
 
         [SerializeField]
-        private float displacementDuration = 1.0f;
+        private float displacementDuration = 0.25f;
 
         private Animator chamberAnimator;
 
