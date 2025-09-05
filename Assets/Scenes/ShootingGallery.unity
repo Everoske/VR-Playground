@@ -1309,6 +1309,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8621901457424957414, guid: d92c42287c6c17746a8264cb4b6b3ed7, type: 3}
+      propertyPath: initialDisplacement
+      value: 0.0015
+      objectReference: {fileID: 0}
     - target: {fileID: 9066398687045007126, guid: d92c42287c6c17746a8264cb4b6b3ed7, type: 3}
       propertyPath: m_Name
       value: XR_BA_Rifle
