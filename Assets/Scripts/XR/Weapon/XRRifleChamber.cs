@@ -132,6 +132,15 @@ namespace ShootingGallery.XR.Weapon
         }
 
         /// <summary>
+        /// Determines if ammo is in chamber.
+        /// </summary>
+        /// <returns></returns>
+        public bool HasAmmo()
+        {
+            return roundsInChamber > 0;
+        }
+
+        /// <summary>
         /// Begin animation where rifle round is inserted into chamber.
         /// </summary>
         /// <param name="rifleRound"></param>

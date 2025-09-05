@@ -40,8 +40,6 @@ namespace ShootingGallery.XR.Weapon
         public UnityAction onBoltUnobstruct;
         public UnityAction onBoltObstruct;
         public UnityAction onBoltPushedIn;
-        public UnityAction onBoltClosed;
-
 
         private void Start()
         {
@@ -101,6 +99,16 @@ namespace ShootingGallery.XR.Weapon
             {
                 interactionLayers = defaultInteractionLayerMask;
             }
+        }
+
+        /// <summary>
+        /// Determines if the bolt is pushed in with the handle pulled all the
+        /// way down. 
+        /// </summary>
+        /// <returns></returns>
+        public bool IsBoltClosed()
+        {
+            return transform.localEulerAngles.x == 0.0f;
         }
 
         /// <summary>

@@ -32,6 +32,8 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private float recoilFrequency = 0.0f;
 
+        private RifleFireState fireState = RifleFireState.Empty;
+
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -40,7 +42,6 @@ namespace ShootingGallery.XR.Weapon
             bolt.onBoltUnobstruct += OnBoltUnobstruct;
             bolt.onBoltObstruct += OnBoltObstruct;
             bolt.onBoltPushedIn += OnBoltPushedIn;
-            bolt.onBoltClosed += OnBoltClosed;
 
             chamber.onLoadSequenceStart += OnAmmoLoadStart;
             chamber.onLoadSequenceEnd += OnAmmoLoadEnd;
@@ -54,7 +55,6 @@ namespace ShootingGallery.XR.Weapon
             bolt.onBoltUnobstruct -= OnBoltUnobstruct;
             bolt.onBoltObstruct -= OnBoltObstruct;
             bolt.onBoltPushedIn -= OnBoltPushedIn;
-            bolt.onBoltClosed -= OnBoltClosed;
 
             chamber.onLoadSequenceStart -= OnAmmoLoadStart;
             chamber.onLoadSequenceEnd -= OnAmmoLoadEnd;
@@ -80,6 +80,15 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
+        /// <summary>
+        /// Determines if gun can fire.
+        /// </summary>
+        /// <returns></returns>
+        private bool CanFire()
+        {
+            return fireState == RifleFireState.LiveRoundInBarrel && bolt.IsBoltClosed();
+        }
+
         private void OnBoltPulledUp()
         {
             // Play sound
@@ -87,32 +96,38 @@ namespace ShootingGallery.XR.Weapon
 
         private void OnBoltPulledBack()
         {
-            // Eject round if in chamber
+            // Eject round if in barrel
+            switch (fireState)
+            {
+                case RifleFireState.LiveRoundInBarrel:
+                    // EjectLiveRound();
+                    break;
+                case RifleFireState.CasingInBarrel:
+                    // EjectCasing();
+                    break;
+            }
+
+            // Play sound
         }
 
         
         private void OnBoltUnobstruct()
         {
-            chamber.SetChamberClosed(true);
+            chamber.SetChamberClosed(false);
         }
 
         private void OnBoltObstruct()
         {
-            chamber.SetChamberClosed(false);
+            chamber.SetChamberClosed(true);
         }
 
         private void OnBoltPushedIn()
         {
-            // If round not in barrel and chamber has ammo
-            //      Load round from chamber into barrel
-            // Else
-            // Do nothing
-        }
-
-        private void OnBoltClosed()
-        {
-            // Play sound
-            // Allow gun to be fired
+            if (fireState == RifleFireState.Empty && chamber.HasAmmo())
+            {
+                chamber.ReduceAmmoCount();
+                fireState = RifleFireState.LiveRoundInBarrel;
+            }
         }
 
         private void OnAmmoLoadStart()
@@ -124,5 +139,12 @@ namespace ShootingGallery.XR.Weapon
         {
             bolt.SetLockBolt(false);
         }
+    }
+
+    public enum RifleFireState
+    {
+        Empty,
+        CasingInBarrel,
+        LiveRoundInBarrel
     }
 }
