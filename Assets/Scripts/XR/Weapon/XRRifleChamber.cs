@@ -42,8 +42,6 @@ namespace ShootingGallery.XR.Weapon
             defaultYPosition = chamberTransform.localPosition.y;
             lastYPosition = defaultYPosition;
             targetYPosition = defaultYPosition;
-
-            StartCoroutine(LoadBulletAfterTime());
         }
 
         private void Update()
@@ -57,12 +55,6 @@ namespace ShootingGallery.XR.Weapon
                     newYPosition,
                     chamberTransform.localPosition.z
                     );
-
-                // TODO: FOR TESTING: REMOVE
-                if (newYPosition == targetYPosition && roundsInChamber < bullets.Length)
-                {
-                    StartCoroutine(LoadBulletAfterTime());
-                }
             }
         }
 
@@ -84,6 +76,25 @@ namespace ShootingGallery.XR.Weapon
 
             displacementTimer = 0.0f;
             roundsInChamber++;
+        }
+
+        // TODO: Ensure ammo count only reduced when bolt closed and gun fired
+        public void ReduceAmmoCount()
+        {
+            if (roundsInChamber == 0) return;
+
+            float newPositionY = chamberTransform.localPosition.y + bulletSpacing;
+
+            if (roundsInChamber == 1)
+            {
+                newPositionY += initialDisplacement;
+            }
+
+            bullets[roundsInChamber - 1].SetActive(false);
+            lastYPosition = targetYPosition;
+            targetYPosition = newPositionY;
+            displacementTimer = 0.0f;
+            roundsInChamber--;
         }
 
         // private void InsertRifleRound(XRRifleRound round)
@@ -116,14 +127,6 @@ namespace ShootingGallery.XR.Weapon
             // Check if other has a XRRifleRound component attached
             // If it does, call
             // InsertRifleRound(rifleRound);
-        }
-
-        // TODO: FOR TESTING: REMOVE
-        private IEnumerator LoadBulletAfterTime()
-        {
-            yield return new WaitForSeconds(5.0f);
-
-            InsertRifleRound();
         }
     }
 }
