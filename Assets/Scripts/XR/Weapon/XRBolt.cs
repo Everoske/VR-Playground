@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
@@ -22,8 +23,25 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private Transform rotationOrigin;
 
+        [Tooltip("Threshold of distance pulled back that bolt is considered obstructing the rifle chamber.")]
+        [SerializeField]
+        private float obstructPercentage = 0.85f;
+
+        [SerializeField]
+        private InteractionLayerMask defaultInteractionLayerMask;
+
         private Vector2 localAttachOrigin;
         private XRDirectInteractor currentInteractor;
+
+        private bool lockBolt = true;
+
+        public UnityAction onBoltPulledUp;
+        public UnityAction onBoltPulledBack;
+        public UnityAction onBoltUnobstruct;
+        public UnityAction onBoltObstruct;
+        public UnityAction onBoltPushedIn;
+        public UnityAction onBoltClosed;
+
 
         private void Start()
         {
@@ -32,11 +50,13 @@ namespace ShootingGallery.XR.Weapon
                 attachRelative.z,
                 attachRelative.y
                 );
+
+            SetLockBolt(lockBolt);
         }
 
         private void Update()
         {
-            if (currentInteractor != null)
+            if (currentInteractor != null && !lockBolt)
             {
                 RotateWithInteractor();
                 MoveWithInteractor();
@@ -66,12 +86,32 @@ namespace ShootingGallery.XR.Weapon
         }
 
         /// <summary>
+        /// Lock the bolt from interaction.
+        /// </summary>
+        /// <param name="lockBolt"></param>
+        public void SetLockBolt(bool lockBolt)
+        {
+            this.lockBolt = lockBolt;
+
+            if (lockBolt)
+            {
+                interactionLayers = InteractionLayerMask.GetMask("Nothing");
+            }
+            else
+            {
+                interactionLayers = defaultInteractionLayerMask;
+            }
+        }
+
+        /// <summary>
         /// Rotates the bolt-handle up and down relative to the
         /// active interactor.
         /// </summary>
         private void RotateWithInteractor()
         {
-            if (transform.position != rotationOrigin.position) return;
+            if (!IsBoltPushedIn()) return;
+
+            bool wasBoltPulledUpLastFrame = IsBoltPulledUp();
 
             Vector3 interactorRelative = rotationOrigin.InverseTransformPoint(currentInteractor.attachTransform.position);
 
@@ -83,6 +123,11 @@ namespace ShootingGallery.XR.Weapon
             float desiredAngle = Vector2.SignedAngle(interactorPosZY, localAttachOrigin);
             desiredAngle = Mathf.Clamp(desiredAngle, pulledUpRotation, 0.0f);
             transform.localRotation = Quaternion.Euler(new Vector3(desiredAngle, 0.0f, 0.0f));
+
+            if (IsBoltPulledUp() && !wasBoltPulledUpLastFrame)
+            {
+                onBoltPulledUp?.Invoke();
+            }
         }
 
         /// <summary>
@@ -91,22 +136,105 @@ namespace ShootingGallery.XR.Weapon
         /// </summary>
         private void MoveWithInteractor()
         {
-            if (!BoltPulledUp()) return;
+            if (!IsBoltPulledUp()) return;
+
+            bool wasBoltPulledBackLastFrame = IsBoltPulledBack();
+            bool wasBoltObstructingLastFrame = IsBoltObstructing();
+            bool wasBoltPushedInLastFrame = IsBoltPushedIn();
+
             Vector3 distanceToInteractor = currentInteractor.attachTransform.position - transform.position;
             Vector3 desiredPosition = Vector3.Project(distanceToInteractor,
                 (outPoint.position - defaultPoint.position).normalized);
 
             desiredPosition = transform.position + desiredPosition;
             transform.position = ClampedTargetPosition(desiredPosition, defaultPoint.position, outPoint.position);
+
+            DeterminePulledBackThisFrame(wasBoltPulledBackLastFrame);
+            DetermineObstructionChange(wasBoltObstructingLastFrame);
+            DeterminePushedInThisFrame(wasBoltPushedInLastFrame);
         }
 
         /// <summary>
         /// Determines whether the bolt is pulled all the way up.
         /// </summary>
         /// <returns></returns>
-        private bool BoltPulledUp()
+        private bool IsBoltPulledUp()
         {
             return transform.localEulerAngles.x == 360.0f - Mathf.Abs(pulledUpRotation);
+        }
+
+        /// <summary>
+        /// Determines whether the bolt is pulled all the way back.
+        /// </summary>
+        /// <returns></returns>
+        private bool IsBoltPulledBack()
+        {
+            return transform.position == outPoint.position;
+        }
+
+        /// <summary>
+        /// Determines whether the bolt is pushed all the way in.
+        /// </summary>
+        /// <returns></returns>
+        private bool IsBoltPushedIn()
+        {
+            return transform.position == defaultPoint.position;
+        }
+
+        /// <summary>
+        /// Determines whether the bolt is obstructing the rifle chamber.
+        /// </summary>
+        /// <returns></returns>
+        private bool IsBoltObstructing()
+        {
+            float percentDistance = Vector3.Distance(transform.position, outPoint.position) / 
+                Vector3.Distance(defaultPoint.position, outPoint.position);
+
+            return percentDistance < obstructPercentage;
+        }
+
+        /// <summary>
+        /// Determines if the bolt was pulled back this frame and calls the
+        /// callback method.
+        /// </summary>
+        /// <param name="wasBoltPulledBackLastFrame"></param>
+        private void DeterminePulledBackThisFrame(bool wasBoltPulledBackLastFrame)
+        {
+            if (IsBoltPulledBack() && !wasBoltPulledBackLastFrame)
+            {
+                onBoltPulledBack?.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Determines if the bolt obstructs or unobstructs the rifle chamber
+        /// this frame and calls the appropriate callbacks.
+        /// </summary>
+        /// <param name="wasBoltObstructingLastFrame"></param>
+        private void DetermineObstructionChange(bool wasBoltObstructingLastFrame)
+        {
+            if (IsBoltObstructing() && !wasBoltObstructingLastFrame)
+            {
+                onBoltObstruct?.Invoke();
+            }
+
+            if (!IsBoltObstructing() && wasBoltObstructingLastFrame)
+            {
+                onBoltUnobstruct?.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Determines if bolt was pushed in this frame and calls the
+        /// callback if it was.
+        /// </summary>
+        /// <param name="wasBoltPushedInLastFrame"></param>
+        private void DeterminePushedInThisFrame(bool wasBoltPushedInLastFrame)
+        {
+            if (IsBoltPushedIn() && !wasBoltPushedInLastFrame)
+            {
+                onBoltPushedIn?.Invoke();
+            }
         }
 
         /// <summary>

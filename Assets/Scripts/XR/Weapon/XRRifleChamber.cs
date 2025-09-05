@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace ShootingGallery.XR.Weapon
 {
+    /// <summary>
+    /// Represents the chamber where bullets are loaded into the 
+    /// bolt-action rifle.
+    /// </summary>
     public class XRRifleChamber : MonoBehaviour
     {
         [SerializeField]
@@ -32,6 +36,9 @@ namespace ShootingGallery.XR.Weapon
         private float targetYPosition;
         private float displacementTimer = 0.0f;
 
+        private bool loadingRound = false;
+        private bool chamberClosed = true;
+
         private void Awake()
         {
             chamberAnimator = GetComponent<Animator>();
@@ -55,9 +62,17 @@ namespace ShootingGallery.XR.Weapon
                     newYPosition,
                     chamberTransform.localPosition.z
                     );
+
+                if (newYPosition == targetYPosition)
+                {
+                    loadingRound = false;
+                }
             }
         }
 
+        /// <summary>
+        /// Set the displacement for the ammo group and increment rounds in chamber.
+        /// </summary>
         public void OnLoadAnimationComplete()
         {
             loadBulletMesh.SetActive(false);
@@ -78,10 +93,12 @@ namespace ShootingGallery.XR.Weapon
             roundsInChamber++;
         }
 
-        // TODO: Ensure ammo count only reduced when bolt closed and gun fired
+        /// <summary>
+        /// Reduce ammo visuals and move the chamber group up. 
+        /// </summary>
         public void ReduceAmmoCount()
         {
-            if (roundsInChamber == 0) return;
+            if (roundsInChamber == 0 || !chamberClosed) return;
 
             float newPositionY = chamberTransform.localPosition.y + bulletSpacing;
 
@@ -97,13 +114,24 @@ namespace ShootingGallery.XR.Weapon
             roundsInChamber--;
         }
 
-        // private void InsertRifleRound(XRRifleRound round)
-        private void InsertRifleRound()
+        /// <summary>
+        /// Prevent ammo from being inserted into chamber when
+        /// bolt is obstructing chamber.
+        /// </summary>
+        /// <param name="closed"></param>
+        public void SetChamberClosed(bool closed)
         {
-            // Detach XRRifleRound
-            // Destroy XRRifleRound game object
+            chamberClosed = closed;
+        }
 
-            // Unhide bullet mesh on load transform
+        /// <summary>
+        /// Begin animation where rifle round is inserted into chamber.
+        /// </summary>
+        /// <param name="rifleRound"></param>
+        private void InsertRifleRound(XRRifleRound rifleRound)
+        {
+            loadingRound = true;
+            rifleRound.DetachAndDestroySelf();
             loadBulletMesh.SetActive(true);
 
             if (roundsInChamber == 0)
@@ -120,13 +148,28 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
+        /// <summary>
+        /// Determines whether round can be added to chamber 
+        /// or not.
+        /// </summary>
+        /// <returns></returns>
+        private bool CanLoadRound()
+        {
+            return roundsInChamber < bullets.Length &&
+                !loadingRound && !chamberClosed;
+        }
+
         private void OnTriggerEnter(Collider other)
         {
-            // If (chamber full or bolt not fully open) return;
+            if (!CanLoadRound()) return;
 
-            // Check if other has a XRRifleRound component attached
-            // If it does, call
-            // InsertRifleRound(rifleRound);
+            XRRifleRound rifleRound;
+
+            if (other.transform.TryGetComponent<XRRifleRound>(out rifleRound))
+            {
+                if (!rifleRound.IsHeld()) return;
+                InsertRifleRound(rifleRound);
+            }
         }
     }
 }
