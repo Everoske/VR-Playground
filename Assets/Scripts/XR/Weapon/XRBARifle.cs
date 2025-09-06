@@ -4,6 +4,7 @@ using ShootingGallery.UI;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Interactables;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 namespace ShootingGallery.XR.Weapon
 {
@@ -36,19 +37,33 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private ParticleSystem impactSparksPrefab;
 
-        [SerializeField]
-        private AudioClip[] shotClips;
-
-        [Header("XR Bolt-Action Rifle: Ejection Prefabs")]
+        [Header("XR Bolt-Action Rifle: Ejection Settings")]
         [SerializeField]
         private Rigidbody liveRoundPrefab;
         [SerializeField]
         private Rigidbody emptyCasingPrefab;
-
-        [Header("XR Bolt-Action Rifle: Bolt Sound Settings")]
         [SerializeField]
-        private AudioClip boltFoleyClip;
-        
+        private float ejectionImpulseForce = 2.0f;
+
+        [Header("XR Bolt-Action Rifle: Audio Settings")]
+        [SerializeField]
+        private AudioClip[] shotClips;
+        [SerializeField]
+        private AudioClip boltPushedInClip;
+        [SerializeField]
+        private AudioClip boltPulledUpClip;
+        [SerializeField]
+        private AudioClip emptyTriggerPullClip;
+        [SerializeField]
+        private AudioClip casingEjectedClip;
+
+        [SerializeField]
+        private AudioSource fireAudioSource;
+        [SerializeField]
+        private AudioSource boltFoleyAudioSource;
+        [SerializeField]
+        private AudioSource ejectAudioSource;
+
 
         [Header("XR Bolt-Action Rifle: Haptic Feedback Settings")]
         [SerializeField]
@@ -63,12 +78,11 @@ namespace ShootingGallery.XR.Weapon
 
         private RifleFireState fireState = RifleFireState.Empty;
 
-        private AudioSource audioSource;
+        
 
         protected override void Awake()
         {
             base.Awake();
-            audioSource = GetComponent<AudioSource>();
         }
 
         protected override void OnEnable()
@@ -132,23 +146,34 @@ namespace ShootingGallery.XR.Weapon
             return fireState == RifleFireState.LiveRoundInBarrel && bolt.IsBoltClosed();
         }
 
+        /// <summary>
+        /// Ejects a live round that can be used again.
+        /// </summary>
         private void EjectLiveRound()
         {
-            // Create round and launch it out with a force
             Rigidbody round = Instantiate(liveRoundPrefab, ejectOrigin.position, Quaternion.Euler(90.0f, 0.0f, 0.0f));
-            round.AddForce(ejectOrigin.forward * 2.0f, ForceMode.Impulse);
+            round.AddForce(ejectOrigin.forward * ejectionImpulseForce, ForceMode.Impulse);
             fireState = RifleFireState.Empty;
+
+            ejectAudioSource.PlayOneShot(casingEjectedClip);
         }
 
+        /// <summary>
+        /// Ejects an empty casing that despawns after a set amount of time.
+        /// </summary>
         private void EjectCasing()
         {
-            // Create non-XR casing object and launch it out with a force
             Rigidbody round = Instantiate(emptyCasingPrefab, ejectOrigin.position, Quaternion.Euler(90.0f, 0.0f, 0.0f));
-            round.AddForce(ejectOrigin.forward * 2.0f, ForceMode.Impulse);
+            round.AddForce(ejectOrigin.forward * ejectionImpulseForce, ForceMode.Impulse);
             Destroy(round.gameObject, 5.0f);
             fireState = RifleFireState.Empty;
+
+            ejectAudioSource.PlayOneShot(casingEjectedClip);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void PullTrigger()
         {
             if (CanFire())
@@ -157,7 +182,7 @@ namespace ShootingGallery.XR.Weapon
             }
             else
             {
-                // Play sound
+                fireAudioSource.PlayOneShot(emptyTriggerPullClip);
             }
         }
 
@@ -180,10 +205,13 @@ namespace ShootingGallery.XR.Weapon
             //SetAmmoCountUI();
         }
 
+        /// <summary>
+        /// Play random shot clip.
+        /// </summary>
         private void PlayShotClip()
         {
             int clipIndex = Random.Range(0, shotClips.Length);
-            audioSource.PlayOneShot(shotClips[clipIndex]);
+            fireAudioSource.PlayOneShot(shotClips[clipIndex]);
         }
 
         /// <summary>
@@ -211,9 +239,29 @@ namespace ShootingGallery.XR.Weapon
             catch (System.Exception) { }
         }
 
+        /// <summary>
+        /// Play haptic feedback when the pistol is fired.
+        /// </summary>
+        private void PlayRecoilFeedback()
+        {
+            if (hapticFeedbackPlayer == null) return;
+            //switch (handedness)
+            //{
+            //    case InteractorHandedness.Right:
+            //        hapticFeedbackPlayer.SendRightHapticImpulse(recoilAmplitude, recoilDuration, recoilFrequency);
+            //        break;
+            //    case InteractorHandedness.Left:
+            //        hapticFeedbackPlayer.SendLeftHapticImpulse(recoilAmplitude, recoilDuration, recoilFrequency);
+            //        break;
+            //}
+        }
+
         private void OnBoltPulledUp()
         {
-            // Play sound
+            if (!boltFoleyAudioSource.isPlaying)
+            {
+                boltFoleyAudioSource.PlayOneShot(boltPulledUpClip);
+            }
         }
 
         private void OnBoltPulledBack()
@@ -228,8 +276,6 @@ namespace ShootingGallery.XR.Weapon
                     EjectCasing();
                     break;
             }
-
-            // Play sound
         }
         
         private void OnBoltUnobstruct()
@@ -244,6 +290,11 @@ namespace ShootingGallery.XR.Weapon
 
         private void OnBoltPushedIn()
         {
+            if (!boltFoleyAudioSource.isPlaying)
+            {
+                boltFoleyAudioSource.PlayOneShot(boltPushedInClip);
+            }
+
             if (fireState == RifleFireState.Empty && chamber.HasAmmo())
             {
                 chamber.ReduceAmmoCount();
