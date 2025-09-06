@@ -21,6 +21,7 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private bool lockBoltWhenNotHeld = true;
 
+        [Header("XR Bolt-Action Rifle: Shooting Configuration")]
         [SerializeField]
         private Transform shootingOrigin;
         [SerializeField]
@@ -38,7 +39,18 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private AudioClip[] shotClips;
 
-        [Header("Haptic Feedback Settings")]
+        [Header("XR Bolt-Action Rifle: Ejection Prefabs")]
+        [SerializeField]
+        private Rigidbody liveRoundPrefab;
+        [SerializeField]
+        private Rigidbody emptyCasingPrefab;
+
+        [Header("XR Bolt-Action Rifle: Bolt Sound Settings")]
+        [SerializeField]
+        private AudioClip boltFoleyClip;
+        
+
+        [Header("XR Bolt-Action Rifle: Haptic Feedback Settings")]
         [SerializeField]
         private ExternalHapticFeedbackPlayer hapticFeedbackPlayer;
         [Range(0.0f, 1.0f)]
@@ -123,12 +135,17 @@ namespace ShootingGallery.XR.Weapon
         private void EjectLiveRound()
         {
             // Create round and launch it out with a force
+            Rigidbody round = Instantiate(liveRoundPrefab, ejectOrigin.position, Quaternion.Euler(90.0f, 0.0f, 0.0f));
+            round.AddForce(ejectOrigin.forward * 2.0f, ForceMode.Impulse);
             fireState = RifleFireState.Empty;
         }
 
         private void EjectCasing()
         {
             // Create non-XR casing object and launch it out with a force
+            Rigidbody round = Instantiate(emptyCasingPrefab, ejectOrigin.position, Quaternion.Euler(90.0f, 0.0f, 0.0f));
+            round.AddForce(ejectOrigin.forward * 2.0f, ForceMode.Impulse);
+            Destroy(round.gameObject, 5.0f);
             fireState = RifleFireState.Empty;
         }
 

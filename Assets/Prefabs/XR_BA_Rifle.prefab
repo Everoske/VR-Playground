@@ -486,13 +486,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1954464641789221314}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.09229599, y: 0.7010574, z: 0.09229599, w: 0.7010574}
-  m_LocalPosition: {x: 0, y: -0.0205, z: 0.0164}
+  m_LocalRotation: {x: -0.10911988, y: 0.82884747, z: 0.07162369, w: 0.5440357}
+  m_LocalPosition: {x: 0.0132, y: -0.0205, z: 0.0164}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2455309676903368503}
-  m_LocalEulerAnglesHint: {x: -15, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: -13.737, y: 114.174, z: -6.084}
 --- !u!1 &1956298331691039225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1992,6 +1992,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 81b3d2117764f9e428101fa6c95fd6b7, type: 3}
   - {fileID: 8300000, guid: 44e5badcfa4e30c4a9c6244074f9db76, type: 3}
   - {fileID: 8300000, guid: 6653d79890299b846ad6ebbdc3295908, type: 3}
+  liveRoundPrefab: {fileID: 762197505630086283, guid: 5e2b657dea63eda47a502a1e7a8090fa, type: 3}
+  emptyCasingPrefab: {fileID: 2096059300335113158, guid: 380a4d93b0d9cd14a9d03980dce898e6, type: 3}
+  boltFoleyClip: {fileID: 0}
   hapticFeedbackPlayer: {fileID: 0}
   recoilAmplitude: 0.5
   recoilDuration: 0.25
