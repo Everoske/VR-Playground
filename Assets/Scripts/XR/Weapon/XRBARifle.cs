@@ -236,16 +236,20 @@ namespace ShootingGallery.XR.Weapon
             muffleFlash.Play();
             PlayRecoilFeedback();
             AccuracyLocator.GetAccuracyTracker().IncrementShotsFired();
-            RaycastHit hit;
-
-            if (Physics.Raycast(shootingOrigin.position, shootingOrigin.forward, out hit, maxShotDistance, shootingLayerMask, QueryTriggerInteraction.Ignore))
-            {
-
-                PlayImpactSparks(hit.point, hit.collider.transform.rotation);
-                DetermineTargetHit(hit.collider.gameObject);
-            }
-
             SetAmmoCountUI();
+
+            RaycastHit[] hits = Physics.RaycastAll(
+                shootingOrigin.position, shootingOrigin.forward, 
+                maxShotDistance, shootingLayerMask, 
+                QueryTriggerInteraction.Ignore
+                );
+
+            foreach (RaycastHit hit in hits)
+            {
+                PlayImpactSparks(hit.point, hit.collider.transform.rotation);
+                bool targetHit = DetermineTargetHit(hit.collider.gameObject);
+                if (!targetHit) return; // If not target, stop here
+            }
         }
 
         /// <summary>
@@ -271,15 +275,17 @@ namespace ShootingGallery.XR.Weapon
         /// Determine if the player shot a shooting target.
         /// </summary>
         /// <param name="hitObject">Object hit by pistol.</param>
-        private void DetermineTargetHit(GameObject hitObject)
+        private bool DetermineTargetHit(GameObject hitObject)
         {
-            if (hitObject.tag != "Target") return;
+            if (hitObject.tag != "Target") return false;
             try
             {
                 ShootingTarget hitTarget = hitObject.GetComponentInParent<ShootingTarget>();
                 hitTarget.HitTarget();
+                return true;
             }
             catch (System.Exception) { }
+            return false;
         }
 
         /// <summary>
