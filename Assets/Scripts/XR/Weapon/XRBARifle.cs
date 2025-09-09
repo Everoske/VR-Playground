@@ -252,20 +252,33 @@ namespace ShootingGallery.XR.Weapon
         }
 
         /// <summary>
-        /// Play haptic feedback when the pistol is fired.
+        /// Play haptic feedback when the rifle is fired.
         /// </summary>
         private void PlayRecoilFeedback()
         {
             if (hapticFeedbackPlayer == null) return;
-            //switch (handedness)
-            //{
-            //    case InteractorHandedness.Right:
-            //        hapticFeedbackPlayer.SendRightHapticImpulse(recoilAmplitude, recoilDuration, recoilFrequency);
-            //        break;
-            //    case InteractorHandedness.Left:
-            //        hapticFeedbackPlayer.SendLeftHapticImpulse(recoilAmplitude, recoilDuration, recoilFrequency);
-            //        break;
-            //}
+
+            PlayRecoilFeedback(mainInteractor);
+            PlayRecoilFeedback(secondaryInteractor);
+        }
+
+        /// <summary>
+        /// Play haptic feedback for a single interactor.
+        /// </summary>
+        /// <param name="interactor"></param>
+        private void PlayRecoilFeedback(XRDirectInteractor interactor)
+        {
+            if (interactor == null) return;
+
+            switch (interactor.handedness)
+            {
+                case InteractorHandedness.Right:
+                    hapticFeedbackPlayer.SendRightHapticImpulse(recoilAmplitude, recoilDuration, recoilFrequency);
+                    break;
+                case InteractorHandedness.Left:
+                    hapticFeedbackPlayer.SendLeftHapticImpulse(recoilAmplitude, recoilDuration, recoilFrequency);
+                    break;
+            }
         }
 
         /// <summary>

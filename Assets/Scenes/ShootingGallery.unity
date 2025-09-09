@@ -4254,6 +4254,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8615786207746928628, guid: d92c42287c6c17746a8264cb4b6b3ed7, type: 3}
+      propertyPath: hapticFeedbackPlayer
+      value: 
+      objectReference: {fileID: 2058132852}
     - target: {fileID: 9066398687045007126, guid: d92c42287c6c17746a8264cb4b6b3ed7, type: 3}
       propertyPath: m_Name
       value: XR_BA_Rifle
@@ -9452,6 +9456,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01f69dc1cb084aa42b2f2f8cd87bc770, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2058132852 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 626146310320000707, guid: e0520e292aa15d54b80268c93533cf08, type: 3}
+  m_PrefabInstance: {fileID: 1060952394}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e079d5e76987dd4b9ce649de72da838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2080043533
