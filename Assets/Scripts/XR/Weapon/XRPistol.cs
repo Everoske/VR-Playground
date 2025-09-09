@@ -14,12 +14,23 @@ namespace ShootingGallery.XR.Weapon
     /// </summary>
     public class XRPistol : XRGrabInteractable
     {
-        [Header("XR Pistol Settings")]
+        [Header("XR Pistol Configuration")]
         [SerializeField]
         private InputAction rightReleaseMagAction;
         [SerializeField]
         private InputAction leftReleaseMagAction;
+        [SerializeField]
+        private XRPistolSlider slider;
+        [SerializeField]
+        private XRMagazineWell magWell;
+        [SerializeField]
+        private AmmoCounterUI ammoCounterUI;
 
+        [Tooltip("Locks the slider when the pistol is not held.")]
+        [SerializeField]
+        private bool lockSlideWhenNotHeld;
+
+        [Header("XR Pistol: Shooting Settings")]
         [SerializeField]
         private Transform shootingOrigin;
         [SerializeField]
@@ -29,6 +40,12 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private float maxShotDistance = 2000.0f;
 
+        [SerializeField]
+        private ParticleSystem muffleFlash;
+        [SerializeField]
+        private ParticleSystem impactSparksPrefab;
+
+        [Header("XR Pistol: Audio Settings")]
         [SerializeField]
         [Range(0f, 3f)]
         private float minShotPitch = 0.6f;
@@ -43,11 +60,6 @@ namespace ShootingGallery.XR.Weapon
         private float maxShotVolume = 1.0f;
 
         [SerializeField]
-        private ParticleSystem muffleFlash;
-        [SerializeField]
-        private ParticleSystem impactSparksPrefab;
-
-        [SerializeField]
         private AudioClip shootClip;
         [SerializeField]
         private AudioClip emptyClip;
@@ -56,21 +68,7 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private AudioClip snappedForwardClip;
 
-        [SerializeField]
-        private XRPistolSlider slider;
-        [SerializeField]
-        private XRMagazineWell magWell;
-
-        [SerializeField]
-        private AmmoCounterUI ammoCounterUI;
-
-        [Tooltip("Locks the slider when the pistol is not held.")]
-        [SerializeField]
-        private bool lockSlideWhenNotHeld;
-
-        [Header("Haptic Feedback Settings")]
-        [SerializeField]
-        private ExternalHapticFeedbackPlayer hapticFeedbackPlayer;
+        [Header("XR Pistol: Haptic Feedback Settings")]
         [Range(0.0f, 1.0f)]
         [SerializeField]
         private float recoilAmplitude = 0.5f;
@@ -88,6 +86,7 @@ namespace ShootingGallery.XR.Weapon
         private bool roundInChamber = false;
         private bool showAmmoCounter = false;
         private InteractorHandedness handedness = InteractorHandedness.None;
+        private ExternalHapticFeedbackPlayer hapticFeedbackPlayer;
 
         protected override void Awake()
         {
@@ -108,6 +107,8 @@ namespace ShootingGallery.XR.Weapon
             }
 
             InitializeAmmoCounter();
+
+            hapticFeedbackPlayer = ExternalHapticFeedbackPlayerLocator.GetHapticFeedbackPlayer();
         }
 
         protected override void OnEnable()

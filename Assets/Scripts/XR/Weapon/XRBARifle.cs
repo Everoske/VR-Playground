@@ -69,8 +69,6 @@ namespace ShootingGallery.XR.Weapon
         private AudioSource ejectAudioSource;
 
         [Header("XR Bolt-Action Rifle: Haptic Feedback Settings")]
-        [SerializeField]
-        private ExternalHapticFeedbackPlayer hapticFeedbackPlayer;
         [Range(0.0f, 1.0f)]
         [SerializeField]
         private float recoilAmplitude = 0.5f;
@@ -83,10 +81,16 @@ namespace ShootingGallery.XR.Weapon
 
         private XRDirectInteractor mainInteractor = null;
         private XRDirectInteractor secondaryInteractor = null;
+        private ExternalHapticFeedbackPlayer hapticFeedbackPlayer;
 
         protected override void Awake()
         {
             base.Awake();
+        }
+
+        private void Start()
+        {
+            hapticFeedbackPlayer = ExternalHapticFeedbackPlayerLocator.GetHapticFeedbackPlayer();
         }
 
         protected override void OnEnable()
@@ -351,6 +355,9 @@ namespace ShootingGallery.XR.Weapon
             }  
         }
 
+        /// <summary>
+        /// Play sound when player pulls bolt up.
+        /// </summary>
         private void OnBoltPulledUp()
         {
             if (!boltFoleyAudioSource.isPlaying)
@@ -359,6 +366,10 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
+        /// <summary>
+        /// Eject casing or bullet if present in the barrel when the player
+        /// pulls the bolt all the way back.
+        /// </summary>
         private void OnBoltPulledBack()
         {
             switch (fireState)
@@ -372,16 +383,28 @@ namespace ShootingGallery.XR.Weapon
             }
         }
         
+        /// <summary>
+        /// Allow for ammo insertion when the bolt no longer
+        /// obstructs the ammo chamber.
+        /// </summary>
         private void OnBoltUnobstruct()
         {
             chamber.SetChamberClosed(false);
         }
 
+        /// <summary>
+        /// Present ammo insertion when the bolt obstructs the ammo
+        /// chamber.
+        /// </summary>
         private void OnBoltObstruct()
         {
             chamber.SetChamberClosed(true);
         }
 
+        /// <summary>
+        /// Play sound when bolt pushed in and add ammo to barrel
+        /// if present in the ammo chamber.
+        /// </summary>
         private void OnBoltPushedIn()
         {
             if (!boltFoleyAudioSource.isPlaying)
@@ -397,17 +420,26 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
+        /// <summary>
+        /// Lock the bolt when loading ammo animation begins to play.
+        /// </summary>
         private void OnAmmoLoadStart()
         {
             bolt.SetLockBolt(true);
         }
 
+        /// <summary>
+        /// Unlock the bolt when loading ammo animation finishes.
+        /// </summary>
         private void OnAmmoLoadEnd()
         {
             bolt.SetLockBolt(false);
         }
     }
 
+    /// <summary>
+    /// Enum for managing the rifle's fire state.
+    /// </summary>
     public enum RifleFireState
     {
         Empty,

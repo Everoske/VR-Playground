@@ -14,6 +14,11 @@ namespace ShootingGallery.XR
         [SerializeField]
         private HapticImpulsePlayer rightHapticPlayer;
 
+        private void Awake()
+        {
+            ExternalHapticFeedbackPlayerLocator.Provide(this);
+        }
+
         /// <summary>
         /// Send haptic feedback to the player's left controller.
         /// </summary>
