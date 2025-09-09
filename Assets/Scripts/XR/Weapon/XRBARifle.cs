@@ -16,6 +16,10 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private XRRifleChamber chamber;
         [SerializeField]
+        private Transform trigger;
+        [SerializeField]
+        private float triggerPressedZRotation = 22.0f;
+        [SerializeField]
         private AmmoCounterUI ammoCounterUI;
 
         [Tooltip("Locks the bolt when rifle not held.")]
@@ -149,6 +153,13 @@ namespace ShootingGallery.XR.Weapon
             }
         }
 
+        protected override void OnDeactivated(DeactivateEventArgs args)
+        {
+            base.OnDeactivated(args);
+
+            ResetTrigger();
+        }
+
         /// <summary>
         /// Determines if gun can fire.
         /// </summary>
@@ -184,7 +195,7 @@ namespace ShootingGallery.XR.Weapon
         }
 
         /// <summary>
-        /// 
+        /// Handles the logic for a trigger pull.
         /// </summary>
         private void PullTrigger()
         {
@@ -196,8 +207,21 @@ namespace ShootingGallery.XR.Weapon
             {
                 fireAudioSource.PlayOneShot(emptyTriggerPullClip);
             }
+
+            trigger.localRotation = Quaternion.Euler(0.0f, 0.0f, triggerPressedZRotation);
         }
 
+        /// <summary>
+        /// Resets the trigger transform.
+        /// </summary>
+        private void ResetTrigger()
+        {
+            trigger.localRotation = Quaternion.identity;
+        }
+
+        /// <summary>
+        /// Handles the logic for shooting the rifle.
+        /// </summary>
         private void ShootRifle()
         {
             fireState = RifleFireState.CasingInBarrel;
@@ -337,7 +361,6 @@ namespace ShootingGallery.XR.Weapon
 
         private void OnBoltPulledBack()
         {
-            // Eject round if in barrel
             switch (fireState)
             {
                 case RifleFireState.LiveRoundInBarrel:

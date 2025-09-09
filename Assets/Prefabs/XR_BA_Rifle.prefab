@@ -842,7 +842,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3025168754503772857}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.089541, y: -0.075557, z: 0.000442}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2399,6 +2399,8 @@ MonoBehaviour:
   m_FarAttachMode: 0
   bolt: {fileID: 4816012754760066180}
   chamber: {fileID: 8621901457424957414}
+  trigger: {fileID: 579112920273394713}
+  triggerPressedZRotation: 22
   ammoCounterUI: {fileID: 0}
   lockBoltWhenNotHeld: 1
   shootingOrigin: {fileID: 4236671344732992954}
