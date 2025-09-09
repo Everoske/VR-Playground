@@ -64,7 +64,6 @@ namespace ShootingGallery.XR.Weapon
         [SerializeField]
         private AudioSource ejectAudioSource;
 
-
         [Header("XR Bolt-Action Rifle: Haptic Feedback Settings")]
         [SerializeField]
         private ExternalHapticFeedbackPlayer hapticFeedbackPlayer;
@@ -78,7 +77,8 @@ namespace ShootingGallery.XR.Weapon
 
         private RifleFireState fireState = RifleFireState.Empty;
 
-        
+        private XRDirectInteractor mainInteractor = null;
+        private XRDirectInteractor secondaryInteractor = null;
 
         protected override void Awake()
         {
@@ -115,25 +115,37 @@ namespace ShootingGallery.XR.Weapon
         {
             base.OnSelectEntered(args);
 
-            if (lockBoltWhenNotHeld)
+            XRDirectInteractor interactor = args.interactorObject as XRDirectInteractor;
+            
+            if (interactor != null)
             {
-                bolt.SetLockBolt(false);
+                HandleSelect(interactor);
             }
-        }
 
-        protected override void OnActivated(ActivateEventArgs args)
-        {
-            base.OnActivated(args);
-            PullTrigger();
+            
         }
 
         protected override void OnSelectExited(SelectExitEventArgs args)
         {
             base.OnSelectExited(args);
 
-            if (lockBoltWhenNotHeld && !isSelected)
+            XRDirectInteractor interactor = args.interactorObject as XRDirectInteractor;
+
+            if (interactor != null)
             {
-                bolt.SetLockBolt(true);
+                HandleSelectExit(interactor);
+            }
+        }
+
+        protected override void OnActivated(ActivateEventArgs args)
+        {
+            base.OnActivated(args);
+
+            XRDirectInteractor interactor = args.interactorObject as XRDirectInteractor;
+
+            if (interactor != null && interactor.handedness == mainInteractor.handedness)
+            {
+                PullTrigger();
             }
         }
 
@@ -191,8 +203,8 @@ namespace ShootingGallery.XR.Weapon
             fireState = RifleFireState.CasingInBarrel;
             PlayShotClip();
             muffleFlash.Play();
-            //PlayRecoilFeedback();
-            //AccuracyLocator.GetAccuracyTracker().IncrementShotsFired();
+            PlayRecoilFeedback();
+            AccuracyLocator.GetAccuracyTracker().IncrementShotsFired();
             RaycastHit hit;
 
             if (Physics.Raycast(shootingOrigin.position, shootingOrigin.forward, out hit, maxShotDistance, shootingLayerMask, QueryTriggerInteraction.Ignore))
@@ -254,6 +266,52 @@ namespace ShootingGallery.XR.Weapon
             //        hapticFeedbackPlayer.SendLeftHapticImpulse(recoilAmplitude, recoilDuration, recoilFrequency);
             //        break;
             //}
+        }
+
+        /// <summary>
+        /// Determine interactor state upon select.
+        /// </summary>
+        /// <param name="interactor"></param>
+        private void HandleSelect(XRDirectInteractor interactor)
+        {
+            if (mainInteractor == null)
+            {
+                mainInteractor = interactor;
+            }
+            else
+            {
+                secondaryInteractor = interactor;
+            }
+
+            if (lockBoltWhenNotHeld)
+            {
+                bolt.SetLockBolt(false);
+            }
+        }
+
+        /// <summary>
+        /// Determine interactor state upon interactor exit.
+        /// </summary>
+        /// <param name="interactor"></param>
+        private void HandleSelectExit(XRDirectInteractor interactor)
+        {
+            if (interactor == secondaryInteractor)
+            {
+                secondaryInteractor = null;
+            }
+            else if (interactor == mainInteractor && secondaryInteractor != null)
+            {
+                mainInteractor = secondaryInteractor;
+                secondaryInteractor = null;
+            }
+            else if (interactor == mainInteractor && secondaryInteractor == null)
+            {
+                mainInteractor = null;
+                if (lockBoltWhenNotHeld)
+                {
+                    bolt.SetLockBolt(true);
+                }
+            }  
         }
 
         private void OnBoltPulledUp()
