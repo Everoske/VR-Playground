@@ -83,6 +83,8 @@ namespace ShootingGallery.XR.Weapon
         private XRDirectInteractor secondaryInteractor = null;
         private ExternalHapticFeedbackPlayer hapticFeedbackPlayer;
 
+        private bool showAmmoCounter;
+
         protected override void Awake()
         {
             base.Awake();
@@ -91,6 +93,7 @@ namespace ShootingGallery.XR.Weapon
         private void Start()
         {
             hapticFeedbackPlayer = ExternalHapticFeedbackPlayerLocator.GetHapticFeedbackPlayer();
+            InitializeAmmoCounter();
         }
 
         protected override void OnEnable()
@@ -242,7 +245,7 @@ namespace ShootingGallery.XR.Weapon
                 DetermineTargetHit(hit.collider.gameObject);
             }
 
-            //SetAmmoCountUI();
+            SetAmmoCountUI();
         }
 
         /// <summary>
@@ -318,6 +321,7 @@ namespace ShootingGallery.XR.Weapon
             if (mainInteractor == null)
             {
                 mainInteractor = interactor;
+                ActivateAmmoCountUI();
             }
             else
             {
@@ -352,6 +356,7 @@ namespace ShootingGallery.XR.Weapon
                 {
                     bolt.SetLockBolt(true);
                 }
+                DeactivateAmmoCountUI();
             }  
         }
 
@@ -381,6 +386,7 @@ namespace ShootingGallery.XR.Weapon
                     EjectCasing();
                     break;
             }
+            SetAmmoCountUI();
         }
         
         /// <summary>
@@ -434,6 +440,75 @@ namespace ShootingGallery.XR.Weapon
         private void OnAmmoLoadEnd()
         {
             bolt.SetLockBolt(false);
+            SetAmmoCountUI();
+        }
+
+        /// <summary>
+        /// Set ammo UI to reflect ammo in rifle.
+        /// </summary>
+        private void SetAmmoCountUI()
+        {
+            int ammoCount = chamber.GetAmmoCount();
+
+            if (fireState == RifleFireState.LiveRoundInBarrel)
+            {
+                ammoCount++;
+            }
+
+            ammoCounterUI.SetAmmoCount(ammoCount);
+        }
+
+        /// <summary>
+        /// Updates and displays ammo counter.
+        /// </summary>
+        private void ActivateAmmoCountUI()
+        {
+            if (!showAmmoCounter) return;
+            SetAmmoCountUI();
+            ammoCounterUI.gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// Hides ammo counter.
+        /// </summary>
+        private void DeactivateAmmoCountUI()
+        {
+            ammoCounterUI.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// When player changes show ammo UI, display or hide
+        /// ammo counter if gun currently held by player.
+        /// </summary>
+        /// <param name="show"></param>
+        private void OnShowAmmoChanged(bool show)
+        {
+            showAmmoCounter = show;
+
+            if (mainInteractor != null)
+            {
+                if (showAmmoCounter)
+                {
+                    ActivateAmmoCountUI();
+                }
+                else
+                {
+                    DeactivateAmmoCountUI();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Initialize ammo counter based on saved game settings.
+        /// </summary>
+        private void InitializeAmmoCounter()
+        {
+            ammoCounterUI.gameObject.SetActive(false);
+            if (SettingsLocator.GetSettingsManager() != null)
+            {
+                showAmmoCounter = SettingsLocator.GetSettingsManager().GetShowAmmoCounter();
+                SettingsLocator.GetSettingsManager().onShowAmmoCounterChanged += OnShowAmmoChanged;
+            }
         }
     }
 

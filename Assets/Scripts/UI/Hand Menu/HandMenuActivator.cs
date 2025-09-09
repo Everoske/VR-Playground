@@ -77,12 +77,12 @@ namespace ShootingGallery.UI.HandMenu
             GameObject leftHandObject = new GameObject("Left Menu Ref");
             leftHandRef = leftHandObject.transform;
             leftHandRef.parent = leftHandParent;
-            leftHandRef.SetLocalPositionAndRotation(leftHandRef.localPosition + new Vector3(offsetX, offsetY, offsetZ), Quaternion.identity);
+            leftHandRef.SetLocalPositionAndRotation(new Vector3(offsetX, offsetY, offsetZ), Quaternion.identity);
 
             GameObject rightHandObject = new GameObject("Right Menu Ref");
             rightHandRef = rightHandObject.transform;
             rightHandRef.parent = rightHandParent;
-            rightHandRef.SetLocalPositionAndRotation(rightHandRef.localPosition + new Vector3(-offsetX, offsetY, offsetZ), Quaternion.identity);
+            rightHandRef.SetLocalPositionAndRotation(new Vector3(-offsetX, offsetY, offsetZ), Quaternion.identity);
         }
 
         /// <summary>

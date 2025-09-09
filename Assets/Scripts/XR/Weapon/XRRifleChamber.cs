@@ -139,6 +139,15 @@ namespace ShootingGallery.XR.Weapon
         }
 
         /// <summary>
+        /// Returns the ammo currently in the chamber.
+        /// </summary>
+        /// <returns></returns>
+        public int GetAmmoCount()
+        {
+            return roundsInChamber;
+        }
+
+        /// <summary>
         /// Begin animation where rifle round is inserted into chamber.
         /// </summary>
         /// <param name="rifleRound"></param>
