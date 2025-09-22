@@ -177,6 +177,7 @@ namespace ShootingGallery.Game
         public void StartSelectedSet()
         {
             if (IsGameInProgress()) return;
+            if (selectedSet < 0) return;
 
             scoreTracker.ResetScore();
             accuracyTracker.ResetAccuracyTracker();
