@@ -49,6 +49,14 @@ namespace ShootingGallery.Data
             if (gameData == null)
             {
                 gameData = new GameData();
+                gameData.masterVolume = 1.0f;
+                gameData.musicVolume = 1.0f;
+                gameData.sfxVolume = 1.0f;
+                gameData.showAmmoCounter = true;
+                gameData.turnType = Enums.TurnType.Snap;
+                gameData.turnHandedness = UnityEngine.XR.Interaction.Toolkit.Interactors.InteractorHandedness.Right;
+                gameData.moveHandedness = UnityEngine.XR.Interaction.Toolkit.Interactors.InteractorHandedness.Left;
+                gameData.menuHandedness = UnityEngine.XR.Interaction.Toolkit.Interactors.InteractorHandedness.Left;
             }
 
             foreach (ISaveable saveable in saveableObjects)
