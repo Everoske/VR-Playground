@@ -37,6 +37,6 @@ Most assets in this project are built using Blender and Krita.
 ### Targets for Game
 ![Shooting Gallery Targets](Assets/Images/targets.png)
 
-### Shoot Gallery Scene
+### Shooting Gallery Scene
 ![Shooting Gallery Scene](Assets/Images/gallery_scene_wip.png)
 
