@@ -104,6 +104,10 @@ PrefabInstance:
       value: SmTargetBat
       objectReference: {fileID: 0}
     - target: {fileID: 4884133452060269425, guid: 2eb4ee7b74766d14c8e71534bc3f00f5, type: 3}
+      propertyPath: m_Layer
+      value: 29
+      objectReference: {fileID: 0}
+    - target: {fileID: 4884133452060269425, guid: 2eb4ee7b74766d14c8e71534bc3f00f5, type: 3}
       propertyPath: m_TagString
       value: Target
       objectReference: {fileID: 0}

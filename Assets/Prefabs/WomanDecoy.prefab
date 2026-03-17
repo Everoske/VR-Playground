@@ -170,6 +170,10 @@ PrefabInstance:
       value: LgDecoyWoman
       objectReference: {fileID: 0}
     - target: {fileID: 6724870785537835884, guid: 29447da5f35d89246aa044d9e9db7f37, type: 3}
+      propertyPath: m_Layer
+      value: 29
+      objectReference: {fileID: 0}
+    - target: {fileID: 6724870785537835884, guid: 29447da5f35d89246aa044d9e9db7f37, type: 3}
       propertyPath: m_TagString
       value: Target
       objectReference: {fileID: 0}

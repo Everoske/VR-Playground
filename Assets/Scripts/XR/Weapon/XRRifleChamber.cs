@@ -196,5 +196,18 @@ namespace ShootingGallery.XR.Weapon
                 InsertRifleRound(rifleRound);
             }
         }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (!CanLoadRound()) return;
+
+            XRRifleRound rifleRound;
+
+            if (other.transform.TryGetComponent<XRRifleRound>(out rifleRound))
+            {
+                if (!rifleRound.IsHeld()) return;
+                InsertRifleRound(rifleRound);
+            }
+        }
     }
 }

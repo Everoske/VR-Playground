@@ -33,6 +33,7 @@ namespace ShootingGallery.Game
         public float GetAccuracy()
         {
             if (shotsFired == 0) return 0.0f;
+            if (targetsHit > shotsFired) return 1.0f;
             return ((float) targetsHit / (float) shotsFired);
         }
 
