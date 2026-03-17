@@ -27,3 +27,16 @@ This is a shooting gallery game largely inspired by Resident Evil 4's Shooting R
 - /Assets/Prefabs: Prefab objects.
 - /Assets/Shaders: Unity shaders.
 - /Assets/Tests: Game and editor tests using Unity's Testing Framework.
+
+## Assets
+Most assets in this project are built using Blender and Krita.
+
+### Bolt-Action Rifle
+![Bolt-Action Rifle](Assets/Images/ba_rifle.png)
+
+### Targets for Game
+![Shooting Gallery Targets](Assets/Images/targets.png)
+
+### Shoot Gallery Scene
+![Shooting Gallery Scene](Assets/Images/gallery_scene_wip.png)
+
