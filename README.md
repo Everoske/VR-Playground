@@ -23,7 +23,7 @@ This is a shooting gallery game largely inspired by Resident Evil 4's Shooting R
 - Saving high score for each game mode. 
 
 ## Project Breakdown
-- /Assets/Scripts: All project files.
+- /Assets/Scripts: Project code.
 - /Assets/Prefabs: Prefab objects.
 - /Assets/Shaders: Unity shaders.
 - /Assets/Tests: Game and editor tests using Unity's Testing Framework.
