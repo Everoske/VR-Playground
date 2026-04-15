@@ -3,6 +3,9 @@
 ## Description
 This is a shooting gallery game largely inspired by Resident Evil 4's Shooting Range but in Virtual Reality and built in Unity. You have game modes for different weapons or mix of weapons where you shoot at Lovecraftian creatures and attempt to beat your high score. Things like accuracy and number of targets hit adds to your final score. Currently, there are game modes for semi-auto pistol and bolt-action rifle.
 
+## Video Demo
+[VR Shooting Gallery Demo](https://www.youtube.com/watch?v=kLtHU3106Gc)
+
 ## Implemented Features
 ### Main Game Loop
 - Ability to select and start a shoot gallery mode.
